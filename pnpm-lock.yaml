@@ -30,6 +30,9 @@ importers:
       '@eslint/js':
         specifier: ^9.29.0
         version: 9.29.0
+      '@pinback/typescript':
+        specifier: workspace:*
+        version: link:../../config/typescript
       '@types/react':
         specifier: ^19.1.8
         version: 19.1.8
@@ -106,6 +109,8 @@ importers:
       vite:
         specifier: ^7.0.0
         version: 7.0.0(@types/node@22.15.3)
+
+  config/typescript: {}
 
   packages/eslint-config:
     devDependencies:
