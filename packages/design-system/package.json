@@ -1,0 +1,27 @@
+{
+  "name": "@pinback/design-system",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    ".": "./src/components/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint --max-warnings 0",
+    "build": "vite build",
+    "generate:component": "turbo gen react-component"
+  },
+  "devDependencies": {
+    "@pinback/eslint": "workspace:*",
+    "@pinback/typescript": "workspace:*",
+    "@types/node": "^20.11.24",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.0.1",
+    "@vitejs/plugin-react": "^4.5.2",
+    "typescript": "^5.3.3",
+    "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.0.0"
+  }
+}
