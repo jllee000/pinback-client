@@ -20,6 +20,9 @@ importers:
 
   apps/client:
     dependencies:
+      '@pinback/design-system':
+        specifier: workspace:*
+        version: link:../../packages/design-system
       eslint:
         specifier: ^9.30.0
         version: 9.30.0
