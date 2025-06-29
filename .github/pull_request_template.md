@@ -1,12 +1,12 @@
 ## 📌 Related Issues
 
-> 관련된 Issue를 태그해주세요. (ex. - close #25)
+> 관련된 Issue를 태그해주세요. (e.g. - close #25)
 
 - close #
 
 ## ✅ 체크 리스트
 
-- [ ] PR 제목의 형식을 잘 작성했나요? e.g. [Feat] PR 템플릿 작성
+- [ ] PR 제목의 형식을 잘 작성했나요? e.g. Feat(client): PR 템플릿 작성
 - [ ] 빌드가 성공했나요? (pnpm build)
 
 ## 📄 Tasks
