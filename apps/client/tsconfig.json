@@ -8,7 +8,6 @@
   "include": [
     "src",
     "vite.config.ts",
-    "../../packages/design-system/src/hooks/use-click-outside.ts"
   ],
   "exclude": ["node_modules"]
 }

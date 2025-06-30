@@ -1,7 +1,10 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "extends": "@pinback/typescript/react.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "plugins": [{ "name": "react" }]
+    // 절대 경로 설정
+  },
+  "include": ["src", "vite.config.ts"],
+  "exclude": ["node_modules"]
 }
