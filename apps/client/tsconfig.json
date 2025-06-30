@@ -2,12 +2,10 @@
   "extends": "@pinback/typescript/react.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "plugins": [{ "name": "react" }]
+    "plugins": [{ "name": "react" }],
+    "incremental": false
     // 절대 경로 설정
   },
-  "include": [
-    "src",
-    "vite.config.ts",
-  ],
+  "include": ["src", "vite.config.ts"],
   "exclude": ["node_modules"]
 }
