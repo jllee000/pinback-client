@@ -3,8 +3,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "plugins": [{ "name": "react" }],
-    "incremental": false
-
+    "incremental": false,
+    "paths": {
+      "@shared/*": ["src/shared/*"],
+      "@pages/*": ["src/pages/*"]
+    }
     // 절대 경로 설정
   },
   "include": ["src", "vite.config.ts"],
