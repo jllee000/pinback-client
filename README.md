@@ -258,9 +258,10 @@ function checkIsUser({userName, userBirth}:userDataProps){
 
 <details> 
 <summary> 🎸 기타 (ETC)</summary>
-- button 태그에 **`type`**은 명시적으로 작성한다.
-- 비교 연산자는 **`===`**와 **`!==`**만을 사용한다.
-- axios 안에서 **`then/catch`** 대신 **`async/await`** 지향한다.
+	
+- button 태그에 `type`은 명시적으로 작성한다.
+- 비교 연산자는 `===`와 `!==`만을 사용한다.
+- axios 안에서 `then/catch` 대신 `async/await`를 지향한다.
 
 </details>
 
@@ -276,19 +277,21 @@ function checkIsUser({userName, userBirth}:userDataProps){
 📦 Pinback Service
 ├─ apps
 │  ├─ client
-│  │  ├─ src
-│  │  ├─ shared  // 공통으로 재사용하는 코드 위치
-│  │  │  ├─ components
-│  │  │  ├─ hooks
-│  │  │  ├─ utils
-│  │  │  └─ types
-│  │  └─ pages
-│  │     ├─ dashBoard  // 페이지(domain)에 필오한 각 코드 위치
-│  │     │  ├─ components 
+│  │  └─ src
+│  │     ├─ shared  // 공통으로 재사용하는 코드 위치
+│  │     │  ├─ components
 │  │     │  ├─ hooks
 │  │     │  ├─ utils
-│  │     │  └─ types
-│  │     └─ detail
+│  │     │  ├─ types
+│  │     │  └─ ETC
+│  │     └─ pages
+│  │        ├─ dashBoard
+│  │        │  ├─ components
+│  │        │  ├─ hooks
+│  │        │  ├─ utils
+│  │        │  ├─ types
+│  │        │  └─ ETC
+│  │        └─ detail
 │  ├─ extension
 │  └─ landing
 ├─ config  // 모노 레포 공통 config
