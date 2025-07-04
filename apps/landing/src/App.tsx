@@ -1,13 +1,11 @@
-import { Button } from '@pinback/design-system';
-import './App.css';
+import "./App.css";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes/router.tsx";
 
 function App() {
   return (
     <>
-      <div>
-        웹파트도 화이팅!
-        <Button />
-      </div>
+      <RouterProvider router={router} />
     </>
   );
 }
