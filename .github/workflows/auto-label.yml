@@ -1,70 +1,40 @@
-name: Auto Label PRs
+name: Auto Assign Reviewers
 
 on:
   pull_request:
     types: [opened, synchronize]
-  issues:
-    types: [opened]
 
 jobs:
-  label:
+  assign-reviewers:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
-      issues: write
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Auto label based on file changes
-        if: github.event_name == 'pull_request'
-        uses: actions/labeler@v4
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          configuration-path: .github/labeler.yml
-
-      - name: Add needs-review label to PRs
-        if: github.event_name == 'pull_request'
+      - name: Auto assign reviewers
         uses: actions/github-script@v7
         with:
           script: |
-            github.rest.issues.addLabels({
-              issue_number: context.issue.number,
+            let reviewers = ['constantly-dev', 'jjangminii', 'jllee000', 'karnelll'];
+
+            const pr = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['needs-review']
+              pull_number: context.payload.pull_request.number
             });
 
-      - name: Auto assign reviewers based on labels
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { data: labels } = await github.rest.issues.listLabelsOnIssue({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number
-            });
-
-            const labelNames = labels.map(label => label.name);
-            let reviewers = [];
-
-            // 라벨에 따른 리뷰어 자동 할당!
-            if (labelNames.includes('frontend')) {
-              reviewers.push('constantly-dev');
-              reviewers.push('jjangminii');
-              reviewers.push('jllee000');
-              reviewers.push('karnelll');
-            }
-
+            const prAuthor = pr.data.user.login;
+            reviewers = reviewers.filter(r => r !== prAuthor);
 
             if (reviewers.length > 0) {
               await github.rest.pulls.requestReviewers({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                pull_number: context.issue.number,
+                pull_number: context.payload.pull_request.number,
                 reviewers: reviewers
               });
             }
