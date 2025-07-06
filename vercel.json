@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app/client/package.json",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "app/landing/package.json",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/client/(.*)",
+      "dest": "/app/client/$1"
+    },
+    {
+      "src": "/landing/(.*)",
+      "dest": "/app/landing/$1"
+    }
+  ]
+}

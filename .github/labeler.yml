@@ -1,0 +1,49 @@
+frontend:
+  - "src/components/**/*"
+  - "src/pages/**/*"
+  - "public/**/*"
+  - "**/*.css"
+  - "**/*.scss"
+  - "**/*.js"
+  - "**/*.jsx"
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.vue"
+  - "package.json"
+  - "package-lock.json"
+
+backend:
+  - "server/**/*"
+  - "api/**/*"
+  - "controllers/**/*"
+  - "models/**/*"
+  - "routes/**/*"
+  - "**/*.py"
+  - "**/*.java"
+  - "**/*.go"
+  - "**/*.php"
+  - "requirements.txt"
+  - "pom.xml"
+  - "go.mod"
+
+documentation:
+  - "**/*.md"
+  - "docs/**/*"
+  - "**/*.rst"
+
+config:
+  - "**/*.yml"
+  - "**/*.yaml"
+  - "**/*.json"
+  - "**/*.toml"
+  - ".github/**/*"
+  - "docker-compose.yml"
+  - "Dockerfile"
+
+tests:
+  - "test/**/*"
+  - "tests/**/*"
+  - "**/*.test.js"
+  - "**/*.test.ts"
+  - "**/*.spec.js"
+  - "**/*.spec.ts"
