@@ -1,0 +1,198 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+@import 'tailwindcss';
+
+@layer base {
+  body {
+    font-family:
+      'Pretendard',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      'Helvetica Neue',
+      Arial,
+      sans-serif;
+  }
+}
+
+@utility head1 {
+  font-weight: 700;
+  font-size: 2.5rem; /* 40px */
+  line-height: 150%;
+  letter-spacing: 1%;
+}
+
+@utility head2 {
+  font-weight: 700;
+  font-size: 2rem; /* 32px */
+  line-height: 150%;
+  letter-spacing: 1%;
+}
+
+@utility head3 {
+  font-weight: 700;
+  font-size: 1.625rem; /* 26px */
+  line-height: 150%;
+  letter-spacing: 1%;
+}
+
+@utility head4 {
+  font-weight: 700;
+  font-size: 1.5rem; /* 24px */
+  line-height: 150%;
+  letter-spacing: 1%;
+}
+
+@utility head5 {
+  font-weight: 700;
+  font-size: 1.375rem; /* 22px */
+  line-height: 150%;
+  letter-spacing: 1%;
+}
+
+@utility head6 {
+  font-weight: 700;
+  font-size: 1.25rem; /* 20px */
+  line-height: 150%;
+  letter-spacing: 1%;
+}
+
+@utility sub1-sb {
+  font-weight: 600;
+  font-size: 1.875rem; /* 30px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility sub1-r {
+  font-weight: 400;
+  font-size: 1.875rem; /* 30px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility sub2-sb {
+  font-weight: 600;
+  font-size: 1.25rem; /* 20px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility sub2-m {
+  font-weight: 500;
+  font-size: 1.25rem; /* 20px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility sub3-b {
+  font-weight: 700;
+  font-size: 1.125rem; /* 18px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility sub3-sb {
+  font-weight: 600;
+  font-size: 1.125rem; /* 18px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility sub4-b {
+  font-weight: 700;
+  font-size: 1rem; /* 16px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility sub4-sb {
+  font-weight: 600;
+  font-size: 1rem; /* 16px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility sub5-sb {
+  font-weight: 600;
+  font-size: 0.9375rem; /* 15px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility sub6-sb {
+  font-weight: 600;
+  font-size: 0.875rem; /* 14px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility body1-m {
+  font-weight: 500;
+  font-size: 1.125rem; /* 18px */
+  line-height: 150%;
+  letter-spacing: -1%;
+}
+
+@utility body1-r {
+  font-weight: 400;
+  font-size: 1.125rem; /* 18px */
+  line-height: 150%;
+  letter-spacing: -1%;
+}
+
+@utility body2-m {
+  font-weight: 500;
+  font-size: 1rem; /* 16px */
+  line-height: 150%;
+  letter-spacing: -1%;
+}
+
+@utility body2-r {
+  font-weight: 400;
+  font-size: 1rem; /* 16px */
+  line-height: 150%;
+  letter-spacing: -1%;
+}
+
+@utility body3-r {
+  font-weight: 400;
+  font-size: 0.875rem; /* 14px */
+  line-height: 150%;
+  letter-spacing: -1%;
+}
+
+@utility body4-m {
+  font-weight: 500;
+  font-size: 0.8125rem; /* 13px */
+  line-height: 150%;
+  letter-spacing: -1%;
+}
+
+@utility caption1-sb {
+  font-weight: 600;
+  font-size: 0.875rem; /* 14px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility caption1-m {
+  font-weight: 500;
+  font-size: 0.875rem; /* 14px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility caption2-sb {
+  font-weight: 600;
+  font-size: 0.75rem; /* 12px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+@utility caption2-m {
+  font-weight: 500;
+  font-size: 0.75rem; /* 12px */
+  line-height: 150%;
+  letter-spacing: 0%;
+}

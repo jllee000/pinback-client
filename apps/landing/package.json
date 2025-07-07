@@ -15,7 +15,9 @@
     "@tanstack/react-query": "^5.81.5",
     "@tanstack/react-query-devtools": "^5.81.5",
     "axios": "^1.10.0",
-    "eslint": "^9.30.0",
+    "eslint": "^8.44.0",
+    "eslint-plugin-tailwindcss": "^3.18.0",
+    "prettier-plugin-tailwindcss": "^0.6.13",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3",
@@ -28,6 +30,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react-swc": "^3.10.2",
+    "@pivanov/vite-plugin-svg-sprite": "^3.0.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.2.0",
@@ -35,5 +38,8 @@
     "typescript-eslint": "^8.34.1",
     "vite": "^7.0.0",
     "vite-tsconfig-paths": "^5.1.4"
-  }
+  },
+  "eslintIgnore": [
+    "dist"
+  ]
 }

@@ -3,25 +3,39 @@
   "version": "0.1.0",
   "private": true,
   "exports": {
-    ".": "./src/components/index.ts"
+    ".": "./src/components/index.ts",
+    "./utils": "./src/lib/index.ts",
+    "./styles": "./src/styles/index.css",
+    "./icons": "./src/icons/index.ts"
   },
   "scripts": {
     "lint": "eslint --max-warnings 0",
     "build": "vite build",
+    "generate:icons": "tsx src/icons/scripts/generate-icon-list.ts",
     "generate:component": "turbo gen react-component"
   },
   "devDependencies": {
     "@pinback/eslint": "workspace:*",
     "@pinback/typescript": "workspace:*",
+    "@pivanov/vite-plugin-svg-sprite": "^3.0.0",
+    "@tailwindcss/vite": "^4.1.11",
+    "@turbo/gen": "^1.12.4",
     "@types/node": "^20.11.24",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.0.1",
     "@vitejs/plugin-react": "^4.5.2",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.11",
+    "tsx": "^4.20.3",
     "typescript": "^5.3.3",
     "vite": "^7.0.0"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "react": "^19.1.0",
     "react-dom": "^19.0.0"
-  }
+  },
+  "eslintIgnore": [
+    "dist"
+  ]
 }
