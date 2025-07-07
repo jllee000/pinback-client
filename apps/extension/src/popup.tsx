@@ -1,8 +1,12 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+// src/popup.tsx
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './App.css';
 
-import App from "./App";
-import "./popup.css";
-
-var mountNode = document.getElementById("popup");
-ReactDOM.render(<App />, mountNode);
+const rootEl = document.getElementById('root');
+if (rootEl) {
+  createRoot(rootEl).render(<App />);
+} else {
+  console.error('❌ root element not found!');
+}

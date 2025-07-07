@@ -4,10 +4,10 @@ import './App.css';
 
 const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>안녕 진혁아 짜잔 난 핀백 다람쥐야~</p>
+    <div className="min-h-screen bg-gray-800 text-white">
+      <header className="flex flex-col items-center justify-center p-8">
+        <img src={logo} className="mb-4 h-4 w-4 animate-spin" alt="logo" />
+        <p className="text-3xl font-semibold">짜잔 난 핀백 다람쥐야~</p>
       </header>
     </div>
   );
