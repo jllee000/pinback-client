@@ -26,7 +26,6 @@
   "devDependencies": {
     "@eslint/js": "^9.29.0",
     "@pinback/design-system": "workspace:*",
-    "@pinback/tailwind-config": "workspace:*",
     "@pinback/eslint": "workspace:*",
     "@pinback/typescript": "workspace:*",
     "@types/react": "^19.1.8",

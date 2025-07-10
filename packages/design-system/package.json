@@ -5,7 +5,8 @@
   "exports": {
     "./ui": "./src/components/index.ts",
     "./icons": "./src/icons/index.ts",
-    "./styles": "./src/styles/index.css"
+    "./styles": "./src/styles/index.css",
+    "./utils": "./src/lib/index.ts"
   },
   "scripts": {
     "lint": "eslint --max-warnings 0",
@@ -31,6 +32,7 @@
     "vite": "^7.0.0"
   },
   "dependencies": {
+    "@radix-ui/react-switch": "^1.2.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.525.0",
