@@ -1,7 +1,6 @@
 import * as React from 'react';
 import logo from './logo.png';
 // import './App.css';
-import TextfieldPopup from './components/textfieldPopup/TextfieldPopup';
 
 const App = () => {
   return (
