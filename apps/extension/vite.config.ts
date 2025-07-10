@@ -4,9 +4,21 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react-swc';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { resolve } from 'path';
+import svgSpritePlugin from '@pivanov/vite-plugin-svg-sprite';
 
 export default defineConfig({
-  plugins: [react(), tsconfigPaths(), tailwindcss()],
+  plugins: [
+    react(),
+    tsconfigPaths(),
+    tailwindcss(),
+    svgSpritePlugin({
+      iconDirs: [
+        resolve(__dirname, '../../packages/design-system/src/icons/source'),
+      ],
+      symbolId: 'icon-[name]',
+      inject: 'body-last',
+    }),
+  ],
   build: {
     outDir: 'dist',
     copyPublicDir: true,

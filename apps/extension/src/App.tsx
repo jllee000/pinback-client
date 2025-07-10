@@ -1,6 +1,7 @@
 import * as React from 'react';
 import logo from './logo.png';
-import './App.css';
+// import './App.css';
+import TextfieldPopup from './components/textfieldPopup/TextfieldPopup';
 
 const App = () => {
   return (
@@ -8,6 +9,7 @@ const App = () => {
       <header className="flex flex-col items-center justify-center p-8">
         <img src={logo} className="mb-4 h-4 w-4 animate-spin" alt="logo" />
         <p className="text-3xl font-semibold">짜잔 난 핀백 다람쥐야~</p>
+        <div className="mt-8 flex flex-col items-center space-y-4"></div>
       </header>
     </div>
   );
