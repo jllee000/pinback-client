@@ -1,5 +1,5 @@
 const Button = () => {
-  return <button>example</button>;
+  return <div className="head1 text-error400">example</div>;
 };
 
 export default Button;

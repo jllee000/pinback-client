@@ -1,11 +1,11 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
   /* Main Scale */
-  --color-main0: #e3fcf2;
+  --color-main0: #f9fffb;
   --color-main100: #c9f2e1;
   --color-main200: #99dfc2;
   --color-main300: #75d8af;

@@ -1,4 +1,5 @@
 import svgSpritePlugin from '@pivanov/vite-plugin-svg-sprite';
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
@@ -10,6 +11,7 @@ export default defineConfig({
       symbolId: 'icon-[name]',
       inject: 'body-last',
     }),
+    tailwindcss(),
   ],
   build: {
     lib: {

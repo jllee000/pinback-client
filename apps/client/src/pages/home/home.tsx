@@ -1,5 +1,11 @@
+import { Button } from '@pinback/design-system/ui';
+
 const Home = () => {
-  return <p className="head1 text-main400">홈</p>;
+  return (
+    <>
+      <Button />
+    </>
+  );
 };
 
 export default Home;

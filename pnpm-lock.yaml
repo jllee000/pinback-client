@@ -69,6 +69,9 @@ importers:
       '@pinback/eslint':
         specifier: workspace:*
         version: link:../../config/eslint
+      '@pinback/tailwind-config':
+        specifier: workspace:*
+        version: link:../../packages/tailwind-config
       '@pinback/typescript':
         specifier: workspace:*
         version: link:../../config/typescript
@@ -329,12 +332,18 @@ importers:
       '@pinback/eslint':
         specifier: workspace:*
         version: link:../../config/eslint
+      '@pinback/tailwind-config':
+        specifier: workspace:*
+        version: link:../tailwind-config
       '@pinback/typescript':
         specifier: workspace:*
         version: link:../../config/typescript
       '@pivanov/vite-plugin-svg-sprite':
         specifier: ^3.0.0
         version: 3.1.1(vite@7.0.0(@types/node@20.19.2)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.3))
+      '@tailwindcss/postcss':
+        specifier: ^4.1.10
+        version: 4.1.11
       '@tailwindcss/vite':
         specifier: ^4.1.11
         version: 4.1.11(vite@7.0.0(@types/node@20.19.2)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.3))
@@ -368,6 +377,15 @@ importers:
       vite:
         specifier: ^7.0.0
         version: 7.0.0(@types/node@20.19.2)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.3)
+
+  packages/tailwind-config:
+    devDependencies:
+      postcss:
+        specifier: ^8.5.6
+        version: 8.5.6
+      tailwindcss:
+        specifier: ^4.1.10
+        version: 4.1.11
 
 packages:
 

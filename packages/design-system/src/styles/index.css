@@ -1,2 +1,7 @@
-@import './font.css';
+@import 'tailwindcss';
+
+@source '../components/**/*.{js,ts,jsx,tsx}';
+@layer theme;
+
+@import './font.css' layer(theme);
 @import './color.css';
