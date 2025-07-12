@@ -34,9 +34,10 @@ const Input = ({
   return (
     <div className="flex flex-col gap-[0.6rem]">
       <div className={cn(inputBorderVariants({ isError }), className)}>
+        {/* TODO: font token 적용 */}
         <input
           ref={ref}
-          className="caption2-m placeholder-gray300 w-full focus:outline-none"
+          className="placeholder-gray300 w-full text-[1.2rem] font-medium focus:outline-none"
           aria-invalid={isError}
           {...props}
         />
