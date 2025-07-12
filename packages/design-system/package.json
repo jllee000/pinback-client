@@ -2,6 +2,7 @@
   "name": "@pinback/design-system",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "exports": {
     "./ui": "./src/components/index.ts",
     "./icons": "./src/icons/index.ts",

@@ -1,12 +1,12 @@
 {
-  "extends": "@pinback/typescript/react-library.json",
+  "extends": "@pinback/typescript/react.json",
   "compilerOptions": {
     "typeRoots": ["node_modules/@types"],
     "rootDir": "src",
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src"],
