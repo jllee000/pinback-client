@@ -6,12 +6,16 @@
   ],
   "cSpell.words": ["pinback", "pinBack", "PINBACK", "turbopack", "turborepo"],
   "files.associations": {
-    "*.css": "tailwindcss"
+    "*.css": "tailwindcss",
+    ".cursorrules": "json"
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "tailwindCSS.suggestions": true
+  "tailwindCSS.suggestions": true,
+  "editor.quickSuggestions": {
+    "strings": true
+  }
 }

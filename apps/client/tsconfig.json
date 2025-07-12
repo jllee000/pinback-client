@@ -6,10 +6,16 @@
     "incremental": false,
     // 절대 경로 설정
     "paths": {
+      "@/*": ["src/*"],
+      "@shared": ["src/shared"],
       "@shared/*": ["src/shared/*"],
-      "@pages/*": ["src/pages/*"]
+      "@pages": ["src/pages"],
+      "@pages/*": ["src/pages/*"],
+      "@routes": ["src/routes"],
+      "@routes/*": ["src/routes/*"],
+      "@assets/*": ["src/assets/*"]
     }
   },
   "include": ["src", "vite.config.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "../../.cursorrules"]
 }

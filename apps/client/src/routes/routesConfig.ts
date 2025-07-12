@@ -1,6 +1,6 @@
 export const ROUTES_CONFIG = {
-  home: {
-    title: 'Home',
+  dashboard: {
+    title: 'Dashboard',
     path: '/',
   },
   onBoarding: {
