@@ -8,7 +8,9 @@ import svgSpritePlugin from '@pivanov/vite-plugin-svg-sprite';
 export default defineConfig({
   plugins: [
     react(),
-    tsconfigPaths(),
+    tsconfigPaths({
+      projects: [resolve(__dirname, '../../tsconfig.json')],
+    }),
     tailwindcss(),
     svgSpritePlugin({
       iconDirs: [
@@ -39,6 +41,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
+      '@utils': resolve(__dirname, './src/utils'),
+      '@constants': resolve(__dirname, './src/constants'),
+      '@shared-types': resolve(__dirname, './src/types'),
+      '@components': resolve(__dirname, './src/components'),
     },
   },
 });

@@ -19,8 +19,10 @@
     "incremental": false,
     // 절대 경로 설정
     "paths": {
-      "@shared/*": ["src/shared/*"],
-      "@pages/*": ["src/pages/*"]
+      "@components/*": ["src/components/*"],
+      "@utils/*": ["src/utils/*"],
+      "@constants/*": ["src/constants/*"],
+      "@shared-types/*": ["src/types/*"]
     }
   },
   "include": ["./src/**/*", "src/custom.d.ts", "vite.config.ts"]
