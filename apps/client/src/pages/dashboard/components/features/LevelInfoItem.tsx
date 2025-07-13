@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import acornLevel from '@assets/characters/acorn/level.svg';
-import { LEVEL_INFO } from '@shared/constants';
+import acornLevel from '/src/assets/characters/acorn/level.svg';
+import { LEVEL_INFO } from '@pages/dashboard/constants';
 import type { LevelInfoItemProps } from '@shared/types';
 
 const LevelInfoItem = memo(
@@ -30,7 +30,7 @@ const LevelInfoItem = memo(
 
         <div className="flex flex-col gap-[0.2rem]">
           <div
-            className="outline-main400 flex items-center justify-center rounded-[5rem] px-2.5 py-0.5 outline-1 outline-offset-[-1px]"
+            className="border-main400 flex items-center justify-center rounded-[5rem] border px-2.5 py-0.5"
             style={{
               width: LEVEL_INFO.item.badge.width,
               height: LEVEL_INFO.item.badge.height,

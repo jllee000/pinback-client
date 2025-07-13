@@ -1,19 +1,13 @@
 import { memo } from 'react';
-import {
-  SectionTitle,
-  BookmarkCategory,
-} from '@shared/components/features';
-import {
-  BookmarkCard,
-  AllViewButton,
-  EmptyState,
-} from '@shared/components/ui';
-import {
-  GRID,
-  UI_TEXT,
-} from '@shared/constants';
+import SectionTitle from '@pages/dashboard/components/features/SectionTitle';
+import BookmarkCategory from '@pages/dashboard/components/features/BookmarkCategory';
+import { EmptyState } from '@shared/components/ui';
+import AllViewButton from '@pages/dashboard/components/ui/buttons/AllViewButton';
+import BookmarkCard from '@pages/dashboard/components/ui/cards/BookmarkCard';
+import { GRID, UI_TEXT } from '@pages/dashboard/constants';
 import { SPACING_CLASSES } from '@shared/utils/styleUtils';
 import type { Category } from '@shared/types';
+import informationSvg from '/src/assets/illustrations/empty-states/information.svg';
 
 interface BookmarkCardProps {
   image?: string;
@@ -40,13 +34,14 @@ const BookmarkSection = ({
   isAllViewExpanded = false,
 }: BookmarkSectionProps) => {
   // 현재 카테고리의 북마크만 필터링
-  const filteredBookmarks = activeCategory === UI_TEXT.category.all 
-    ? bookmarks 
-    : bookmarks.filter(() => {
-        // 실제로는 카테고리별 필터링 로직이 필요하지만, 
-        // 현재는 mock 데이터이므로 간단히 처리
-        return true;
-      });
+  const filteredBookmarks =
+    activeCategory === UI_TEXT.category.all
+      ? bookmarks
+      : bookmarks.filter(() => {
+          // 실제로는 카테고리별 필터링 로직이 필요하지만,
+          // 현재는 mock 데이터이므로 간단히 처리
+          return true;
+        });
 
   return (
     <section
@@ -105,7 +100,7 @@ const BookmarkSection = ({
           <EmptyState
             title="저장한 정보는 다 꺼내봤어요!"
             description="치삐가 다음 도토리를 기다리고 있어요"
-            image="/src/assets/illustrations/empty-states/information.svg"
+            image={informationSvg}
             imageAlt="북마크가 없음을 나타내는 일러스트레이션"
           />
         </div>

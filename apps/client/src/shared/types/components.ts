@@ -15,8 +15,6 @@ export interface TimeLeft {
   seconds: number;
 }
 
-
-
 export interface SectionContentProps {
   text?: string;
   rewardIcon?: 'acorn' | 'logo';
@@ -34,10 +32,6 @@ export interface CategoryProps extends Category {
   onClick?: () => void;
   hideZeroCount?: boolean;
 }
-
-
-
-
 
 export interface AllViewButtonProps {
   onClick?: () => void;

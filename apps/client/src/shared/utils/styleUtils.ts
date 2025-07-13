@@ -1,7 +1,5 @@
 import type { CSSProperties } from 'react';
 
-
-
 export const createDynamicStyle = (
   width?: number,
   height?: number,
@@ -27,7 +25,7 @@ export const combineClassNames = (
 
 export const CARD_CLASSES = {
   container:
-    'relative w-[28.3rem] px-[1.5rem] py-[2rem] rounded-[1rem] outline-1 outline-offset-[-1px] inline-flex flex-col justify-start items-start gap-2.5',
+    'relative w-[28.3rem] px-[1.5rem] py-[2rem] rounded-[1rem] border inline-flex flex-col justify-start items-start gap-2.5',
 
   bookmark: 'h-[36.8rem]',
 
@@ -41,7 +39,7 @@ export const CARD_CLASSES = {
   dailyHeader:
     'relative w-[28.3rem] h-[4rem] bg-main300 rounded-t-[1rem] flex items-center justify-between px-[1rem] py-0',
   dailyBody:
-    'w-[28.3rem] flex-1 bg-white rounded-b-[1rem] border border-t-0 border-gray-200 px-[1rem] py-[2rem] flex flex-col',
+    'w-[28.3rem] flex-1 bg-white rounded-b-[1rem] border border-t-0 border-gray200 px-[1rem] py-[2rem] flex flex-col',
 
   moreButton: 'w-[2.4rem] h-[2.4rem] flex items-center justify-center',
 

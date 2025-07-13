@@ -1,6 +1,6 @@
-export * from '@shared/constants/cardSizes';
-export * from '@shared/constants/levelData';
-export * from '@shared/constants/tooltipMessages';
+export * from '@pages/dashboard/constants/cardSizes';
+export * from '@pages/dashboard/constants/levelData';
+export * from '@pages/dashboard/constants/tooltipMessages';
 
 export const UI_TEXT = {
   level: {

@@ -23,11 +23,7 @@ const Timer = ({ onComplete }: TimerProps) => {
     return 'text-gray400';
   };
 
-  return (
-    <span className={`sub3-m ${getTimerColor()}`}>
-      {getTimerText()}
-    </span>
-  );
+  return <span className={`sub3-m ${getTimerColor()}`}>{getTimerText()}</span>;
 };
 
 export default memo(Timer);

@@ -1,3 +1,2 @@
-export { default as BookmarkSection } from './BookmarkSection';
-export { default as DailyReminderSection } from './DailyReminderSection';
-export { default as TestSection } from './TestSection';
+export * from '@pages/dashboard/components/sections';
+export * from '@pages/dashboard/components/features';

@@ -4,12 +4,12 @@ import { cn } from '@shared/utils/cn';
 import { CategoryProps } from '@shared/types';
 
 const categoryVariants = cva(
-  'inline-flex justify-center items-center rounded-[50px] outline-1 outline-offset-[-1px] cursor-pointer transition-colors',
+  'inline-flex justify-center items-center rounded-[50px] border cursor-pointer transition-colors',
   {
     variants: {
       isActive: {
-        true: 'bg-main400 outline-main400',
-        false: 'bg-white outline-gray200',
+        true: 'bg-main400 border-main400',
+        false: 'bg-white border-gray200',
       },
       hasCount: {
         true: 'pl-[2.4rem] pr-[1.6rem]',
@@ -35,17 +35,20 @@ const categoryTextVariants = cva('sub2-m tracking-tight', {
   },
 });
 
-const categoryCountVariants = cva('w-[4rem] h-[4rem] rounded-[2rem] flex items-center justify-center', {
-  variants: {
-    isActive: {
-      true: 'bg-white',
-      false: 'bg-main400',
+const categoryCountVariants = cva(
+  'w-[4rem] h-[4rem] rounded-[2rem] flex items-center justify-center',
+  {
+    variants: {
+      isActive: {
+        true: 'bg-white',
+        false: 'bg-main400',
+      },
     },
-  },
-  defaultVariants: {
-    isActive: false,
-  },
-});
+    defaultVariants: {
+      isActive: false,
+    },
+  }
+);
 
 const categoryCountTextVariants = cva('sub5-b', {
   variants: {
@@ -59,7 +62,8 @@ const categoryCountTextVariants = cva('sub5-b', {
   },
 });
 
-export interface CategoryVariants extends VariantProps<typeof categoryVariants> {}
+export interface CategoryVariants
+  extends VariantProps<typeof categoryVariants> {}
 
 const Category = ({
   text,
@@ -82,13 +86,18 @@ const Category = ({
       type="button"
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      className={cn(categoryVariants({ isActive, hasCount: shouldShowCount }), 'py-[1rem] gap-2.5')}
+      className={cn(
+        categoryVariants({ isActive, hasCount: shouldShowCount }),
+        'gap-2.5 py-[1rem]'
+      )}
     >
       <div className="inline-flex items-center justify-start gap-5">
         <div className={cn(categoryTextVariants({ isActive }))}>{text}</div>
         {shouldShowCount && (
           <div className={cn(categoryCountVariants({ isActive }))}>
-            <div className={cn(categoryCountTextVariants({ isActive }))}>{count}</div>
+            <div className={cn(categoryCountTextVariants({ isActive }))}>
+              {count}
+            </div>
           </div>
         )}
       </div>

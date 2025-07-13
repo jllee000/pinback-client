@@ -1,8 +1,4 @@
-
-
-
-
-interface EmptyStateProps {
+export interface EmptyStateProps {
   title: string;
   description: string;
   image?: string;
@@ -18,11 +14,13 @@ const EmptyState = ({
   className,
 }: EmptyStateProps) => {
   return (
-    <div className={`inline-flex flex-col justify-start items-center gap-0 ${className || ''}`}>
-      <div className="text-black w-[461px] h-[60px] head1 m-0 p-0 flex items-center justify-center text-center whitespace-nowrap">
+    <div
+      className={`inline-flex flex-col items-center justify-start gap-0 ${className || ''}`}
+    >
+      <div className="head1 m-0 flex h-[60px] w-[461px] items-center justify-center whitespace-nowrap p-0 text-center text-gray800">
         {title}
       </div>
-      <div className="text-gray-600 w-[461px] h-[33px] sub2-m m-0 p-0 flex items-center justify-center text-center whitespace-nowrap">
+      <div className="sub2-m text-gray600 m-0 flex h-[33px] w-[461px] items-center justify-center whitespace-nowrap p-0 text-center">
         {description}
       </div>
       {image && (
@@ -34,4 +32,4 @@ const EmptyState = ({
   );
 };
 
-export default EmptyState; 
+export default EmptyState;

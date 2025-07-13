@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { SectionContentProps } from '@shared/types';
-import Timer from '@shared/components/features/Timer';
-import gray500 from '@assets/icons/ui/gray-circle.svg';
-import Tooltip from '@shared/components/ui/feedback/Tooltip';
-import { TOOLTIP_MESSAGES } from '@shared/constants/tooltipMessages';
+import Timer from '@pages/dashboard/components/features/Timer';
+import gray500 from '/src/assets/icons/ui/gray-circle.svg';
+import Tooltip from '@pages/dashboard/components/ui/feedback/Tooltip';
+import { TOOLTIP_MESSAGES } from '@pages/dashboard/constants/tooltipMessages';
 
-const SectionContent = ({ 
+const SectionContent = ({
   text = '안에 데일리 리마인드를 확인해 보세요',
   onComplete,
 }: SectionContentProps) => {
@@ -38,4 +38,4 @@ const SectionContent = ({
   );
 };
 
-export default SectionContent; 
+export default SectionContent;

@@ -13,7 +13,10 @@
       "@pages/*": ["src/pages/*"],
       "@routes": ["src/routes"],
       "@routes/*": ["src/routes/*"],
-      "@assets/*": ["src/assets/*"]
+      "@assets/*": [
+        "src/assets/*",
+        "src/pages/dashboard/assets/*"
+      ]
     }
   },
   "include": ["src", "vite.config.ts"],

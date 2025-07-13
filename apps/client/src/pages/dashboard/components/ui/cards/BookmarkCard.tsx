@@ -1,17 +1,17 @@
 import { cva, type VariantProps } from 'class-variance-authority';
-import icDetails from '@assets/icons/ui/details.svg';
-import emptyMemo from '@assets/illustrations/empty-states/memo.svg';
-import Thumbnail from '@shared/components/ui/cards/Thumbnail';
+import icDetails from '/src/assets/icons/ui/details.svg';
+import emptyMemo from '/src/assets/illustrations/empty-states/memo.svg';
+import Thumbnail from '@pages/dashboard/components/ui/cards/Thumbnail';
 import { CARD_CLASSES } from '@shared/utils/styleUtils';
 import { cn } from '@shared/utils/cn';
 
 const bookmarkCardVariants = cva(
-  'relative w-[28.3rem] px-[1.5rem] py-[2rem] rounded-[1rem] border border-gray-200 inline-flex flex-col justify-start items-start gap-2.5 h-[36.8rem]',
+  'relative w-[28.3rem] px-[1.5rem] py-[2rem] rounded-[1rem] inline-flex flex-col justify-start items-start gap-2.5 h-[36.8rem]',
   {
     variants: {
       isRead: {
-        true: 'bg-white',
-        false: 'bg-main0',
+        true: 'bg-white border border-gray200',
+        false: 'bg-main0 border border-main400',
       },
     },
     defaultVariants: {
@@ -35,7 +35,8 @@ const memoVariants = cva(
   }
 );
 
-export interface BookmarkCardVariants extends VariantProps<typeof bookmarkCardVariants> {}
+export interface BookmarkCardVariants
+  extends VariantProps<typeof bookmarkCardVariants> {}
 
 interface BookmarkCardProps extends BookmarkCardVariants {
   image?: string;

@@ -1,12 +1,12 @@
-import arrowUp from '@assets/icons/ui/arrow-up.svg';
+import arrowUp from '/src/assets/icons/ui/arrow-up.svg';
 import { AllViewButtonProps } from '@shared/types';
-import { UI_TEXT } from '@shared/constants';
+import { UI_TEXT } from '@pages/dashboard/constants';
 
 const AllViewButton = ({ onClick, isExpanded = false }: AllViewButtonProps) => {
   return (
     <button
       type="button"
-      className="outline-gray200 flex h-[5.5rem] w-[16rem] items-center justify-center gap-[1rem] rounded-[5rem] bg-white outline-1 outline-offset-[-1px]"
+      className="border-gray200 flex h-[5.5rem] w-[16rem] items-center justify-center gap-[1rem] rounded-[5rem] border bg-white"
       onClick={onClick}
     >
       <div className="flex h-[2.8rem] w-[2.8rem] items-center justify-center">

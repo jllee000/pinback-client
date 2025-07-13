@@ -1,5 +1,5 @@
-import Modal from '@shared/components/ui/feedback/Modal';
-import { LevelInfoSection } from '@shared/components/features';
+import Modal from '@pages/dashboard/components/ui/feedback/Modal';
+import LevelInfoSection from '@pages/dashboard/components/sections/LevelInfoSection';
 import type { LevelInfoModalProps } from '@shared/types';
 
 const LevelInfoModal = ({ isOpen, onClose }: LevelInfoModalProps) => {

@@ -1,5 +1,5 @@
 import { Category } from '@shared/types';
-import { UI_TEXT } from '@shared/constants';
+import { UI_TEXT } from '@pages/dashboard/constants';
 
 interface BookmarkCardProps {
   title: string;
@@ -66,7 +66,8 @@ export const mockBookmarkCards: BookmarkCardProps[] = [
   },
   // 테스트 케이스 6: 긴 제목 테스트
   {
-    title: '매우 긴 제목을 가진 북마크 카드 테스트 - 이 제목은 매우 길어서 여러 줄로 표시될 수 있습니다',
+    title:
+      '매우 긴 제목을 가진 북마크 카드 테스트 - 이 제목은 매우 길어서 여러 줄로 표시될 수 있습니다',
     memo: '긴 제목을 가진 카드의 메모입니다.',
     image: 'https://placehold.co/253x130',
     savedAt: '2025. 07. 07 저장됨',

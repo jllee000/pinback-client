@@ -1,4 +1,4 @@
-import emptyThumbnail from '@assets/illustrations/empty-states/thumbnail.svg';
+import emptyThumbnail from '/src/assets/illustrations/empty-states/thumbnail.svg';
 import { ThumbnailProps } from '@shared/types';
 import { cn } from '@shared/utils/cn';
 

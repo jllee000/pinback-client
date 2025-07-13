@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import { DailyReminderCard } from '@shared/components/ui';
-import { GRID } from '@shared/constants';
+import DailyReminderCard from '@pages/dashboard/components/ui/cards/DailyReminderCard';
+import { GRID } from '@pages/dashboard/constants';
 import { SPACING_CLASSES } from '@shared/utils/styleUtils';
 interface DailyReminderCardProps {
   title: string;

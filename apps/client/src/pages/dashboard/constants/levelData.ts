@@ -1,8 +1,8 @@
-import chippyLevel1 from '@assets/characters/chippy/level-1.svg';
-import chippyLevel2 from '@assets/characters/chippy/level-2.svg';
-import chippyLevel3 from '@assets/characters/chippy/level-3.svg';
-import chippyLevel4 from '@assets/characters/chippy/level-4.svg';
-import chippyLevel5 from '@assets/characters/chippy/level-5.svg';
+import chippyLevel1 from '/src/assets/characters/chippy/level-1.svg';
+import chippyLevel2 from '/src/assets/characters/chippy/level-2.svg';
+import chippyLevel3 from '/src/assets/characters/chippy/level-3.svg';
+import chippyLevel4 from '/src/assets/characters/chippy/level-4.svg';
+import chippyLevel5 from '/src/assets/characters/chippy/level-5.svg';
 
 export const CHIPPY_LEVELS = [
   {
