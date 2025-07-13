@@ -5,12 +5,12 @@ interface StepProps {
   children: React.ReactNode;
 }
 
-export interface FunnelProps {
+interface FunnelProps {
   children: ReactElement<StepProps>[];
 }
 
-const useFunnel = () => {
-  const [currentStep, setCurrentStep] = useState('story');
+const useFunnel = (initialStep: string) => {
+  const [currentStep, setCurrentStep] = useState(initialStep);
 
   const setStep = (step: string) => {
     setCurrentStep(step);
