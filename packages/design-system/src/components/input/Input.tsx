@@ -1,4 +1,4 @@
-import errorIcon from '@/icons/source/ic_error.svg';
+import errorIcon from '../../icons/source/ic_error.svg';
 import { cva } from 'class-variance-authority';
 import { InputHTMLAttributes, Ref } from 'react';
 import { cn } from '../../lib';
