@@ -17,14 +17,14 @@ const EmptyState = ({
     <div
       className={`inline-flex flex-col items-center justify-start gap-0 ${className || ''}`}
     >
-      <div className="head1 m-0 flex h-[60px] w-[461px] items-center justify-center whitespace-nowrap p-0 text-center text-gray800">
+      <div className="head1 text-gray800 m-0 flex h-[6rem] w-[46.1rem] items-center justify-center whitespace-nowrap p-0 text-center">
         {title}
       </div>
-      <div className="sub2-m text-gray600 m-0 flex h-[33px] w-[461px] items-center justify-center whitespace-nowrap p-0 text-center">
+      <div className="sub2-m text-gray600 m-0 flex h-[3.3rem] w-[46.1rem] items-center justify-center whitespace-nowrap p-0 text-center">
         {description}
       </div>
       {image && (
-        <div className="mt-[38px]">
+        <div className="mt-[3.8rem]">
           <img src={image} alt={imageAlt} className="h-auto w-auto" />
         </div>
       )}

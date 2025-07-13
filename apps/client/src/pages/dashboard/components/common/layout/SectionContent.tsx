@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { SectionContentProps } from '@shared/types';
-import Timer from '@pages/dashboard/components/features/Timer';
+import Timer from '@pages/dashboard/components/ui/indicators/Timer';
 import gray500 from '/src/assets/icons/ui/gray-circle.svg';
-import Tooltip from '@pages/dashboard/components/ui/feedback/Tooltip';
+import Tooltip from '@pages/dashboard/components/ui/overlays/Tooltip';
 import { TOOLTIP_MESSAGES } from '@pages/dashboard/constants/tooltipMessages';
 
 const SectionContent = ({
@@ -26,7 +26,7 @@ const SectionContent = ({
         <img
           src={gray500}
           alt="정보"
-          className="ml-[0.2rem] h-[2.4rem] w-[2.4rem] cursor-help"
+          className="ml-[0.2rem] h-[2.4rem] w-[2.4rem]"
         />
         {showTooltip && (
           <div className="absolute left-full top-1/2 z-10 ml-[0.8rem] -translate-y-1/2 transform">

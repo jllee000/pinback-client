@@ -1,8 +1,7 @@
 import { useState, useCallback } from 'react';
-import { UI_TEXT } from '@pages/dashboard/constants';
 
 export const useDashboard = () => {
-  const [activeCategory, setActiveCategory] = useState(UI_TEXT.category.all);
+  const [activeCategory, setActiveCategory] = useState('안 읽은 정보');
   const [isAllViewExpanded, setIsAllViewExpanded] = useState(false);
 
   const handleCategoryClick = useCallback((category: string) => {

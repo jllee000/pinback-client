@@ -1,0 +1,9 @@
+export const DASHBOARD_CONSTANTS = {
+  INITIAL_BOOKMARK_DISPLAY_COUNT: 12,
+  DAILY_REMINDER_DISPLAY_COUNT: 12,
+  GRID_COLUMNS: 4,
+  CATEGORY_TYPES: {
+    ALL: '전체',
+    UNREAD: '안 읽은 정보',
+  },
+} as const;

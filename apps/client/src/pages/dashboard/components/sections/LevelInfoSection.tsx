@@ -6,7 +6,7 @@ import {
   UI_TEXT,
 } from '@pages/dashboard/constants';
 import type { LevelInfoSectionProps } from '@shared/types';
-import LevelInfoItem from '@pages/dashboard/components/features/LevelInfoItem';
+import LevelInfoItem from '@pages/dashboard/components/ui/indicators/LevelInfoItem';
 
 const LevelInfoSection = memo(({ className = '' }: LevelInfoSectionProps) => {
   const levels = CHIPPY_LEVELS;
@@ -68,7 +68,7 @@ const LevelInfoSection = memo(({ className = '' }: LevelInfoSectionProps) => {
           >
             <div className="text-gray700 body3-r text-left">
               {UI_TEXT.level.description.split('\n').map((line, index) => (
-                <Fragment key={index}>
+                <Fragment key={`level-description-${index}`}>
                   {line}
                   {index === 0 && <br />}
                 </Fragment>

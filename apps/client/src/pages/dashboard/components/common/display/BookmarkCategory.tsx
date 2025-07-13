@@ -62,8 +62,7 @@ const categoryCountTextVariants = cva('sub5-b', {
   },
 });
 
-export interface CategoryVariants
-  extends VariantProps<typeof categoryVariants> {}
+export type CategoryVariants = VariantProps<typeof categoryVariants>;
 
 const Category = ({
   text,

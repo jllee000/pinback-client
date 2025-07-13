@@ -35,8 +35,7 @@ const memoVariants = cva(
   }
 );
 
-export interface BookmarkCardVariants
-  extends VariantProps<typeof bookmarkCardVariants> {}
+export type BookmarkCardVariants = VariantProps<typeof bookmarkCardVariants>;
 
 interface BookmarkCardProps extends BookmarkCardVariants {
   image?: string;

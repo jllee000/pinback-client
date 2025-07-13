@@ -1,4 +1,6 @@
-import EmptyState, { EmptyStateProps } from '@shared/components/ui/display/EmptyState';
+import EmptyState, {
+  EmptyStateProps,
+} from '@shared/components/ui/display/EmptyState';
 import { EMPTY_STATE_PRESETS } from '@shared/components/ui/display/EmptyStatePresets';
 
 interface ReusableEmptyStateProps extends Partial<EmptyStateProps> {

@@ -49,8 +49,9 @@ const dailyMemoVariants = cva(
   }
 );
 
-export interface DailyReminderCardVariants
-  extends VariantProps<typeof dailyReminderCardVariants> {}
+export type DailyReminderCardVariants = VariantProps<
+  typeof dailyReminderCardVariants
+>;
 
 interface DailyReminderCardProps extends DailyReminderCardVariants {
   title: string;
