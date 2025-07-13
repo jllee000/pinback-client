@@ -1,17 +1,59 @@
 import React, { useRef } from 'react';
+import { cva } from 'class-variance-authority';
 import {
-  verificateDate,
+  validateDate,
+  validateTime,
   formatDate,
   formatTime,
 } from '../../utils/pickerUtils';
-import { DATE_INPUT_LENGTH, TIME_INPUT_LENGTH } from '../../constants/index';
 export interface TimePickerProps {
+  size: 'large' | 'medium';
   specie: 'date' | 'time';
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: string, errorMessage?: string) => void;
+  setErrorMessage: (msg: string) => void;
 }
 
-const TimePicker = ({ specie, value, onChange }: TimePickerProps) => {
+const wrapperSizeVariants = cva('', {
+  variants: {
+    size: {
+      large: 'w-[15.9rem] h-[5rem]',
+      medium: 'w-[12.6rem] h-[3.6rem]',
+    },
+  },
+  defaultVariants: {
+    size: 'large',
+  },
+});
+
+const inputTitleVariants = cva('text-gray900', {
+  variants: {
+    size: {
+      large: 'sub5-sb text-[1.6rem]',
+      medium: 'caption2-sb text-[1.2rem]',
+    },
+  },
+  defaultVariants: {
+    size: 'large',
+  },
+});
+
+const inputVariants = cva(
+  'font-pretendard w-[60%] font-medium not-italic text-gray600 leading-[150%] tracking-[-0.016rem]',
+  {
+    variants: {
+      size: {
+        large: 'body2-m text-[1.6rem]',
+        medium: 'caption2-m text-[1.2rem]',
+      },
+    },
+    defaultVariants: {
+      size: 'large',
+    },
+  }
+);
+
+const TimePicker = ({ size, specie, value, onChange }: TimePickerProps) => {
   const isDeletingRef = useRef(false);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -20,36 +62,33 @@ const TimePicker = ({ specie, value, onChange }: TimePickerProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
-
-    const digitsOnly = raw.replace(/\D/g, '');
+    const onlyDigits = raw.replace(/\D/g, '');
 
     if (isDeletingRef.current) {
-      onChange(digitsOnly);
+      onChange(onlyDigits);
       return;
     }
 
     if (specie === 'date') {
-      if (digitsOnly.length === DATE_INPUT_LENGTH) {
-        const isValid = verificateDate(digitsOnly);
-        if (!isValid) {
-          return;
-        }
-      }
-
-      onChange(formatDate(digitsOnly));
+      const formatted = formatDate(onlyDigits);
+      const errorMsg = validateDate(onlyDigits);
+      onChange(formatted, errorMsg ?? undefined);
     } else {
-      if (digitsOnly.length < TIME_INPUT_LENGTH) {
-        onChange(digitsOnly);
-      } else {
-        onChange(formatTime(digitsOnly));
-      }
+      const formatted = formatTime(onlyDigits);
+      const errorMsg = validateTime(onlyDigits);
+      onChange(formatted, errorMsg ?? undefined);
     }
   };
 
   return (
     <div>
-      <div className="flex h-[5rem] w-[15.9rem] items-center gap-[1.3rem] rounded-[1rem] border border-gray-100 bg-white px-[1.4rem] py-[1.3rem]">
-        <label htmlFor={`${specie}-picker`} className="sub5-sb text-black">
+      <div
+        className={`flex ${wrapperSizeVariants({ size })} items-center gap-[1.3rem] rounded-[1rem] border border-gray-100 bg-white py-[1.3rem] pl-[1.4rem]`}
+      >
+        <label
+          htmlFor={`${specie}-picker`}
+          className={inputTitleVariants({ size })}
+        >
           {specie === 'date' ? '날짜' : '시간'}
         </label>
         <input
@@ -59,7 +98,7 @@ const TimePicker = ({ specie, value, onChange }: TimePickerProps) => {
           inputMode="numeric"
           onKeyDown={handleKeyDown}
           onChange={handleChange}
-          className="font-pretendard w-[8.5rem] text-[1.6rem] font-medium not-italic leading-[150%] tracking-[-0.016rem] text-gray-600"
+          className={inputVariants({ size })}
         />
       </div>
     </div>

@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { Icon } from '@pinback/design-system/icons';
 import { cva } from 'class-variance-authority';
 
-const categoryDropdownVariants = cva('cursor-pointer shrink-0', {
+const categoryDropdownVariants = cva('', {
   variants: {
     size: {
-      large: 'w-[32.7rem]',
-      medium: 'w-[23.2rem]',
+      large: 'w-[32.7rem] ',
+      medium: 'w-[26rem] ',
     },
   },
   defaultVariants: {
@@ -44,8 +44,8 @@ const CategoryDropDown = ({ size, categories }: CategoryDropDownProps) => {
   return (
     <div className={categoryDropdownVariants({ size })}>
       <div
-        onClick={() => setIsDropDownOpen(!isDropDownOpen)}
-        className={`${isDropDownOpen ? 'border-main400' : 'border-gray-100'} flex h-[5rem] w-full items-center justify-between rounded-[1rem] border border-solid bg-white px-[2rem] py-[1rem]`}
+        onClick={() => setIsDropDownOpen((prev) => !prev)}
+        className={`${isDropDownOpen ? 'border-main400' : 'border-gray-100'} flex w-full items-center justify-between rounded-[1rem] border border-solid bg-white px-[2rem] py-[1rem]`}
       >
         <div className={categoryFontVariants({ size })}>{selectedCategory}</div>
         <span>
@@ -58,7 +58,9 @@ const CategoryDropDown = ({ size, categories }: CategoryDropDownProps) => {
         </span>
       </div>
       {isDropDownOpen && (
-        <div className="mt-[1rem] h-[21.9rem] w-full rounded-[1rem] bg-white py-[2rem] pl-[1.4rem] pr-[1.4rem] shadow-[6px_10px_16px_8px_rgba(0,0,0,0.03)]">
+        <div
+          className={`absolute mt-[1rem] h-[21.9rem] ${categoryDropdownVariants({ size })} rounded-[1rem] bg-white py-[2rem] pl-[1.4rem] pr-[1.4rem] shadow-[6px_10px_16px_8px_rgba(0,0,0,0.03)]`}
+        >
           <div className="flex h-[14.8rem] flex-col gap-[0.5rem] overflow-y-auto overflow-x-hidden">
             {categories.map((category, index) => (
               <div

@@ -11,7 +11,7 @@ const InfoBox = ({ size = 'large', title, location, icon }: InfoBoxProps) => {
   const isLarge = size === 'large';
   return (
     <div
-      className={`border-main400 ${isLarge ? 'h-[7.6rem] w-[32.7rem] gap-[1.5rem]' : 'h-[6.4rem] w-[26rem] gap-[1rem]'} flex items-center rounded-[1rem] border bg-white px-[1.2rem] py-[1.4rem]`}
+      className={`border-main400 ${isLarge ? 'h-[7.6rem] w-[32.7rem] gap-[1.5rem]' : 'h-[6.8rem] w-[26rem] gap-[1rem]'} flex items-center rounded-[1rem] border bg-white px-[1.2rem] py-[1.4rem]`}
     >
       <img
         className="aspect-[1/1] h-[4.2rem] w-[4.2rem] flex-shrink-0"

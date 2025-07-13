@@ -4,12 +4,12 @@ import {
   DATE_INPUT_LENGTH,
   TIME_INPUT_LENGTH,
 } from '../constants/index';
-export const verificateDate = (value: string): boolean => {
+
+export const validateDate = (value: string): string | null => {
   const raw = value.replace(/\D/g, '');
 
   if (raw.length !== DATE_INPUT_LENGTH) {
-    alert('날짜는 YYYYMMdd 형식의 8자리 숫자여야 합니다.');
-    return false;
+    return '0000.00.00 형식으로 입력해주세요';
   }
 
   const year = parseInt(raw.slice(0, DATE_INPUT_YEAR_LENGTH), 10);
@@ -34,19 +34,37 @@ export const verificateDate = (value: string): boolean => {
     inputDate.getMonth() !== month - 1 ||
     inputDate.getDate() !== day
   ) {
-    alert('존재하지 않는 날짜입니다.');
-    return false;
+    return '존재하지 않는 날짜입니다';
   }
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
   if (inputDate <= today) {
-    alert('날짜는 오늘보다 이후여야 합니다.');
-    return false;
+    return '오늘보다 이후 날짜를 입력해주세요';
   }
 
-  return true;
+  return null;
+};
+
+export const validateTime = (value: string): string | null => {
+  const raw = value.replace(/\D/g, '').slice(0, TIME_INPUT_LENGTH);
+  const hour = parseInt(raw.slice(0, 2), 10);
+  const min = raw.slice(2);
+
+  if (raw.length !== TIME_INPUT_LENGTH) {
+    return '00:00 형식으로 입력해주세요';
+  }
+
+  if (hour < 0 || hour > 23) {
+    return '0~23시 사이의 값을 입력해주세요';
+  }
+
+  if (min.length > 2 || parseInt(min, 10) > 59) {
+    return '0~59분 사이의 값을 입력해주세요';
+  }
+
+  return null;
 };
 
 export const formatDate = (input: string) => {
@@ -55,13 +73,21 @@ export const formatDate = (input: string) => {
     return raw;
   }
   if (raw.length < DATE_INPUT_YEAR_LENGTH + DATE_INPUT_MONTH_LENGTH) {
-    return `${raw.slice(0, DATE_INPUT_YEAR_LENGTH)}.${raw.slice(4)}`;
+    if (raw.length < DATE_INPUT_YEAR_LENGTH) {
+      return raw;
+    }
+    if (raw.length < DATE_INPUT_YEAR_LENGTH + DATE_INPUT_MONTH_LENGTH) {
+      return `${raw.slice(0, DATE_INPUT_YEAR_LENGTH)}.${raw.slice(4)}`;
+    }
   }
   return `${raw.slice(0, DATE_INPUT_YEAR_LENGTH)}.${raw.slice(DATE_INPUT_YEAR_LENGTH, DATE_INPUT_YEAR_LENGTH + DATE_INPUT_MONTH_LENGTH)}.${raw.slice(DATE_INPUT_YEAR_LENGTH + DATE_INPUT_MONTH_LENGTH)}`;
 };
 
 export const formatTime = (input: string) => {
   const raw = input.replace(/\D/g, '').slice(0, TIME_INPUT_LENGTH);
+  if (raw.length < 3) {
+    return raw;
+  }
   if (raw.length < 3) {
     return raw;
   }

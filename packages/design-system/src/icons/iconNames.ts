@@ -6,6 +6,7 @@ export const iconNames = [
   'down_icon',
   'ic_error',
   'plus_icon',
+  'popup_logo',
   'white_order',
 ] as const;
 export type IconName = (typeof iconNames)[number];

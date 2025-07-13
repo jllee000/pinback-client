@@ -38,6 +38,7 @@ const CommonBtn = ({ size, type, text, onClick }: CommonBtnProps) => {
       className={`${sizeVariants({ size })} ${colorVariants({ type })}`}
       onClick={onClick}
       type="button"
+      aria-label="공통 버튼"
     >
       {text}
     </button>

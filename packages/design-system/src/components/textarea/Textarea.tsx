@@ -9,9 +9,9 @@ type TextareaProps = React.ComponentProps<'textarea'> & {
 const TextArea = ({ className, size = 'medium', ...props }: TextareaProps) => {
   const sizeVariant = {
     medium:
-      'h-[10.5rem] w-[26rem] caption2-m px-[1.4rem] py-[1.3rem] resize-none overflow-y-auto',
+      'h-[10.5rem] w-[26rem] text-[1.2rem] font-medium px-[1.4rem] py-[1.3rem] resize-none overflow-y-auto',
     large:
-      'h-[14.7rem] w-[32.7rem] body2-m px-[2rem] py-[1.3rem] resize-none overflow-y-auto',
+      'h-[14.7rem] w-[32.7rem] text-[1.6rem] font-medium body2-m px-[2rem] py-[1.3rem] resize-none overflow-y-auto',
   };
 
   return (
