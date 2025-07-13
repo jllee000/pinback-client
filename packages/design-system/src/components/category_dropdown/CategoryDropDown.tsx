@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 // import { Icon } from '@pinback/design-system/icons';
 import { Icon } from '@pinback/design-system/icons';

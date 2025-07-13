@@ -26,5 +26,15 @@
       "@shared-types/*": ["src/types/*"]
     }
   },
-  "include": ["./src/**/*", "src/custom.d.ts", "vite.config.ts"]
+  "include": [
+    "./src/**/*",
+    "src/custom.d.ts",
+    "vite.config.ts",
+    "../../packages/design-system/src/components/category_dropdown",
+    "../../packages/design-system/src/components/InfoBox",
+    "../../packages/design-system/src/components/textarea",
+    "../../packages/design-system/src/components/textfieldPopup",
+    "../../packages/design-system/src/components/timePicker",
+    "../../packages/design-system/src/components/toggleButton"
+  ]
 }

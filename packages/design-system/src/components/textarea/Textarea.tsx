@@ -6,7 +6,7 @@ type TextareaProps = React.ComponentProps<'textarea'> & {
   maxLength?: number;
 };
 
-function Textarea({ className, size = 'medium', ...props }: TextareaProps) {
+const TextArea = ({ className, size = 'medium', ...props }: TextareaProps) => {
   const sizeVariant = {
     medium:
       'h-[10.5rem] w-[26rem] caption2-m px-[1.4rem] py-[1.3rem] resize-none overflow-y-auto',
@@ -26,5 +26,5 @@ function Textarea({ className, size = 'medium', ...props }: TextareaProps) {
       {...props}
     />
   );
-}
-export { Textarea };
+};
+export default TextArea;

@@ -6,11 +6,11 @@ type ToggleButtonProps = React.ComponentProps<typeof SwitchPrimitive.Root> & {
   size?: 'large' | 'medium';
 };
 
-function ToggleButton({
+const ToggleButton = ({
   className,
   size = 'large',
   ...props
-}: ToggleButtonProps) {
+}: ToggleButtonProps) => {
   const sizeClasses = {
     large: {
       root: 'h-[2.4rem] w-[4.2rem]',
@@ -45,6 +45,6 @@ function ToggleButton({
       />
     </SwitchPrimitive.Root>
   );
-}
+};
 
-export { ToggleButton };
+export default ToggleButton;
