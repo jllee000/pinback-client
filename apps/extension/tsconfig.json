@@ -18,6 +18,7 @@
     "skipLibCheck": true,
     "plugins": [{ "name": "react" }],
     "incremental": false,
+    "types": ["vite/client", "chrome"],
     // 절대 경로 설정
     "paths": {
       "@components/*": ["src/components/*"],

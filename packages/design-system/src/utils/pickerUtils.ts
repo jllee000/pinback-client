@@ -1,10 +1,9 @@
-import React, { useRef } from 'react';
 import {
   DATE_INPUT_YEAR_LENGTH,
   DATE_INPUT_MONTH_LENGTH,
   DATE_INPUT_LENGTH,
   TIME_INPUT_LENGTH,
-} from '@constants/index';
+} from '../constants/index';
 export const verificateDate = (value: string): boolean => {
   const raw = value.replace(/\D/g, '');
 
@@ -52,15 +51,20 @@ export const verificateDate = (value: string): boolean => {
 
 export const formatDate = (input: string) => {
   const raw = input.replace(/\D/g, '').slice(0, DATE_INPUT_LENGTH);
-  if (raw.length < DATE_INPUT_YEAR_LENGTH) return raw;
-  if (raw.length < DATE_INPUT_YEAR_LENGTH + DATE_INPUT_MONTH_LENGTH)
+  if (raw.length < DATE_INPUT_YEAR_LENGTH) {
+    return raw;
+  }
+  if (raw.length < DATE_INPUT_YEAR_LENGTH + DATE_INPUT_MONTH_LENGTH) {
     return `${raw.slice(0, DATE_INPUT_YEAR_LENGTH)}.${raw.slice(4)}`;
+  }
   return `${raw.slice(0, DATE_INPUT_YEAR_LENGTH)}.${raw.slice(DATE_INPUT_YEAR_LENGTH, DATE_INPUT_YEAR_LENGTH + DATE_INPUT_MONTH_LENGTH)}.${raw.slice(DATE_INPUT_YEAR_LENGTH + DATE_INPUT_MONTH_LENGTH)}`;
 };
 
 export const formatTime = (input: string) => {
   const raw = input.replace(/\D/g, '').slice(0, TIME_INPUT_LENGTH);
-  if (raw.length < 3) return raw;
+  if (raw.length < 3) {
+    return raw;
+  }
   const hour = parseInt(raw.slice(0, 2), 10);
   const min = raw.slice(2);
 

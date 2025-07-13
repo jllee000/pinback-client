@@ -1,6 +1,10 @@
 import React, { useRef } from 'react';
-import { verificateDate, formatDate, formatTime } from '@utils/pickerUtils';
-import { DATE_INPUT_LENGTH, TIME_INPUT_LENGTH } from '@constants/index';
+import {
+  verificateDate,
+  formatDate,
+  formatTime,
+} from '../../utils/pickerUtils';
+import { DATE_INPUT_LENGTH, TIME_INPUT_LENGTH } from '../../constants/index';
 export interface TimePickerProps {
   specie: 'date' | 'time';
   value: string;
@@ -27,7 +31,9 @@ const TimePicker = ({ specie, value, onChange }: TimePickerProps) => {
     if (specie === 'date') {
       if (digitsOnly.length === DATE_INPUT_LENGTH) {
         const isValid = verificateDate(digitsOnly);
-        if (!isValid) return;
+        if (!isValid) {
+          return;
+        }
       }
 
       onChange(formatDate(digitsOnly));
