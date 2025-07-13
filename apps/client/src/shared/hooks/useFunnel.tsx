@@ -1,4 +1,11 @@
-import { ReactElement, useCallback, useState } from 'react';
+import {
+  Children,
+  isValidElement,
+  ReactElement,
+  ReactNode,
+  useCallback,
+  useState,
+} from 'react';
 
 interface StepProps {
   name: string;
@@ -6,7 +13,7 @@ interface StepProps {
 }
 
 interface FunnelProps {
-  children: ReactElement<StepProps>[];
+  children: ReactNode;
 }
 
 const useFunnel = (initialStep: string) => {
@@ -20,9 +27,14 @@ const useFunnel = (initialStep: string) => {
 
   const Funnel = useCallback(
     ({ children }: FunnelProps) => {
-      const targetStep = children.find(
+      const validChildren = Children.toArray(children).filter(
+        isValidElement
+      ) as ReactElement<StepProps>[];
+
+      const targetStep = validChildren.find(
         (childStep) => childStep.props.name === currentStep
       );
+
       return <>{targetStep || null}</>;
     },
     [currentStep]
