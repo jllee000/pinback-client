@@ -5,7 +5,6 @@ import react from '@vitejs/plugin-react-swc';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { resolve } from 'path';
 import svgSpritePlugin from '@pivanov/vite-plugin-svg-sprite';
-
 export default defineConfig({
   plugins: [
     react(),
@@ -19,6 +18,7 @@ export default defineConfig({
       inject: 'body-last',
     }),
   ],
+
   build: {
     outDir: 'dist',
     copyPublicDir: true,

@@ -1,5 +1,9 @@
 import { readdirSync, writeFileSync } from 'fs';
-import { basename, join } from 'path';
+import { basename, dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const ICON_DIR = join(__dirname, '../source');
 const OUTPUT_PATH = join(__dirname, '../iconNames.ts');

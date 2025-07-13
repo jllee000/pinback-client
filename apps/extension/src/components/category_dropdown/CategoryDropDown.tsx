@@ -1,0 +1,102 @@
+import React from 'react';
+import { useState } from 'react';
+// import { Icon } from '@pinback/design-system/icons';
+import { Icon } from '@pinback/design-system/icons';
+import { cva } from 'class-variance-authority';
+
+const categoryDropdownVariants = cva('cursor-pointer shrink-0', {
+  variants: {
+    size: {
+      large: 'w-[32.7rem]',
+      medium: 'w-[23.2rem]',
+    },
+  },
+  defaultVariants: {
+    size: 'large',
+  },
+});
+
+const categoryFontVariants = cva('text-black', {
+  variants: {
+    size: {
+      large: 'body2-m',
+      medium: 'sub7-sb',
+    },
+  },
+  defaultVariants: {
+    size: 'large',
+  },
+});
+interface CategoryDropDownProps {
+  size?: 'large' | 'medium';
+  categories: string[];
+}
+
+const CategoryDropDown = ({ size, categories }: CategoryDropDownProps) => {
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(
+    categories.length > 0 ? categories[0] : ''
+  );
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+    setIsDropDownOpen(false);
+  };
+  return (
+    <div className={categoryDropdownVariants({ size })}>
+      <div
+        onClick={() => setIsDropDownOpen(!isDropDownOpen)}
+        className={`${isDropDownOpen ? 'border-main400' : 'border-gray-100'} flex h-[5rem] w-full items-center justify-between rounded-[1rem] border border-solid bg-white px-[2rem] py-[1rem]`}
+      >
+        <div className={categoryFontVariants({ size })}>{selectedCategory}</div>
+        <span>
+          <Icon
+            name="down_icon"
+            width={16}
+            height={16}
+            className={`transition-transform duration-300 ${isDropDownOpen ? 'rotate-180' : 'rotate-0'}`}
+          />
+        </span>
+      </div>
+      {isDropDownOpen && (
+        <div className="mt-[1rem] h-[21.9rem] w-full rounded-[1rem] bg-white py-[2rem] pl-[1.4rem] pr-[1.4rem] shadow-[6px_10px_16px_8px_rgba(0,0,0,0.03)]">
+          <div className="flex h-[14.8rem] flex-col gap-[0.5rem] overflow-y-auto overflow-x-hidden">
+            {categories.map((category, index) => (
+              <div
+                className="hover:bg-main200 group flex cursor-pointer items-center justify-between rounded-[0.3rem] px-[0.6rem] py-[0.6rem] hover:text-white"
+                key={`category-${index}`}
+                onClick={() => handleCategoryClick(category)}
+              >
+                <span className={`${categoryFontVariants({ size })}`}>
+                  {category}
+                </span>
+                <div className="relative h-[1.8rem] w-[1.8rem]">
+                  <Icon
+                    name="default_order"
+                    width={18}
+                    height={18}
+                    className="absolute left-0 top-0 group-hover:hidden"
+                  />
+                  <Icon
+                    name="white_order"
+                    width={18}
+                    height={18}
+                    className="absolute left-0 top-0 hidden group-hover:block"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-[1rem] flex items-center gap-[0.5rem]">
+            <Icon name="plus_icon" width={18} height={18} />
+            <span className={`text-main400 ${categoryFontVariants({ size })}`}>
+              새로운 카테고리 추가하기
+            </span>
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CategoryDropDown;
