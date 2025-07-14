@@ -96,7 +96,7 @@ const TimeSelectStep = ({ setStep }: TimeSelectStepProps) => {
       </div>
       {/* TODO: button 태그 token 적용 이슈로 임시 div 사용 -> button 교체 */}
       <div
-        onClick={() => setStep(STEP.WELCOME)}
+        onClick={() => setStep(STEP.MAC_USER_NOTICE)}
         className="bg-main300 sub3-sb flex h-[5.8rem] w-[13.7rem] items-center justify-center self-end rounded-[30px] text-white"
       >
         다음

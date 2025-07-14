@@ -1,4 +1,5 @@
 import { Header } from '@/shared';
+import MacUserNoticeStep from '@pages/onBoarding/components/MacUserNoticeStep';
 import StoryStep from '@pages/onBoarding/components/StoryStep';
 import TimeSelectStep from '@pages/onBoarding/components/TimeSelectStep';
 import WelcomeStep from '@pages/onBoarding/components/WelcomeStep';
@@ -24,7 +25,7 @@ const OnBoarding = () => {
         </Step>
         {os === 'macos' && (
           <Step name={STEP.MAC_USER_NOTICE}>
-            <WelcomeStep />
+            <MacUserNoticeStep setStep={setStep} />
           </Step>
         )}
         <Step name={STEP.WELCOME}>
