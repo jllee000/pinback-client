@@ -92,7 +92,9 @@ const CategoryDropDown = ({ size, categories }: CategoryDropDownProps) => {
           </div>
           <p className="mt-[1rem] flex items-center gap-[0.5rem]">
             <Icon name="plus_icon" width={18} height={18} />
-            <span className={`text-main400 ${categoryFontVariants({ size })}`}>
+            <span
+              className={`text-main400 cursor-pointer ${categoryFontVariants({ size })}`}
+            >
               새로운 카테고리 추가하기
             </span>
           </p>

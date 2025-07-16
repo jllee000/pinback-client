@@ -3,6 +3,7 @@ import { Header } from '@shared/components';
 import {
   DailyReminderSection,
   BookmarkSection,
+  BannerSection,
 } from '@pages/dashboard/components';
 import { useDashboard } from '@pages/dashboard/hooks/useDashboard';
 import { mockBookmarkCards } from '@pages/dashboard/mockData';
@@ -32,6 +33,7 @@ const Dashboard = () => {
   const {
     activeCategory,
     isAllViewExpanded,
+    acornCount,
     handleCategoryClick,
     handleAllViewClick,
   } = useDashboard();
@@ -47,6 +49,10 @@ const Dashboard = () => {
       count: getCategoryCount(mockBookmarkCards, cat.id),
     }));
   }, [mockBookmarkCards]);
+
+  const getBookmarkSectionMargin = () => {
+    return hasBookmarks ? 'mt-[14rem]' : '';
+  };
   const onPopUpOpen = () => {
     setIsPopUpOpen(true);
   };
@@ -70,21 +76,24 @@ const Dashboard = () => {
       <main
         className={`${isPopUpOpen ? 'fixed' : 'relative'} mx-auto w-[144rem] pt-[9.6rem]`}
       >
+        <BannerSection
+          acornCount={acornCount}
+          className="mt-[7.4rem]"
+        ></BannerSection>
         <div className="px-[11.9rem] pb-[3.6rem] pr-[12rem]">
           {hasBookmarks && (
             <DailyReminderSection handlePopUpOpen={onPopUpOpen} />
           )}
-          <div className={hasBookmarks ? 'mt-[14rem]' : 'mt-0'}>
-            <BookmarkSection
-              activeCategory={activeCategory}
-              categories={categories}
-              bookmarks={mockBookmarkCards}
-              onCategoryClick={handleCategoryClick}
-              onAllViewClick={handleAllViewClick}
-              isAllViewExpanded={isAllViewExpanded}
-              handlePopUpOpen={onPopUpOpen}
-            />
-          </div>
+          <div className={getBookmarkSectionMargin()}></div>
+          <BookmarkSection
+            activeCategory={activeCategory}
+            categories={categories}
+            bookmarks={mockBookmarkCards}
+            onCategoryClick={handleCategoryClick}
+            onAllViewClick={handleAllViewClick}
+            isAllViewExpanded={isAllViewExpanded}
+            handlePopUpOpen={onPopUpOpen}
+          />
         </div>
       </main>
     </div>

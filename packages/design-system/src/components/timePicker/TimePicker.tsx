@@ -38,7 +38,7 @@ const inputTitleVariants = cva('text-gray900', {
 });
 
 const inputVariants = cva(
-  'font-pretendard w-[60%] font-medium not-italic text-gray600 leading-[150%] tracking-[-0.016rem]',
+  'font-pretendard w-[60%] outline-none font-medium not-italic text-gray600 leading-[150%] tracking-[-0.016rem]',
   {
     variants: {
       size: {

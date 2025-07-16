@@ -10,7 +10,11 @@
     "activeTab",
     "scripting",
     "identity",
-    "identity.email"
+    "identity.email",
+    "scripting",
+    "bookmarks",
+    "http://*/",
+    "https://*/"
   ],
   "host_permissions": ["<all_urls>"],
   "icons": {
