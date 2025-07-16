@@ -58,6 +58,7 @@ interface DailyReminderCardProps extends DailyReminderCardVariants {
   memo?: string;
   images?: string[];
   savedAt: string;
+  handlePopUpOpen?: () => void;
 }
 
 const DailyReminderCard = ({
@@ -66,6 +67,7 @@ const DailyReminderCard = ({
   images,
   savedAt,
   showAcornStamp = false,
+  handlePopUpOpen,
 }: DailyReminderCardProps) => {
   return (
     <div className={cn(dailyReminderCardVariants({ showAcornStamp }))}>
@@ -84,6 +86,7 @@ const DailyReminderCard = ({
           type="button"
           className="flex h-[2.4rem] w-[2.4rem] items-center justify-center"
           aria-label="더보기"
+          onClick={handlePopUpOpen}
         >
           <img
             src={icDetailsWhite}

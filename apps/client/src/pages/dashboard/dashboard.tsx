@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Header } from '@shared/components';
+import { useState } from 'react';
 import {
   DailyReminderSection,
   BookmarkSection,
@@ -7,7 +8,7 @@ import {
 import { useDashboard } from '@pages/dashboard/hooks/useDashboard';
 import { mockBookmarkCards } from '@pages/dashboard/mockData';
 import type { BookmarkCardProps } from '@pages/dashboard/mockData';
-
+import ModalPop from '@/shared/components/ui/modalPop/ModalPop';
 const CATEGORY_LIST = [
   { id: 'unread', text: '안 읽은 정보' },
   { id: 'all', text: '전체' },
@@ -16,7 +17,7 @@ const CATEGORY_LIST = [
   { id: 'design', text: '디자인' },
   { id: 'devops', text: 'DevOps' },
 ];
-
+import { POP_UP_AREA_Z_INDEX } from '@/constants';
 function getCategoryCount(cards: BookmarkCardProps[], id: string): number {
   if (id === 'unread') {
     return cards.filter((card) => !card.isRead).length;
@@ -34,7 +35,7 @@ const Dashboard = () => {
     handleCategoryClick,
     handleAllViewClick,
   } = useDashboard();
-
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const hasBookmarks = mockBookmarkCards.length > 0;
 
   const categories = useMemo(() => {
@@ -46,15 +47,30 @@ const Dashboard = () => {
       count: getCategoryCount(mockBookmarkCards, cat.id),
     }));
   }, [mockBookmarkCards]);
-
+  const onPopUpOpen = () => {
+    setIsPopUpOpen(true);
+  };
   return (
-    <div className="bg-background flex min-h-screen flex-col">
-      <div className="fixed top-0 z-50 w-full">
-        <Header />
-      </div>
-      <main className="mx-auto w-[144rem] pt-[9.6rem]">
+    <div className="bg-background flex min-h-screen flex-col items-center">
+      {isPopUpOpen && (
+        <div
+          className={`absolute z-${POP_UP_AREA_Z_INDEX} flex h-[100dvh] w-full items-center justify-center bg-[#0000005b]`}
+          onClick={() => setIsPopUpOpen(false)}
+        >
+          <div onClick={(e) => e.stopPropagation()}>
+            <ModalPop onClose={() => setIsPopUpOpen(false)} />
+          </div>
+        </div>
+      )}
+      <Header />
+
+      <main
+        className={`${isPopUpOpen ? 'fixed' : 'relative'} mx-auto w-[144rem] pt-[9.6rem]`}
+      >
         <div className="px-[11.9rem] pb-[3.6rem] pr-[12rem]">
-          {hasBookmarks && <DailyReminderSection />}
+          {hasBookmarks && (
+            <DailyReminderSection handlePopUpOpen={onPopUpOpen} />
+          )}
           <div className={hasBookmarks ? 'mt-[14rem]' : 'mt-0'}>
             <BookmarkSection
               activeCategory={activeCategory}
@@ -63,6 +79,7 @@ const Dashboard = () => {
               onCategoryClick={handleCategoryClick}
               onAllViewClick={handleAllViewClick}
               isAllViewExpanded={isAllViewExpanded}
+              handlePopUpOpen={onPopUpOpen}
             />
           </div>
         </div>

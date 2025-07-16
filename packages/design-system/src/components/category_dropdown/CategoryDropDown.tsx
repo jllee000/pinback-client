@@ -64,11 +64,13 @@ const CategoryDropDown = ({ size, categories }: CategoryDropDownProps) => {
           <div className="flex h-[14.8rem] flex-col gap-[0.5rem] overflow-y-auto overflow-x-hidden">
             {categories.map((category, index) => (
               <div
-                className="hover:bg-main200 group flex cursor-pointer items-center justify-between rounded-[0.3rem] px-[0.6rem] py-[0.6rem] hover:text-white"
+                className="hover:bg-main200 group flex cursor-pointer items-center justify-between rounded-[0.3rem] p-[0.6rem] hover:text-white"
                 key={`category-${index}`}
                 onClick={() => handleCategoryClick(category)}
               >
-                <span className={`${categoryFontVariants({ size })}`}>
+                <span
+                  className={`${categoryFontVariants({ size })} group-hover:text-white`}
+                >
                   {category}
                 </span>
                 <div className="relative h-[1.8rem] w-[1.8rem]">

@@ -11,7 +11,6 @@ export interface TimePickerProps {
   specie: 'date' | 'time';
   value: string;
   onChange: (value: string, errorMessage?: string) => void;
-  setErrorMessage: (msg: string) => void;
 }
 
 const wrapperSizeVariants = cva('', {

@@ -4,8 +4,12 @@ import SectionContent from '@pages/dashboard/components/common/layout/SectionCon
 import DailyReminderCard from '@pages/dashboard/components/ui/cards/DailyReminderCard';
 import AllViewButton from '@pages/dashboard/components/ui/buttons/AllViewButton';
 import { mockDailyReminderCards } from '@pages/dashboard/mockData';
-
-const DailyReminderSection = () => {
+interface DailyReminderSectionProps {
+  handlePopUpOpen?: () => void;
+}
+const DailyReminderSection = ({
+  handlePopUpOpen,
+}: DailyReminderSectionProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const showAllViewBtn = mockDailyReminderCards.length > 12;
@@ -39,6 +43,7 @@ const DailyReminderSection = () => {
             images={card.images}
             savedAt={card.savedAt}
             showAcornStamp={card.showAcornStamp}
+            handlePopUpOpen={handlePopUpOpen}
           />
         ))}
       </div>

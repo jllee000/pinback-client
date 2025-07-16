@@ -1,9 +1,13 @@
-import logo from '@assets/brand/logo.svg';
-
+import { Icon } from '@pinback/design-system/icons';
 const Header = () => {
   return (
-    <header className="bg-background fixed left-0 top-0 flex h-[6rem] w-full max-w-[144rem] items-center px-[6rem] pb-[1.7rem] pt-[2.5rem]">
-      <img src={logo} className="h-[3.2rem] w-[12.4rem]" alt="로고" />
+    <header className="bg-background fixed left-0 top-0 flex h-[6rem] w-full max-w-[144rem] items-center pl-[6rem]">
+      <Icon
+        name="main_logo"
+        width={96}
+        height={23}
+        className="mb-[2.6rem] mt-[2.5rem]"
+      />
     </header>
   );
 };

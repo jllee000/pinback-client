@@ -18,13 +18,13 @@ const colorVariants = cva('', {
   },
 });
 const sizeVariants = cva(
-  'rounded-[0.8rem] text-center font-semibold leading-normal ',
+  'rounded-[0.8rem] text-center font-semibold leading-normal w-full',
   {
     variants: {
       size: {
-        large: 'w-[26rem] h-[4.5rem] py-[1.2rem] text-[1.4rem]  ',
-        medium: 'w-[15.3rem] h-[5.9rem] py-[1.6rem] text-[1.8rem] ',
-        small: 'w-[10.2rem] h-[4.2rem] text-[1.4rem] ',
+        large: 'h-[4.5rem] py-[1.2rem] text-[1.4rem]  ',
+        medium: 'h-[5.9rem] py-[1.6rem] text-[1.8rem] ',
+        small: 'h-[4.2rem] text-[1.4rem] ',
       },
     },
     defaultVariants: {

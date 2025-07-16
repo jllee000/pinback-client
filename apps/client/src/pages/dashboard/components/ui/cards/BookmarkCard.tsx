@@ -41,6 +41,7 @@ interface BookmarkCardProps extends BookmarkCardVariants {
   image?: string;
   memo?: string;
   title: string;
+  handlePopUpOpen?: () => void;
 }
 
 const BookmarkCard = ({
@@ -48,6 +49,7 @@ const BookmarkCard = ({
   memo,
   title,
   isRead = false,
+  handlePopUpOpen,
 }: BookmarkCardProps) => {
   return (
     <div className={cn(bookmarkCardVariants({ isRead }))}>
@@ -77,6 +79,7 @@ const BookmarkCard = ({
           type="button"
           className="absolute bottom-[2rem] right-[1.8rem] flex items-center justify-center"
           aria-label="더보기"
+          onClick={handlePopUpOpen}
         >
           <img
             src={icDetails}

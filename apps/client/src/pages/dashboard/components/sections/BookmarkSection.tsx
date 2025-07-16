@@ -17,6 +17,7 @@ interface BookmarkCardProps {
   title: string;
   isRead?: boolean;
   categoryId: string;
+  handlePopUpOpen?: () => void;
 }
 
 interface BookmarkSectionProps {
@@ -26,6 +27,7 @@ interface BookmarkSectionProps {
   onCategoryClick: (category: string) => void;
   onAllViewClick: () => void;
   isAllViewExpanded?: boolean;
+  handlePopUpOpen?: () => void;
 }
 
 const BookmarkSection = ({
@@ -35,6 +37,7 @@ const BookmarkSection = ({
   onCategoryClick,
   onAllViewClick,
   isAllViewExpanded = false,
+  handlePopUpOpen,
 }: BookmarkSectionProps) => {
   const getFilteredBookmarks = () => {
     if (activeCategory === UI_TEXT.category.all) {
@@ -127,7 +130,7 @@ const BookmarkSection = ({
                   }
                 }}
               >
-                <BookmarkCard {...card} />
+                <BookmarkCard {...card} handlePopUpOpen={handlePopUpOpen} />
               </div>
             ))}
           </div>
