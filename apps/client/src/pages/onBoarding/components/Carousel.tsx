@@ -15,7 +15,7 @@ export default function Carousel({
 }: CarouselProps) {
   return (
     <div
-      className={`mx-auto mt-[13.9rem] flex w-[79.2rem] flex-col items-center gap-[5.7rem]`}
+      className={`mx-auto flex w-[79.2rem] flex-col items-center gap-[5.7rem]`}
     >
       <DotIndicator
         current={currentStep}

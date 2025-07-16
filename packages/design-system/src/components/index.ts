@@ -8,3 +8,5 @@ export { default as TextArea } from './textarea/Textarea';
 export { default as TextFieldPopup } from './textfieldPopup/TextfieldPopup';
 export { default as TimePicker } from './timePicker/TimePicker';
 export { default as ToggleButton } from './toggleButton/ToggleButton';
+export type { WheelPickerClassNames, WheelPickerOption } from './wheel-picker';
+export { WheelPicker, WheelPickerWrapper } from './wheel-picker';

@@ -6,6 +6,7 @@ import { useState } from 'react';
 import storyStep1 from '../../../assets/onBoarding/storyStep1.svg';
 import storyStep2 from '../../../assets/onBoarding/storyStep2.svg';
 import storyStep3 from '../../../assets/onBoarding/storyStep3.svg';
+import OnboardingNavButton from '@pages/onBoarding/components/OnboardingNavButton';
 import { STEP } from '../types';
 
 interface StoryStepProps {
@@ -39,24 +40,28 @@ const StoryStep = ({ setStep }: StoryStepProps) => {
   };
 
   return (
-    <div className="flex w-full flex-col items-center gap-[7.4rem]">
-      <Carousel
-        currentStep={currentStep}
-        handleCurrentStep={handleCurrentStep}
-        images={images}
-        total={total}
-      />
-
-      <div className="flex justify-between gap-[21.9rem]">
-        <button onClick={movePrevStep} className="head1">
-          ← 이전
-        </button>
-        <p className="sub3-sb whitespace-pre-line text-center">
+    <div className="flex h-dvh w-full flex-col justify-center px-[12rem]">
+      <div className="flex flex-col items-center">
+        <Carousel
+          currentStep={currentStep}
+          handleCurrentStep={handleCurrentStep}
+          images={images}
+          total={total}
+        />
+        <p className="sub3-sb whitespace-pre-line pt-[7.3rem] text-center">
           {STORY_CONTENT[currentStep].content}
         </p>
-        <button onClick={moveNextStep} className="head1">
-          다음 →
-        </button>
+      </div>
+
+      <div
+        className={`absolute bottom-[7.9rem] right-[12rem] flex w-[calc(100%-24rem)] ${
+          currentStep === 0 ? 'justify-end' : 'justify-between'
+        }`}
+      >
+        {currentStep > 0 && (
+          <OnboardingNavButton direction="prev" onClick={movePrevStep} />
+        )}
+        <OnboardingNavButton direction="next" onClick={moveNextStep} />
       </div>
     </div>
   );

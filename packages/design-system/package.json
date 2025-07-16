@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "type": "module",
   "exports": {
     "./ui": "./src/components/index.ts",
     "./icons": "./src/icons/index.ts",
@@ -20,6 +19,7 @@
     "@pinback/eslint": "workspace:*",
     "@pinback/typescript": "workspace:*",
     "@pivanov/vite-plugin-svg-sprite": "^3.0.0",
+    "@tailwindcss/postcss": "^4.1.10",
     "@tailwindcss/vite": "^4.1.11",
     "@turbo/gen": "^1.12.4",
     "@types/node": "^20.11.24",
@@ -28,12 +28,12 @@
     "@vitejs/plugin-react": "^4.5.2",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.11",
-    "@tailwindcss/postcss": "^4.1.10",
     "tsx": "^4.20.3",
     "typescript": "^5.3.3",
     "vite": "^7.0.0"
   },
   "dependencies": {
+    "@ncdai/react-wheel-picker": "^1.0.14",
     "@radix-ui/react-switch": "^1.2.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

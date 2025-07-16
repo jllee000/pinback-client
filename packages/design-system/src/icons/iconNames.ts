@@ -4,6 +4,7 @@ export const iconNames = [
   'default_order',
   'down_icon',
   'ic_arrow_down',
+  'ic_arrow_right',
   'ic_error',
   'main_logo',
   'plus_icon',

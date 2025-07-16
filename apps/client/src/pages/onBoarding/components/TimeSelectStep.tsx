@@ -1,22 +1,118 @@
+import { useEffect, useRef, useState } from 'react';
 import { STEP } from '@pages/onBoarding/types';
 import { Icon } from '@pinback/design-system/icons';
-import { useState } from 'react';
+import OnBoardingTimePicker from '@pages/onBoarding/components/OnboardingTimePicker';
+import OnboardingNavButton from '@pages/onBoarding/components/OnboardingNavButton';
+import { getFormattedSelectedTime } from '@pages/onBoarding/utils/formatSelectedTime';
+import { initializeApp } from 'firebase/app';
+import { getMessaging, getToken } from 'firebase/messaging';
+import { firebaseConfig } from '@/firebase-config';
 
 interface TimeSelectStepProps {
   setStep: (step: string) => void;
+  os: string;
 }
 
-const TimeSelectStep = ({ setStep }: TimeSelectStepProps) => {
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+const TIME_PRESETS = [
+  { key: 'morning', label: '아침형 치삐', time: '오전 9시' },
+  { key: 'evening', label: '저녁형 치삐', time: '오후 8시' },
+];
+
+const TimeSelectStep = ({ setStep, os }: TimeSelectStepProps) => {
+  const [selectedTime, setSelectedTime] = useState<string | null>('morning');
+  const [selectedCustomTime, setSelectedCustomTime] = useState<string | null>(
+    null
+  );
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const popupRef = useRef<HTMLDivElement>(null);
 
-  const handlePopupToggle = () => {
-    setIsPopupOpen((prev) => !prev);
+  // Firebase 초기화
+  const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
+
+  // FCM 토큰 발급
+  async function handleAllowNotification(finalTime: string | null) {
+    // registerServiceWorker();
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        alert('알림 권한이 필요합니다!');
+        return;
+      }
+
+      const token = await getToken(messaging, {
+        vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
+      });
+
+      if (token) {
+        console.log('FCM 토큰:', token);
+        console.log('최종 시간:', finalTime);
+        // email까지 3개를
+        // 서버로 보내면 됩니다.
+      } else {
+        alert('토큰 생성 실패...');
+      }
+    } catch (e) {
+      console.error('FCM 토큰 받는 도중 오류:', e);
+    }
+  }
+
+  const handleNextClick = () => {
+    const finalTime = getFormattedSelectedTime(
+      selectedTime,
+      selectedCustomTime
+    );
+
+    if (
+      selectedTime &&
+      (selectedTime !== 'custom' ||
+        (selectedTime === 'custom' && selectedCustomTime))
+    ) {
+      handleAllowNotification(finalTime);
+      setStep(os === 'macos' ? STEP.MAC_USER_NOTICE : STEP.WELCOME);
+    }
   };
 
-  const handleTimeSelect = (time: string) => {
-    setSelectedTime((prev) => (prev === time ? null : time));
+  const handleSave = (time: {
+    hour: string;
+    minute: string;
+    meridiem: string;
+  }) => {
+    const formattedTime = `${time.meridiem} ${time.hour}시${time.minute !== '0' ? ` ${time.minute}분` : ''}`;
+    setSelectedCustomTime(formattedTime);
+    setSelectedTime('custom');
+    setIsPopupOpen(false);
   };
+
+  const handleTimeBoxClick = (key: string) => {
+    if (key === 'custom') {
+      setSelectedTime('custom');
+      setIsPopupOpen((prev) => !prev);
+    } else {
+      setSelectedTime((prev) => (prev === key ? null : key));
+      setIsPopupOpen(false);
+    }
+  };
+
+  // 외부 클릭 시 팝업 닫기
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
+        setIsPopupOpen(false);
+      }
+    };
+
+    if (isPopupOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isPopupOpen]);
 
   return (
     <div className="mt-[14.9rem] flex flex-col items-center gap-[16.1rem]">
@@ -28,78 +124,75 @@ const TimeSelectStep = ({ setStep }: TimeSelectStepProps) => {
       </div>
 
       <div className="flex gap-[2.4rem]">
-        {/* 아침형 치삐 */}
-        <button
-          onClick={() => handleTimeSelect('morning')}
-          className={`flex h-[10rem] w-[38.4rem] cursor-pointer flex-col items-center justify-center gap-[0.6rem] rounded-[20px] border-[2px] p-[2rem] ${
-            selectedTime === 'morning' ? 'border-main400' : 'border-gray-300'
-          }`}
-        >
-          <p
-            className={`head3 ${selectedTime === 'morning' ? 'text-main400' : 'text-gray700'}`}
-          >
-            아침형 치삐
-          </p>
-          <p
-            className={`sub3-sb ${selectedTime === 'morning' ? 'text-main400' : 'text-gray500'}`}
-          >
-            오전 9시
-          </p>
-        </button>
+        {/* 프리셋 시간 선택 */}
+        {TIME_PRESETS.map(({ key, label, time }) => {
+          const isSelected = selectedTime === key;
+          return (
+            <button
+              key={key}
+              onClick={() => handleTimeBoxClick(key)}
+              className={`flex h-[10rem] w-[38.4rem] cursor-pointer flex-col items-center justify-center gap-[0.6rem] rounded-[20px] border-[2px] p-[2rem] ${
+                isSelected ? 'border-main400 bg-main0' : 'border-gray-300'
+              }`}
+            >
+              <p
+                className={`head3 ${isSelected ? 'text-main400' : 'text-gray700'}`}
+              >
+                {label}
+              </p>
+              <p
+                className={`sub3-sb ${isSelected ? 'text-main400' : 'text-gray500'}`}
+              >
+                {time}
+              </p>
+            </button>
+          );
+        })}
 
-        {/* 저녁형 치삐 */}
-        <button
-          onClick={() => handleTimeSelect('evening')}
-          className={`flex h-[10rem] w-[38.4rem] cursor-pointer flex-col items-center justify-center gap-[0.6rem] rounded-[20px] border-[2px] p-[2rem] ${
-            selectedTime === 'evening' ? 'border-main400' : 'border-gray-300'
-          }`}
-        >
-          <p
-            className={`head3 ${selectedTime === 'evening' ? 'text-main400' : 'text-gray700'}`}
-          >
-            저녁형 치삐
-          </p>
-          <p
-            className={`sub3-sb ${selectedTime === 'evening' ? 'text-main400' : 'text-gray500'}`}
-          >
-            오후 8시
-          </p>
-        </button>
-
-        {/* 사용자 설정 (선택 불가능) */}
+        {/* 사용자 설정 */}
         <div
-          onClick={handlePopupToggle}
-          className={`relative flex h-[10rem] w-[38.4rem] cursor-pointer items-center justify-center gap-[0.6rem] rounded-[20px] border-[2px] ${
-            isPopupOpen ? 'border-main400' : 'border-gray-300'
-          } p-[2rem]`}
+          onClick={() => handleTimeBoxClick('custom')}
+          ref={popupRef}
+          className={`relative flex h-[10rem] w-[38.4rem] cursor-pointer items-center justify-center gap-[0.6rem] rounded-[20px] border-[2px] p-[2rem] ${
+            isPopupOpen || (selectedTime === 'custom' && selectedCustomTime)
+              ? 'border-main400 bg-main0'
+              : 'border-gray-300'
+          }`}
         >
           <p
-            className={`head3 ${isPopupOpen ? 'text-main400' : 'text-gray700'}`}
+            className={`head3 ${isPopupOpen || (selectedTime === 'custom' && selectedCustomTime) ? 'text-main400' : 'text-gray700'}`}
           >
-            사용자 설정
+            {selectedCustomTime || '사용자 설정'}
           </p>
           <Icon
             name="ic_arrow_down"
             width={24}
             height={24}
-            color={isPopupOpen ? 'main400' : 'gray700'}
+            color={
+              isPopupOpen || (selectedTime === 'custom' && selectedCustomTime)
+                ? 'main400'
+                : 'gray700'
+            }
           />
           {isPopupOpen && (
-            <div
+            <OnBoardingTimePicker
+              onSave={handleSave}
+              onCancel={() => setIsPopupOpen(false)}
               onClick={(e) => e.stopPropagation()}
-              className="absolute top-[12.9rem] h-[30rem] w-[38.4rem] rounded-[20px] bg-white p-[2rem] shadow-[6px_11px_20px_0px_rgba(0,0,0,0.10)]"
-            >
-              <p className="sub3-sb text-gray700">구현 예정 기능...</p>
-            </div>
+            />
           )}
         </div>
       </div>
-      {/* TODO: button 태그 token 적용 이슈로 임시 div 사용 -> button 교체 */}
-      <div
-        onClick={() => setStep(STEP.MAC_USER_NOTICE)}
-        className="bg-main300 sub3-sb flex h-[5.8rem] w-[13.7rem] items-center justify-center self-end rounded-[30px] text-white"
-      >
-        다음
+
+      {/* 다음 버튼 */}
+      <div className="absolute bottom-[7.9rem] right-[12rem]">
+        <OnboardingNavButton
+          direction="next"
+          disabled={
+            !selectedTime || (selectedTime === 'custom' && !selectedCustomTime)
+          }
+          onClick={handleNextClick}
+        />
       </div>
     </div>
   );
