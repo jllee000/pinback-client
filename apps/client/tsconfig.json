@@ -17,6 +17,7 @@
       "@assets/*": ["src/assets/*", "src/pages/dashboard/assets/*"]
     }
   },
-  "include": ["src", "vite.config.ts"],
+  "include": ["src", "vite.config.ts", "public/firebase-messaging-sw.js"],
+  "types": ["chrome"],
   "exclude": ["node_modules", "../../.cursorrules"]
 }
