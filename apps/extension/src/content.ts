@@ -1,1 +1,9 @@
-console.log('Hello from content script!');
+window.addEventListener('message', (event) => {
+  if (event.source !== window) return;
+  if (event.data.type === 'SET_TOKEN') {
+    chrome.runtime.sendMessage({
+      type: 'SET_TOKEN',
+      token: event.data.token,
+    });
+  }
+});

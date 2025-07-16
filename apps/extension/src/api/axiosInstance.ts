@@ -18,12 +18,20 @@ const fetchToken = async (email?: string) => {
   localStorage.setItem('jwtToken', newToken);
   return newToken;
 };
+const getChromeToken = async (): Promise<string | null> => {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(['jwtToken'], (result) => {
+      resolve(result.jwtToken ?? null);
+    });
+  });
+};
 
 apiRequest.interceptors.request.use(async (config) => {
   const noAuthNeeded = ['/api/v1/auth/token', '/api/v1/auth/signin'];
   const isNoAuth = noAuthNeeded.some((url) => config.url?.includes(url));
-  let token = localStorage.getItem('jwtToken');
+
   if (!isNoAuth) {
+    let token = await getChromeToken();
     if (!token || token === 'undefined') {
       token = await fetchToken('test@gmail.com');
     }

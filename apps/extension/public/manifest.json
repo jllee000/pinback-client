@@ -4,13 +4,15 @@
   "manifest_version": 3,
   "version": "1.0.0",
   "permissions": [
+    "tabs",
     "notifications",
     "storage",
     "activeTab",
+    "scripting",
     "identity",
     "identity.email"
   ],
-  "host_permissions": ["http://localhost:8080/*", "https://*/*"],
+  "host_permissions": ["<all_urls>"],
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
@@ -28,7 +30,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://localhost/*"],
+      "matches": ["<all_urls>"],
       "js": ["content.js"]
     }
   ]

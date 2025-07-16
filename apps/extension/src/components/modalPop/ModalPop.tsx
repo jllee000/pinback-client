@@ -33,32 +33,7 @@ const ModalPop = () => {
       console.log('signup error: ' + JSON.stringify(error));
     }
   };
-  useEffect(() => {
-    const signup = async () => {
-      try {
-        const response = await apiRequest.post(
-          '/api/v1/auth/signup',
-          {
-            email: 'ㄴㅇm',
-            remindDefault: '08:00',
-            fcmToken: 'heㄴㅇsssdfasdf',
-          },
 
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        localStorage.setItem('jwtToken', response.data.data.token);
-        const storageToken = localStorage.getItem('jwtToken');
-        setToken(storageToken ?? '');
-      } catch (error) {
-        console.log('signup error: ' + JSON.stringify(error));
-      }
-    };
-    signup();
-  }, []);
   const handleFieldChange = (
     field: 'date' | 'time',
     value: string,
