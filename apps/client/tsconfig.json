@@ -4,7 +4,6 @@
     "baseUrl": ".",
     "plugins": [{ "name": "react" }],
     "incremental": false,
-    // 절대 경로 설정
     "paths": {
       "@/*": ["src/*"],
       "@shared": ["src/shared"],
@@ -14,7 +13,11 @@
       "@routes": ["src/routes"],
       "@routes/*": ["src/routes/*"],
       "@constants/*": ["src/constants/*"],
-      "@assets/*": ["src/assets/*", "src/pages/dashboard/assets/*"]
+      "@assets": ["src/assets"],
+      "@assets/*": [
+        "src/assets/*",
+        "src/pages/dashboard/assets/*"
+      ]
     }
   },
   "include": ["src", "vite.config.ts", "public/firebase-messaging-sw.js"],

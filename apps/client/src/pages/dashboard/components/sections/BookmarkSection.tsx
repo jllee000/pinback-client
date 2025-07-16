@@ -56,14 +56,12 @@ const BookmarkSection = ({
 
   const filteredBookmarks = getFilteredBookmarks();
 
-  // 조건 함수들
   const hasNoBookmarks = () => bookmarks.length === 0;
   const isUnreadCategory = () =>
     activeCategory === DASHBOARD_CONSTANTS.CATEGORY_TYPES.UNREAD;
   const hasUnreadBookmarks = () =>
     bookmarks.some((bookmark) => !bookmark.isRead);
 
-  // 계산된 값들
   const filteredCount = filteredBookmarks.length;
   const showAllViewBtn =
     filteredCount > DASHBOARD_CONSTANTS.INITIAL_BOOKMARK_DISPLAY_COUNT;
@@ -78,6 +76,13 @@ const BookmarkSection = ({
     }
 
     return 'unread';
+  };
+
+  const getContentMargin = () => {
+    if (filteredCount > 0) {
+      return 'mt-[2.4rem]';
+    }
+    return 'mt-[29.7rem]';
   };
 
   return (
@@ -111,7 +116,7 @@ const BookmarkSection = ({
         </div>
       )}
 
-      <div className={filteredCount > 0 ? 'mt-[2.4rem]' : 'mt-[29.7rem]'}>
+      <div className={getContentMargin()}>
         {filteredBookmarks.length > 0 ? (
           <div
             className="grid grid-cols-4 justify-center gap-[2.3rem]"

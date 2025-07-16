@@ -22,18 +22,16 @@ interface DailyReminderCardProps {
 }
 
 export const mockBookmarkCards: BookmarkCardProps[] = [
-  // 테스트 케이스 1: 읽음 + 메모 있음
   {
     id: 'bookmark-1',
     title: 'React 컴포넌트 최적화 가이드',
     memo: 'React.memo, useMemo, useCallback을 활용한 성능 최적화 방법',
     image: 'https://placehold.co/253x130',
     savedAt: '2025. 07. 12 저장됨',
-    isRead: true,
+    isRead: false,
     showAcornStamp: false,
     categoryId: 'frontend',
   },
-  // 테스트 케이스 2: 읽음 + 메모 있음
   {
     id: 'bookmark-2',
     title: 'TypeScript 고급 타입 활용법',
@@ -44,18 +42,16 @@ export const mockBookmarkCards: BookmarkCardProps[] = [
     showAcornStamp: false,
     categoryId: 'frontend',
   },
-  // 테스트 케이스 3: 읽음 + 빈 메모
   {
     id: 'bookmark-3',
     title: '빈 메모 테스트 카드',
     memo: '',
     image: 'https://placehold.co/253x130',
     savedAt: '2025. 07. 10 저장됨',
-    isRead: true,
+    isRead: false,
     showAcornStamp: false,
     categoryId: 'backend',
   },
-  // 테스트 케이스 4: 읽음 + 빈 메모
   {
     id: 'bookmark-4',
     title: '읽은 빈 메모 테스트 카드',
@@ -66,18 +62,16 @@ export const mockBookmarkCards: BookmarkCardProps[] = [
     showAcornStamp: false,
     categoryId: 'backend',
   },
-  // 테스트 케이스 5: 이미지 없음 + 메모 있음
   {
     id: 'bookmark-5',
     title: '이미지 없는 테스트 카드',
     memo: '이 카드는 이미지가 없는 북마크입니다.',
     image: undefined,
     savedAt: '2025. 07. 08 저장됨',
-    isRead: true,
+    isRead: false,
     showAcornStamp: false,
     categoryId: 'design',
   },
-  // 테스트 케이스 6: 긴 제목 테스트
   {
     id: 'bookmark-6',
     title:
@@ -89,18 +83,16 @@ export const mockBookmarkCards: BookmarkCardProps[] = [
     showAcornStamp: false,
     categoryId: 'frontend',
   },
-  // 테스트 케이스 7: 긴 메모 테스트
   {
     id: 'bookmark-7',
     title: '긴 메모 테스트 카드',
     memo: '이것은 매우 긴 메모입니다. 메모가 길어질 때 텍스트가 어떻게 표시되는지 확인하기 위한 테스트입니다. 메모 영역의 높이가 고정되어 있으므로 긴 텍스트는 잘릴 수 있습니다.',
     image: 'https://placehold.co/253x130',
     savedAt: '2025. 07. 06 저장됨',
-    isRead: true,
+    isRead: false,
     showAcornStamp: false,
     categoryId: 'devops',
   },
-  // 테스트 케이스 8: 특수문자 테스트
   {
     id: 'bookmark-8',
     title: '특수문자 테스트 카드 !@#$%^&*()',
@@ -110,6 +102,26 @@ export const mockBookmarkCards: BookmarkCardProps[] = [
     isRead: true,
     showAcornStamp: false,
     categoryId: 'frontend',
+  },
+  {
+    id: 'bookmark-9',
+    title: '새로 추가된 읽지 않은 카드',
+    memo: '이 카드는 아직 읽지 않은 상태입니다.',
+    image: 'https://placehold.co/253x130',
+    savedAt: '2025. 07. 04 저장됨',
+    isRead: false,
+    showAcornStamp: false,
+    categoryId: 'frontend',
+  },
+  {
+    id: 'bookmark-10',
+    title: '읽은 상태의 카드',
+    memo: '이 카드는 이미 읽은 상태입니다.',
+    image: 'https://placehold.co/253x130',
+    savedAt: '2025. 07. 03 저장됨',
+    isRead: true,
+    showAcornStamp: false,
+    categoryId: 'backend',
   },
 ];
 
@@ -241,6 +253,22 @@ export const mockDailyReminderCards: DailyReminderCardProps[] = [
     images: ['https://placehold.co/253x130'],
     savedAt: '2025. 07. 27 저장됨',
     showAcornStamp: false,
+  },
+  {
+    id: 'reminder-17',
+    title: '썸네일 없는 리마인드 테스트',
+    memo: '이 리마인드 카드는 썸네일이 없는 경우를 테스트하기 위한 것입니다. 썸네일이 없을 때 빈 이미지가 표시되어야 합니다.',
+    images: [],
+    savedAt: '2025. 07. 28 저장됨',
+    showAcornStamp: false,
+  },
+  {
+    id: 'reminder-18',
+    title: '썸네일 없는 긴 메모 테스트',
+    memo: '이것은 매우 긴 메모입니다. 메모가 길어질 때 텍스트가 어떻게 표시되는지 확인하기 위한 테스트입니다. 메모 영역의 높이가 고정되어 있으므로 긴 텍스트는 잘릴 수 있습니다. 이 메모는 3줄을 넘어가므로 말줄임표가 표시되어야 합니다.',
+    images: undefined,
+    savedAt: '2025. 07. 29 저장됨',
+    showAcornStamp: true,
   },
 ];
 

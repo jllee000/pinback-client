@@ -1,8 +1,22 @@
-import arrowUp from '/src/assets/icons/ui/arrow-up.svg';
+import arrowUp from '@assets/icons/ui/arrow-up.svg';
 import { AllViewButtonProps } from '@shared/types';
 import { UI_TEXT } from '@pages/dashboard/constants';
 
 const AllViewButton = ({ onClick, isExpanded = false }: AllViewButtonProps) => {
+  const getArrowRotation = () => {
+    if (isExpanded) {
+      return 'rotate-180';
+    }
+    return '';
+  };
+
+  const getButtonText = () => {
+    if (isExpanded) {
+      return UI_TEXT.button.collapse;
+    }
+    return UI_TEXT.button.allView;
+  };
+
   return (
     <button
       type="button"
@@ -13,11 +27,11 @@ const AllViewButton = ({ onClick, isExpanded = false }: AllViewButtonProps) => {
         <img
           src={arrowUp}
           alt="화살표"
-          className={`h-[2.8rem] w-[2.8rem] ${isExpanded ? 'rotate-180' : ''}`}
+          className={`h-[2.8rem] w-[2.8rem] ${getArrowRotation()}`}
         />
       </div>
       <div className="text-gray700 sub4-sb flex items-baseline">
-        {isExpanded ? UI_TEXT.button.collapse : UI_TEXT.button.allView}
+        {getButtonText()}
       </div>
     </button>
   );

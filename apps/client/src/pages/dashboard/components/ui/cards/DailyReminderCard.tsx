@@ -1,8 +1,8 @@
 import { cva, type VariantProps } from 'class-variance-authority';
-import bookmarkCardAcorn from '/src/assets/characters/acorn/bookmark-card.svg';
-import icDetailsWhite from '/src/assets/icons/ui/details-white.svg';
-import emptyMemo from '/src/assets/illustrations/empty-states/memo.svg';
-import acornStamp from '/src/assets/characters/acorn/stamp.svg';
+import bookmarkCardAcorn from '@assets/characters/acorn/bookmark-card.svg';
+import icDetailsWhite from '@assets/icons/ui/details-white.svg';
+import emptyMemo from '@assets/illustrations/empty-states/memo.svg';
+import acornStamp from '@assets/characters/acorn/stamp.svg';
 import Thumbnail from '@pages/dashboard/components/ui/cards/Thumbnail';
 import { CARD_CLASSES } from '@shared/utils/styleUtils';
 import { cn } from '@shared/utils/cn';
@@ -97,25 +97,33 @@ const DailyReminderCard = ({
       </div>
 
       <div className={CARD_CLASSES.dailyBody}>
-        <div className="mb-[1.8rem]">
-          <Thumbnail
-            src={images && images.length > 0 ? images[0] : undefined}
-            alt="데일리 리마인드 썸네일"
-          />
-        </div>
-
-        <div className={CARD_CLASSES.textArea}>
-          <div className={CARD_CLASSES.title}>{title}</div>
-          <div className={cn(dailyMemoVariants({ hasMemo: !!memo }))}>
-            {memo ? (
-              <div className={CARD_CLASSES.memoInner}>{memo}</div>
-            ) : (
-              <img
-                src={emptyMemo}
-                alt="메모가 텅 비었어요"
-                className="h-auto w-auto"
-              />
+        <div className="flex flex-col items-center">
+          <div
+            className={cn(
+              CARD_CLASSES.thumbnail,
+              images && images.length > 0 ? 'bg-gray100' : '',
+              'mb-[1.8rem]'
             )}
+          >
+            <Thumbnail
+              src={images && images.length > 0 ? images[0] : undefined}
+              alt="데일리 리마인드 썸네일"
+            />
+          </div>
+
+          <div className={CARD_CLASSES.textArea}>
+            <div className={CARD_CLASSES.title}>{title}</div>
+            <div className={cn(dailyMemoVariants({ hasMemo: !!memo }))}>
+              {memo ? (
+                <div className={CARD_CLASSES.memoInner}>{memo}</div>
+              ) : (
+                <img
+                  src={emptyMemo}
+                  alt="메모가 텅 비었어요"
+                  className="h-auto w-auto"
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

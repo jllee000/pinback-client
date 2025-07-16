@@ -26,17 +26,12 @@ const Modal = ({ isOpen, onClose, children, className = '' }: ModalProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className={className} // fixed, left, top, z-index 등 모두 여기서 처리
       role="dialog"
       aria-modal="true"
+      onClick={onClose}
     >
-      <div
-        className="absolute inset-0 bg-black/60"
-        onClick={onClose}
-        aria-label="모달 닫기"
-      />
-
-      <div className={`${className}`} onClick={(e) => e.stopPropagation()}>
+      <div onClick={(e) => e.stopPropagation()}>
         <div>{children}</div>
       </div>
     </div>

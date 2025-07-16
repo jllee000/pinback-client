@@ -1,41 +1,15 @@
 import { memo } from 'react';
-import { useServerTimer } from '@shared/hooks/useServerTimer';
+import { useTimer } from '@pages/dashboard/hooks/useTimer';
 
 interface TimerProps {
   onComplete?: () => void;
+  reminderHour?: number;
 }
 
-const Timer = ({ onComplete }: TimerProps) => {
-  const { formattedTime, isLoading, error, timerState } =
-    useServerTimer(onComplete);
+const Timer = ({ onComplete: _onComplete, reminderHour = 9 }: TimerProps) => {
+  const timeLeft = useTimer({ reminderHour });
 
-  const getTimerText = () => {
-    if (isLoading) {
-      return '로딩 중...';
-    }
-    if (error) {
-      return '시간 로드 실패';
-    }
-    if (timerState.isExpired) {
-      return '타이머 완료';
-    }
-    return formattedTime;
-  };
-
-  const getTimerColor = () => {
-    if (isLoading) {
-      return 'text-gray400';
-    }
-    if (error) {
-      return 'text-error400';
-    }
-    if (timerState.isExpired) {
-      return 'text-gray400';
-    }
-    return 'text-gray400';
-  };
-
-  return <span className={`sub3-m ${getTimerColor()}`}>{getTimerText()}</span>;
+  return <span>{timeLeft}</span>;
 };
 
 export default memo(Timer);

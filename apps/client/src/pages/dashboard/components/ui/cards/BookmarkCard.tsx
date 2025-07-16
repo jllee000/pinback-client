@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority';
-import icDetails from '/src/assets/icons/ui/details.svg';
-import emptyMemo from '/src/assets/illustrations/empty-states/memo.svg';
+import icDetails from '@assets/icons/ui/details.svg';
+import emptyMemo from '@assets/illustrations/empty-states/memo.svg';
 import Thumbnail from '@pages/dashboard/components/ui/cards/Thumbnail';
 import { CARD_CLASSES } from '@shared/utils/styleUtils';
 import { cn } from '@shared/utils/cn';
@@ -55,7 +55,9 @@ const BookmarkCard = ({
     <div className={cn(bookmarkCardVariants({ isRead }))}>
       <div className="mb-[1.8rem] flex w-full items-center justify-between">
         <div className="inline-flex w-64 flex-col items-start justify-start gap-4">
-          <div className={`${CARD_CLASSES.thumbnail} bg-gray100`}>
+          <div
+            className={cn(CARD_CLASSES.thumbnail, image ? 'bg-gray100' : '')}
+          >
             <Thumbnail src={image} alt="북마크 썸네일" />
           </div>
 

@@ -1,5 +1,5 @@
-import informationSvg from '/src/assets/illustrations/empty-states/information.svg';
-import urlSvg from '/src/assets/illustrations/empty-states/url.svg';
+import informationSvg from '@assets/illustrations/empty-states/information.svg';
+import urlSvg from '@assets/illustrations/empty-states/url.svg';
 
 export const EMPTY_STATE_PRESETS = {
   url: {

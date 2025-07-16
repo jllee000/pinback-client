@@ -49,3 +49,7 @@ export interface BookmarkResponse {
   totalCount: number;
   hasMore: boolean;
 }
+
+export interface AcornCountResponse {
+  acornCount: number;
+}

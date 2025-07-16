@@ -4,29 +4,30 @@ import type {
   ReminderTimerResponse,
   DailyReminderResponse,
   BookmarkResponse,
+  AcornCountResponse,
 } from '@shared/types';
 
 export const getServerTime = async (): Promise<ServerTimeResponse> => {
-  const response = await apiRequest.get<ServerTimeResponse>('/api/time');
-  return response.data;
+  const { data } = await apiRequest.get<ServerTimeResponse>('/api/time');
+  return data;
 };
 
 export const getActiveReminderTimer =
   async (): Promise<ReminderTimerResponse | null> => {
-    const response = await apiRequest.get<ReminderTimerResponse | null>(
+    const { data } = await apiRequest.get<ReminderTimerResponse | null>(
       '/api/reminder-timers/active'
     );
-    return response.data;
+    return data;
   };
 
 export const getDailyReminderCards = async (
   limit = 12,
   offset = 0
 ): Promise<DailyReminderResponse> => {
-  const response = await apiRequest.get<DailyReminderResponse>(
+  const { data } = await apiRequest.get<DailyReminderResponse>(
     `/api/daily-reminders?limit=${limit}&offset=${offset}`
   );
-  return response.data;
+  return data;
 };
 
 export const getBookmarkCards = async (
@@ -43,8 +44,13 @@ export const getBookmarkCards = async (
   }
   params.append('offset', offset.toString());
 
-  const response = await apiRequest.get<BookmarkResponse>(
+  const { data } = await apiRequest.get<BookmarkResponse>(
     `/api/bookmarks?${params.toString()}`
   );
-  return response.data;
+  return data;
+};
+
+export const getAcornCount = async (): Promise<AcornCountResponse> => {
+  const { data } = await apiRequest.get<AcornCountResponse>('/api/acorn-count');
+  return data;
 };

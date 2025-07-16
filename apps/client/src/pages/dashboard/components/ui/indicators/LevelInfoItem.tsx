@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import acornLevel from '/src/assets/characters/acorn/level.svg';
+import acornLevel from '@assets/characters/acorn/level.svg';
 import { LEVEL_INFO } from '@pages/dashboard/constants';
 import type { LevelInfoItemProps } from '@shared/types';
 

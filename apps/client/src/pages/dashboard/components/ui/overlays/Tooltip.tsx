@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import polygonSvg from '/src/assets/icons/shapes/polygon.svg';
+import polygonSvg from '@assets/icons/shapes/polygon.svg';
 
 interface TooltipProps {
   children: ReactNode;
