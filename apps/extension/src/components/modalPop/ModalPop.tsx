@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   CategoryDropDown,
   CommonBtn,
@@ -9,13 +9,56 @@ import {
 } from '@pinback/design-system/ui';
 import ModalHeader from './ModalHeader';
 import { POP_TEXTAREA_MAX_LENGTH } from '@constants/index';
+import apiRequest from '../../api/axiosInstance';
 const ModalPop = () => {
+  const [token, setToken] = useState('');
   const [formState, setFormState] = useState({
     date: '',
     dateError: '',
     time: '',
     timeError: '',
   });
+
+  const storeMarks = async () => {
+    try {
+      const response = await apiRequest.get('/api/v1/categories/dashboard', {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('response: ' + JSON.stringify(response));
+    } catch (error) {
+      console.log('signup error: ' + JSON.stringify(error));
+    }
+  };
+  useEffect(() => {
+    const signup = async () => {
+      try {
+        const response = await apiRequest.post(
+          '/api/v1/auth/signup',
+          {
+            email: 'ㄴㅇm',
+            remindDefault: '08:00',
+            fcmToken: 'heㄴㅇsssdfasdf',
+          },
+
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        localStorage.setItem('jwtToken', response.data.data.token);
+        const storageToken = localStorage.getItem('jwtToken');
+        setToken(storageToken ?? '');
+      } catch (error) {
+        console.log('signup error: ' + JSON.stringify(error));
+      }
+    };
+    signup();
+  }, []);
   const handleFieldChange = (
     field: 'date' | 'time',
     value: string,
@@ -42,7 +85,12 @@ const ModalPop = () => {
           />
           <div className="mt-[1.8rem] flex flex-col gap-[1.6rem]">
             <section>
-              <p className="caption2-sb text-gray900 mb-[0.8rem]">카테고리</p>
+              <p
+                className="caption2-sb text-gray900 mb-[0.8rem]"
+                onClick={storeMarks}
+              >
+                카테고리
+              </p>
               <CategoryDropDown
                 size="medium"
                 categories={['기획', '취미', '요리']}

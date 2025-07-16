@@ -25,7 +25,6 @@ apiRequest.interceptors.request.use(async (config) => {
   let token = localStorage.getItem('jwtToken');
   if (!isNoAuth) {
     if (!token || token === 'undefined') {
-      // 임시 이메일 넣기! 대신 회원인 애로
       token = await fetchToken('test@gmail.com');
     }
     config.headers.Authorization = `Bearer ${token}`;
@@ -48,7 +47,6 @@ apiRequest.interceptors.response.use(
       !isNoAuth
     ) {
       originalRequest._retry = true;
-      // 임시 이메일 넣기! 대신 회원인 애로
       const newToken = await fetchToken('test@gmail.com');
       originalRequest.headers.Authorization = `Bearer ${newToken}`;
       return apiRequest(originalRequest);

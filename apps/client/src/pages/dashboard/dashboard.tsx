@@ -1,6 +1,5 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Header } from '@shared/components';
-import { useState } from 'react';
 import {
   DailyReminderSection,
   BookmarkSection,
@@ -8,6 +7,7 @@ import {
 import { useDashboard } from '@pages/dashboard/hooks/useDashboard';
 import { mockBookmarkCards } from '@pages/dashboard/mockData';
 import type { BookmarkCardProps } from '@pages/dashboard/mockData';
+
 import ModalPop from '@/shared/components/ui/modalPop/ModalPop';
 const CATEGORY_LIST = [
   { id: 'unread', text: '안 읽은 정보' },
@@ -37,6 +37,7 @@ const Dashboard = () => {
   } = useDashboard();
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const hasBookmarks = mockBookmarkCards.length > 0;
+  const [token, setToken] = useState('');
 
   const categories = useMemo(() => {
     if (mockBookmarkCards.length === 0) {
