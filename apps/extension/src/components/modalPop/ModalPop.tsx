@@ -115,14 +115,12 @@ const ModalPop = () => {
                   specie="date"
                   value={formState.date}
                   onChange={(val, err) => handleFieldChange('date', val, err)}
-                  setErrorMessage={() => {}}
                 />
                 <TimePicker
                   size="medium"
                   specie="time"
                   value={formState.time}
                   onChange={(val, err) => handleFieldChange('time', val, err)}
-                  setErrorMessage={() => {}}
                 />
               </div>
               {(formState.dateError || formState.timeError) && (

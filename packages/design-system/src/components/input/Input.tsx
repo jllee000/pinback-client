@@ -10,7 +10,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const inputBorderVariants = cva(
-      'w-full rounded-[0.6rem] border caption2-m px-[1.4rem] py-[1.2rem] transition-colors',
+  'w-full rounded-[0.6rem] border caption2-m px-[1.4rem] py-[1.2rem] transition-colors',
   {
     variants: {
       isError: {

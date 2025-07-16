@@ -2,11 +2,14 @@
   "name": "pinback-client",
   "private": true,
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write .",
+    "lint:fix": "pnpm --filter client lint --fix && pnpm --filter extension lint --fix && pnpm --filter landing lint --fix",
+    "fix-all": "pnpm format && pnpm lint:fix",
+    "check-all": "pnpm format && pnpm lint:fix && pnpm build",
+    "preview": "turbo run preview"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
