@@ -1,111 +1,155 @@
-import React from 'react';
+import { useRef, useState } from 'react';
 import { Icon } from '@pinback/design-system/icons';
+import { CommonBtn } from '@pinback/design-system/ui';
+import { Input } from '@pinback/design-system/ui';
 
 type Mode = 'add' | 'edit' | 'delete';
 
 interface TextfieldPopupProps {
   mode: Mode;
   value?: string;
+  existingCategories?: string[]; // 중복 확인용
   onCancel?: () => void;
-  onConfirm: (value?: string) => void;
+  onConfirm?: (value?: string) => void;
   onDelete?: () => void;
 }
 
 const TextfieldPopup = ({
   mode,
   value = '',
+  existingCategories = [],
   onCancel,
   onConfirm,
   onDelete,
 }: TextfieldPopupProps) => {
-  const [inputValue, setInputValue] = React.useState(value);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isError, setIsError] = useState(false);
+  const [helperText, setHelperText] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  const handleInput = () => {
+    const val = inputRef.current?.value.trim() ?? '';
+    setIsButtonDisabled(val === '');
+  };
+
+  const getInputValue = () => inputRef.current?.value.trim() ?? '';
+
+  const validate = () => {
+    const input = getInputValue();
+
+    if (input.length > 10) {
+      setIsError(true);
+      setHelperText('10자 이하로 입력해주세요');
+      return false;
+    }
+
+    // 현재 수정 모드라면 동일한 값은 허용
+    const isSameAsInitial = input === value.trim();
+    const isDuplicate = existingCategories.includes(input);
+
+    if (!isSameAsInitial && isDuplicate) {
+      setIsError(true);
+      setHelperText('이미 존재하는 카테고리에요');
+      return false;
+    }
+
+    setIsError(false);
+    setHelperText('');
+    return true;
+  };
+
+  const handleConfirm = () => {
+    if (validate()) {
+      onConfirm?.(getInputValue());
+    }
+  };
+
+  const renderForm = (heading: string, showDelete?: boolean) => (
+    <div className="relative flex flex-col gap-[1.6rem]">
+      {mode === 'edit' && (
+        <Icon
+          name="close-button"
+          width={24}
+          height={24}
+          className="absolute right-0 top-0 cursor-pointer"
+          onClick={onCancel}
+        />
+      )}
+      <p className="sub7-sb text-center text-gray-900">{heading}</p>
+      <Input
+        ref={inputRef}
+        defaultValue={value}
+        placeholder="카테고리 이름 입력"
+        isError={isError}
+        helperText={helperText}
+        onInput={handleInput}
+      />
+      <div className="flex justify-between gap-[1.6rem]">
+        {showDelete ? (
+          <>
+            <CommonBtn
+              size="Xsmall"
+              type="white"
+              text="삭제"
+              onClick={onDelete}
+            />
+            <CommonBtn
+              size="Xsmall"
+              type="green"
+              disabled={isButtonDisabled}
+              text="수정"
+              onClick={handleConfirm}
+            />
+          </>
+        ) : (
+          <>
+            <CommonBtn
+              size="Xsmall"
+              type="white"
+              text="취소"
+              onClick={onCancel}
+            />
+            <CommonBtn
+              size="Xsmall"
+              type="green"
+              text="확인"
+              onClick={handleConfirm}
+              disabled={isButtonDisabled}
+            />
+          </>
+        )}
+      </div>
+    </div>
+  );
 
   const renderContent = () => {
     switch (mode) {
       case 'add':
-        return (
-          <div className="flex flex-col gap-[1.6rem]">
-            <h2 className="sub7-sb text-center text-gray-900">
-              새로운 카테고리 추가하기
-            </h2>
-            <input
-              className="h-[4.2rem] rounded border border-gray-300 px-3"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="카테고리 이름 입력"
-            />
-            <div className="flex justify-between">
-              <button
-                className="h-[4rem] w-[10.2rem] text-gray-900"
-                onClick={onCancel}
-              >
-                취소
-              </button>
-              <button
-                className="bg-main400 h-[4rem] w-[10.2rem] rounded text-white"
-                onClick={() => onConfirm(inputValue)}
-              >
-                확인
-              </button>
-            </div>
-          </div>
-        );
+        return renderForm('새로운 카테고리 추가하기');
       case 'edit':
-        return (
-          <div className="relative flex flex-col gap-[1.6rem]">
-            <Icon
-              name="close-button"
-              width={24}
-              height={24}
-              className="absolute right-0 top-0 cursor-pointer"
-              onClick={onCancel}
-            />
-            <h2 className="sub7-sb text-center text-gray-900">
-              카테고리 수정하기
-            </h2>
-            <input
-              className="h-[4.2rem] rounded border border-gray-300 px-3"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-            <div className="flex justify-between">
-              <button
-                className="h-[4rem] w-[10.2rem] text-gray-900"
-                onClick={onDelete}
-              >
-                삭제
-              </button>
-              <button
-                className="bg-main400 h-[4rem] w-[10.2rem] rounded text-white"
-                onClick={() => onConfirm(inputValue)}
-              >
-                수정
-              </button>
-            </div>
-          </div>
-        );
+        return renderForm('카테고리 수정하기', true);
       case 'delete':
         return (
           <>
-            <h2 className="sub7-sb mb-[1rem] text-center text-gray-900">
+            <p className="sub7-sb mb-[1rem] text-center text-gray-900">
               카테고리를 삭제하시겠어요?
-            </h2>
+            </p>
             <p className="caption2-m mb-[1.6rem] text-center text-gray-500">
               저장한 정보가 모두 사라지게 돼요
             </p>
-            <div className="flex justify-between">
-              <button
-                className="h-[4rem] w-[10.2rem] bg-white text-black"
+            <div className="flex justify-between gap-[1.6rem]">
+              <CommonBtn
+                size="Xsmall"
+                type="white"
+                text="삭제"
                 onClick={onDelete}
-              >
-                삭제
-              </button>
-              <button
-                className="bg-main400 h-[4rem] w-[10.2rem] rounded text-white"
+              />
+              <CommonBtn
+                size="Xsmall"
+                type="green"
+                text="취소"
                 onClick={onCancel}
-              >
-                취소
-              </button>
+              />
             </div>
           </>
         );

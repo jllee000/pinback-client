@@ -1,7 +1,7 @@
-import errorIcon from '../../icons/source/ic_error.svg';
 import { cva } from 'class-variance-authority';
 import { InputHTMLAttributes, Ref } from 'react';
 import { cn } from '../../lib';
+import { Icon } from '@pinback/design-system/icons';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   ref: Ref<HTMLInputElement>;
@@ -45,11 +45,7 @@ const Input = ({
 
       {isError && helperText && (
         <div className="flex items-center gap-[0.2rem]">
-          <img
-            src={errorIcon}
-            alt="error 아이콘"
-            className="h-[1.6rem] w-[1.6rem]"
-          />
+          <Icon name="ic_error" width={16} height={16} color="error400" />
           <p className="text-error400 caption2-m">{helperText}</p>
         </div>
       )}

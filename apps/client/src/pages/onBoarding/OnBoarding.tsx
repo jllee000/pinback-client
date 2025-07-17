@@ -21,6 +21,7 @@ const OnBoarding = () => {
   return (
     <div>
       <Header />
+
       <Funnel>
         <Step name={STEP.STORY}>
           <StoryStep setStep={setStep} />

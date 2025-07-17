@@ -1,5 +1,4 @@
 import { useState } from 'react';
-// import { Icon } from '@pinback/design-system/icons';
 import { Icon } from '@pinback/design-system/icons';
 import { cva } from 'class-variance-authority';
 
@@ -31,7 +30,17 @@ interface CategoryDropDownProps {
   categories: string[];
 }
 
-const CategoryDropDown = ({ size, categories }: CategoryDropDownProps) => {
+interface CategoryDropDownProps {
+  size?: 'large' | 'medium';
+  categories: string[];
+  onSelect?: (value: string) => void;
+}
+
+const CategoryDropDown = ({
+  size,
+  categories,
+  onSelect,
+}: CategoryDropDownProps) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(
     categories.length > 0 ? categories[0] : ''
@@ -40,12 +49,16 @@ const CategoryDropDown = ({ size, categories }: CategoryDropDownProps) => {
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
     setIsDropDownOpen(false);
+    // onSelect?.(category);
   };
+
   return (
     <div className={categoryDropdownVariants({ size })}>
       <div
         onClick={() => setIsDropDownOpen((prev) => !prev)}
-        className={`${isDropDownOpen ? 'border-main400' : 'border-gray-100'} flex w-full items-center justify-between rounded-[1rem] border border-solid bg-white px-[2rem] py-[1rem]`}
+        className={`${
+          isDropDownOpen ? 'border-main400' : 'border-gray-100'
+        } flex w-full items-center justify-between rounded-[1rem] border border-solid bg-white px-[2rem] py-[1rem]`}
       >
         <div className={categoryFontVariants({ size })}>{selectedCategory}</div>
         <span>
@@ -65,7 +78,7 @@ const CategoryDropDown = ({ size, categories }: CategoryDropDownProps) => {
             {categories.map((category, index) => (
               <div
                 className="hover:bg-main200 group flex cursor-pointer items-center justify-between rounded-[0.3rem] p-[0.6rem] hover:text-white"
-                key={`category-${index}`}
+                key={`${category}-${index}`}
                 onClick={() => handleCategoryClick(category)}
               >
                 <span
@@ -73,7 +86,14 @@ const CategoryDropDown = ({ size, categories }: CategoryDropDownProps) => {
                 >
                   {category}
                 </span>
-                <div className="relative h-[1.8rem] w-[1.8rem]">
+                <div
+                  className="relative h-[1.8rem] w-[1.8rem]"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelect?.('edit');
+                    setIsDropDownOpen(false);
+                  }}
+                >
                   <Icon
                     name="default_order"
                     width={18}
@@ -90,7 +110,14 @@ const CategoryDropDown = ({ size, categories }: CategoryDropDownProps) => {
               </div>
             ))}
           </div>
-          <p className="mt-[1rem] flex items-center gap-[0.5rem]">
+
+          <p
+            className="mt-[1rem] flex items-center gap-[0.5rem]"
+            onClick={() => {
+              setIsDropDownOpen(false);
+              onSelect?.('create');
+            }}
+          >
             <Icon name="plus_icon" width={18} height={18} />
             <span
               className={`text-main400 cursor-pointer ${categoryFontVariants({ size })}`}
