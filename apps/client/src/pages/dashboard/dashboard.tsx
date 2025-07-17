@@ -1,15 +1,15 @@
-import { useMemo, useState } from 'react';
-import { Header } from '@shared/components';
+import { POP_UP_AREA_Z_INDEX } from '@/constants';
+import ModalPop from '@/shared/components/ui/modalPop/ModalPop';
 import {
-  DailyReminderSection,
-  BookmarkSection,
   BannerSection,
+  BookmarkSection,
+  DailyReminderSection,
 } from '@pages/dashboard/components';
 import { useDashboard } from '@pages/dashboard/hooks/useDashboard';
-import { mockBookmarkCards } from '@pages/dashboard/mockData';
 import type { BookmarkCardProps } from '@pages/dashboard/mockData';
-import { onSigninSuccess } from '@/shared/utils/sendToken';
-import ModalPop from '@/shared/components/ui/modalPop/ModalPop';
+import { mockBookmarkCards } from '@pages/dashboard/mockData';
+import { Header } from '@shared/components';
+import { useMemo, useState } from 'react';
 const CATEGORY_LIST = [
   { id: 'unread', text: '안 읽은 정보' },
   { id: 'all', text: '전체' },
@@ -18,7 +18,6 @@ const CATEGORY_LIST = [
   { id: 'design', text: '디자인' },
   { id: 'devops', text: 'DevOps' },
 ];
-import { POP_UP_AREA_Z_INDEX } from '@/constants';
 function getCategoryCount(cards: BookmarkCardProps[], id: string): number {
   if (id === 'unread') {
     return cards.filter((card) => !card.isRead).length;
@@ -57,10 +56,7 @@ const Dashboard = () => {
     setIsPopUpOpen(true);
   };
   return (
-    <div
-      className="bg-background flex min-h-screen flex-col items-center"
-      onClick={() => onSigninSuccess('여기다가 토큰 넣어주세용가링가링')}
-    >
+    <div className="bg-background flex min-h-screen flex-col items-center">
       {isPopUpOpen && (
         <div
           className={`absolute z-${POP_UP_AREA_Z_INDEX} flex h-[100dvh] w-full items-center justify-center bg-[#0000005b]`}

@@ -1,16 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
-import { STEP } from '@pages/onBoarding/types';
-import { Icon } from '@pinback/design-system/icons';
-import OnBoardingTimePicker from '@pages/onBoarding/components/OnboardingTimePicker';
+import { firebaseConfig } from '@/firebase-config';
+import { usePostSignUp } from '@/pages/onBoarding/apis/queries';
+import { STEP } from '@/pages/onBoarding/types';
+import { onSigninSuccess } from '@/shared/utils/sendToken';
 import OnboardingNavButton from '@pages/onBoarding/components/OnboardingNavButton';
+import OnBoardingTimePicker from '@pages/onBoarding/components/OnboardingTimePicker';
 import { getFormattedSelectedTime } from '@pages/onBoarding/utils/formatSelectedTime';
+import { Icon } from '@pinback/design-system/icons';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken } from 'firebase/messaging';
-import { firebaseConfig } from '@/firebase-config';
+import { useEffect, useRef, useState } from 'react';
 
 interface TimeSelectStepProps {
   setStep: (step: string) => void;
   os: string;
+  email: string | null;
 }
 
 const TIME_PRESETS = [
@@ -18,13 +21,14 @@ const TIME_PRESETS = [
   { key: 'evening', label: '저녁형 치삐', time: '오후 8시' },
 ];
 
-const TimeSelectStep = ({ setStep, os }: TimeSelectStepProps) => {
+const TimeSelectStep = ({ setStep, os, email }: TimeSelectStepProps) => {
   const [selectedTime, setSelectedTime] = useState<string | null>('morning');
   const [selectedCustomTime, setSelectedCustomTime] = useState<string | null>(
     null
   );
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
+  const { mutate: signUp } = usePostSignUp();
 
   // Firebase 초기화
   const app = initializeApp(firebaseConfig);
@@ -45,12 +49,20 @@ const TimeSelectStep = ({ setStep, os }: TimeSelectStepProps) => {
       });
 
       if (token) {
-        console.log('FCM 토큰:', token);
-        console.log('최종 시간:', finalTime);
-        // email까지 3개를
-        // 서버로 보내면 됩니다.
+        signUp(
+          { email, finalTime, token },
+          {
+            onSuccess: (response) => {
+              onSigninSuccess(response.data.token);
+              setStep(os === 'macos' ? STEP.MAC_USER_NOTICE : STEP.WELCOME);
+            },
+            onError: () => {
+              alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+            },
+          }
+        );
       } else {
-        alert('토큰 생성 실패...');
+        alert('토큰 생성 실패. 다시 시도해주세요.');
       }
     } catch (e) {
       console.error('FCM 토큰 받는 도중 오류:', e);
@@ -69,7 +81,6 @@ const TimeSelectStep = ({ setStep, os }: TimeSelectStepProps) => {
         (selectedTime === 'custom' && selectedCustomTime))
     ) {
       handleAllowNotification(finalTime);
-      setStep(os === 'macos' ? STEP.MAC_USER_NOTICE : STEP.WELCOME);
     }
   };
 

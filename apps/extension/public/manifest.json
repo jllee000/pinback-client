@@ -12,9 +12,7 @@
     "identity",
     "identity.email",
     "scripting",
-    "bookmarks",
-    "http://*/",
-    "https://*/"
+    "bookmarks"
   ],
   "host_permissions": ["<all_urls>"],
   "icons": {

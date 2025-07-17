@@ -20,7 +20,7 @@ const fetchToken = async (email?: string) => {
 };
 
 apiRequest.interceptors.request.use(async (config) => {
-  const noAuthNeeded = ['/api/v1/auth/token', '/api/v1/auth/signin'];
+  const noAuthNeeded = ['/api/v1/auth/token', '/api/v1/auth/signup'];
   const isNoAuth = noAuthNeeded.some((url) => config.url?.includes(url));
   let token = localStorage.getItem('jwtToken');
   if (!isNoAuth) {
@@ -37,7 +37,7 @@ apiRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    const noAuthNeeded = ['/api/v1/auth/token', '/api/v1/auth/signin'];
+    const noAuthNeeded = ['/api/v1/auth/token', '/api/v1/auth/signup'];
     const isNoAuth = noAuthNeeded.some((url) =>
       originalRequest.url?.includes(url)
     );
