@@ -1,4 +1,4 @@
-import { SectionTitleProps } from '@shared/types';
+import type { SectionTitleProps } from '@pages/dashboard/types/components';
 
 const SectionTitle = ({
   text,

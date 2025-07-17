@@ -1,5 +1,5 @@
 import arrowUp from '@assets/icons/ui/arrow-up.svg';
-import { AllViewButtonProps } from '@shared/types';
+import type { AllViewButtonProps } from '@pages/dashboard/types/components';
 import { UI_TEXT } from '@pages/dashboard/constants';
 
 const AllViewButton = ({ onClick, isExpanded = false }: AllViewButtonProps) => {

@@ -1,1 +1,1 @@
-export { useServerTimer } from '@shared/hooks/useServerTimer';
+export { default as useFunnel } from './useFunnel';

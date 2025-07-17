@@ -38,7 +38,6 @@ const ModalPop = ({ onClose }: ModalPopProps) => {
           size="large"
           title="집에서 할 수 있는"
           location="네이버 블로그"
-          icon="https://play-lh.googleusercontent.com/rdmNKWDpwdzP-UBlrKQqVWwOm0vnvXg8lOD4vRQJQm8AR2lK2BBAGbrPzlDfI9lWyQ"
         />
         <section className="mt-[0.4rem]">
           <p className="sub5-sb text-gray900 mb-[1.2rem]">카테고리</p>

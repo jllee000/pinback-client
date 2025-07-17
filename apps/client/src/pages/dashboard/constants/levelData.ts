@@ -4,7 +4,6 @@ import chippyLevel3 from '@assets/characters/chippy/level-3.svg';
 import chippyLevel4 from '@assets/characters/chippy/level-4.svg';
 import chippyLevel5 from '@assets/characters/chippy/level-5.svg';
 
-// 최대 도토리 개수 (마지막 단계 기준)
 export const MAX_ACORN_COUNT = 7;
 
 export const CHIPPY_LEVELS = [

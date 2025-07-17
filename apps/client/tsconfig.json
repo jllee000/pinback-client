@@ -14,10 +14,7 @@
       "@routes/*": ["src/routes/*"],
       "@constants/*": ["src/constants/*"],
       "@assets": ["src/assets"],
-      "@assets/*": [
-        "src/assets/*",
-        "src/pages/dashboard/assets/*"
-      ]
+      "@assets/*": ["src/assets/*", "src/pages/dashboard/assets/*"]
     }
   },
   "include": ["src", "vite.config.ts", "public/firebase-messaging-sw.js"],

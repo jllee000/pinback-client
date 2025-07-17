@@ -1,60 +1,104 @@
 import { POP_UP_AREA_Z_INDEX } from '@/constants';
 import ModalPop from '@/shared/components/ui/modalPop/ModalPop';
+import { Header } from '@shared/components';
 import {
   BannerSection,
   BookmarkSection,
   DailyReminderSection,
 } from '@pages/dashboard/components';
 import { useDashboard } from '@pages/dashboard/hooks/useDashboard';
-import type { BookmarkCardProps } from '@pages/dashboard/mockData';
-import { mockBookmarkCards } from '@pages/dashboard/mockData';
-import { Header } from '@shared/components';
-import { useMemo, useState } from 'react';
-const CATEGORY_LIST = [
-  { id: 'unread', text: '안 읽은 정보' },
-  { id: 'all', text: '전체' },
-  { id: 'frontend', text: '프론트엔드' },
-  { id: 'backend', text: '백엔드' },
-  { id: 'design', text: '디자인' },
-  { id: 'devops', text: 'DevOps' },
-];
-function getCategoryCount(cards: BookmarkCardProps[], id: string): number {
-  if (id === 'unread') {
-    return cards.filter((card) => !card.isRead).length;
-  }
-  if (id === 'all') {
-    return cards.length;
-  }
-  return cards.filter((card) => card.categoryId === id).length;
-}
+import type { Category } from '@pages/dashboard/types/api';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   const {
     activeCategory,
     isAllViewExpanded,
     acornCount,
+    categoriesData,
+    unreadArticlesData,
+    dailyReminderData,
+    categoryArticlesData,
+    categoryTotalCounts,
+    acornData,
+    isLoadingUnreadArticles,
+    isLoadingDailyReminder,
+    isLoadingCategoryArticles,
     handleCategoryClick,
     handleAllViewClick,
+    handleArticleRead,
+    setIsInitialized,
   } = useDashboard();
-  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
-  const hasBookmarks = mockBookmarkCards.length > 0;
 
-  const categories = useMemo(() => {
-    if (mockBookmarkCards.length === 0) {
-      return [{ id: 'unread', text: '안 읽은 정보', count: 0 }];
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+
+  // 토큰 체크 및 온보딩 리다이렉트
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+
+    if (!token || token === 'undefined' || token === 'null' || token === '') {
+      navigate('/onboarding');
+      return;
     }
-    return CATEGORY_LIST.map((cat) => ({
-      ...cat,
-      count: getCategoryCount(mockBookmarkCards, cat.id),
-    }));
-  }, [mockBookmarkCards]);
+
+    setIsInitialized(true);
+  }, [navigate, setIsInitialized]);
+
+  // 모달 팝업이 열릴 때 스크롤 고정
+  useEffect(() => {
+    if (isPopUpOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // 컴포넌트 언마운트 시 스크롤 복원
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isPopUpOpen]);
+
+  const hasDailyReminders =
+    (dailyReminderData?.data?.articles?.length || 0) > 0;
+
+  const categories: Category[] = categoriesData?.data?.categories || [];
+  const totalUnreadArticle = unreadArticlesData?.data?.totalUnreadArticle || 0;
+
+  const remindDateTime = acornData?.data?.remindDateTime;
+
+  const getCurrentArticles = () => {
+    if (categoryArticlesData?.data?.articles) {
+      return categoryArticlesData.data.articles;
+    }
+    return unreadArticlesData?.data?.articles || [];
+  };
+
+  const currentArticles = getCurrentArticles();
+
+  const getCurrentTotalCount = () => {
+    if (categoryArticlesData?.data?.totalArticle !== undefined) {
+      return categoryArticlesData.data.totalArticle;
+    }
+    return totalUnreadArticle;
+  };
+
+  const currentTotalCount = getCurrentTotalCount();
+  const currentIsLoading = isLoadingCategoryArticles || isLoadingUnreadArticles;
 
   const getBookmarkSectionMargin = () => {
-    return hasBookmarks ? 'mt-[14rem]' : '';
+    if (hasDailyReminders) {
+      return 'mt-[14rem]';
+    }
+    return 'mt-[7.7rem]';
   };
+
   const onPopUpOpen = () => {
     setIsPopUpOpen(true);
   };
+
   return (
     <div className="bg-background flex min-h-screen flex-col items-center">
       {isPopUpOpen && (
@@ -70,26 +114,38 @@ const Dashboard = () => {
       <Header />
 
       <main
-        className={`${isPopUpOpen ? 'fixed' : 'relative'} mx-auto w-[144rem] pt-[9.6rem]`}
+        className={`${isPopUpOpen ? 'fixed' : 'relative'} mx-auto w-[144rem]`}
       >
         <BannerSection
           acornCount={acornCount}
           className="mt-[7.4rem]"
-        ></BannerSection>
-        <div className="px-[11.9rem] pb-[3.6rem] pr-[12rem]">
-          {hasBookmarks && (
-            <DailyReminderSection handlePopUpOpen={onPopUpOpen} />
+          remindDateTime={remindDateTime}
+        />
+        <div className="mt-[7.7rem] px-[11.9rem] pb-[3.6rem] pr-[12rem]">
+          {hasDailyReminders && (
+            <DailyReminderSection
+              articles={dailyReminderData?.data?.articles}
+              onArticleRead={handleArticleRead}
+              isLoading={isLoadingDailyReminder}
+              handlePopUpOpen={onPopUpOpen}
+            />
           )}
-          <div className={getBookmarkSectionMargin()}></div>
-          <BookmarkSection
-            activeCategory={activeCategory}
-            categories={categories}
-            bookmarks={mockBookmarkCards}
-            onCategoryClick={handleCategoryClick}
-            onAllViewClick={handleAllViewClick}
-            isAllViewExpanded={isAllViewExpanded}
-            handlePopUpOpen={onPopUpOpen}
-          />
+          <div className={getBookmarkSectionMargin()}>
+            <BookmarkSection
+              activeCategory={activeCategory}
+              categories={categories}
+              bookmarks={currentArticles}
+              onCategoryClick={handleCategoryClick}
+              onAllViewClick={handleAllViewClick}
+              onArticleRead={handleArticleRead}
+              isAllViewExpanded={isAllViewExpanded}
+              isLoading={currentIsLoading}
+              totalUnreadArticle={totalUnreadArticle}
+              totalArticleCount={currentTotalCount}
+              categoryTotalCounts={categoryTotalCounts}
+              handlePopUpOpen={onPopUpOpen}
+            />
+          </div>
         </div>
       </main>
     </div>

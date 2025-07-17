@@ -1,7 +1,7 @@
 import { memo, type KeyboardEvent } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@shared/utils/cn';
-import { CategoryProps } from '@shared/types';
+import type { CategoryProps } from '@pages/dashboard/types/components';
 
 const categoryVariants = cva(
   'inline-flex justify-center items-center rounded-[50px] border cursor-pointer transition-colors',

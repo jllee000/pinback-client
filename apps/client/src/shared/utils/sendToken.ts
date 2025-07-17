@@ -8,7 +8,10 @@ const sendTokenToExtension = (token: string) => {
   );
 };
 
-export const onSigninSuccess = (token: string) => {
+export const onSigninSuccess = (token: string, email?: string) => {
   localStorage.setItem('jwtToken', token);
+  if (email) {
+    localStorage.setItem('userEmail', email);
+  }
   sendTokenToExtension(token);
 };

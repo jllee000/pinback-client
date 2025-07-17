@@ -5,8 +5,14 @@ import Thumbnail from '@pages/dashboard/components/ui/cards/Thumbnail';
 import { CARD_CLASSES } from '@shared/utils/styleUtils';
 import { cn } from '@shared/utils/cn';
 
+const CARD_DIMENSIONS = {
+  width: 'w-[28.3rem]',
+  height: 'h-[36.8rem]',
+  padding: 'px-[1.5rem] py-[2rem]',
+} as const;
+
 const bookmarkCardVariants = cva(
-  'relative w-[28.3rem] px-[1.5rem] py-[2rem] rounded-[1rem] inline-flex flex-col justify-start items-start gap-2.5 h-[36.8rem]',
+  `relative ${CARD_DIMENSIONS.width} ${CARD_DIMENSIONS.padding} rounded-[1rem] inline-flex flex-col justify-start items-start gap-2.5 ${CARD_DIMENSIONS.height}`,
   {
     variants: {
       isRead: {
@@ -38,16 +44,16 @@ const memoVariants = cva(
 export type BookmarkCardVariants = VariantProps<typeof bookmarkCardVariants>;
 
 interface BookmarkCardProps extends BookmarkCardVariants {
-  image?: string;
   memo?: string;
   title: string;
+  url?: string;
   handlePopUpOpen?: () => void;
 }
 
 const BookmarkCard = ({
-  image,
   memo,
   title,
+  url,
   isRead = false,
   handlePopUpOpen,
 }: BookmarkCardProps) => {
@@ -55,10 +61,8 @@ const BookmarkCard = ({
     <div className={cn(bookmarkCardVariants({ isRead }))}>
       <div className="mb-[1.8rem] flex w-full items-center justify-between">
         <div className="inline-flex w-64 flex-col items-start justify-start gap-4">
-          <div
-            className={cn(CARD_CLASSES.thumbnail, image ? 'bg-gray100' : '')}
-          >
-            <Thumbnail src={image} alt="북마크 썸네일" />
+          <div className={CARD_CLASSES.thumbnail}>
+            <Thumbnail alt="북마크 썸네일" url={url} />
           </div>
 
           <div>
@@ -81,7 +85,10 @@ const BookmarkCard = ({
           type="button"
           className="absolute bottom-[2rem] right-[1.8rem] flex items-center justify-center"
           aria-label="더보기"
-          onClick={handlePopUpOpen}
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePopUpOpen?.();
+          }}
         >
           <img
             src={icDetails}

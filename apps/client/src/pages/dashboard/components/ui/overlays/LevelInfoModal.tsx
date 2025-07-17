@@ -1,6 +1,6 @@
 import Modal from '@pages/dashboard/components/ui/feedback/Modal';
 import LevelInfoSection from '@pages/dashboard/components/sections/LevelInfoSection';
-import type { LevelInfoModalProps } from '@shared/types';
+import type { LevelInfoModalProps } from '@pages/dashboard/types/components';
 import { createPortal } from 'react-dom';
 
 interface Props extends LevelInfoModalProps {

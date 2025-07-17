@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ModalProps } from '@shared/types';
+import type { ModalProps } from '@pages/dashboard/types/components';
 
 const Modal = ({ isOpen, onClose, children, className = '' }: ModalProps) => {
   useEffect(() => {
@@ -26,10 +26,10 @@ const Modal = ({ isOpen, onClose, children, className = '' }: ModalProps) => {
 
   return (
     <div
-      className={className} // fixed, left, top, z-index 등 모두 여기서 처리
       role="dialog"
       aria-modal="true"
       onClick={onClose}
+      className={className}
     >
       <div onClick={(e) => e.stopPropagation()}>
         <div>{children}</div>

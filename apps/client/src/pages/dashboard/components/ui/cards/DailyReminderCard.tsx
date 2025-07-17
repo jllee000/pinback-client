@@ -7,7 +7,28 @@ import Thumbnail from '@pages/dashboard/components/ui/cards/Thumbnail';
 import { CARD_CLASSES } from '@shared/utils/styleUtils';
 import { cn } from '@shared/utils/cn';
 
-const dailyReminderCardVariants = cva('relative', {
+const formatRemindTime = (dateString: string): string => {
+  try {
+    const match = dateString.match(
+      /(\d{4})년\s*(\d{2})월\s*(\d{2})일\s*(오전|오후)\s*(\d{1,2})시\s*(\d{1,2})분/
+    );
+
+    if (match) {
+      const [, year, month, day, meridiem, hour, minute] = match;
+      const displayHour = String(parseInt(hour)).padStart(2, '0');
+      const displayMinute = String(parseInt(minute)).padStart(2, '0');
+
+      const result = `${year}/${month}/${day} ${meridiem} ${displayHour}:${displayMinute}`;
+      return result;
+    }
+
+    return dateString;
+  } catch (error) {
+    return dateString;
+  }
+};
+
+const dailyReminderCardVariants = cva('relative cursor-pointer', {
   variants: {
     showAcornStamp: {
       true: '',
@@ -20,7 +41,7 @@ const dailyReminderCardVariants = cva('relative', {
 });
 
 const stampOverlayVariants = cva(
-  'absolute left-0 top-0 flex h-full w-[28.3rem] items-center justify-center rounded-[1rem]',
+  'absolute left-0 top-0 flex h-full w-[28.3rem] items-center justify-center rounded-[1rem] pointer-events-none',
   {
     variants: {
       showAcornStamp: {
@@ -53,24 +74,40 @@ export type DailyReminderCardVariants = VariantProps<
   typeof dailyReminderCardVariants
 >;
 
-interface DailyReminderCardProps extends DailyReminderCardVariants {
+interface DailyReminderCardProps {
   title: string;
   memo?: string;
-  images?: string[];
+  url: string;
   savedAt: string;
+  isRead?: boolean;
   handlePopUpOpen?: () => void;
+  onClick?: () => void;
 }
 
 const DailyReminderCard = ({
   title,
   memo,
-  images,
+  url,
   savedAt,
-  showAcornStamp = false,
+  isRead = false,
   handlePopUpOpen,
+  onClick,
 }: DailyReminderCardProps) => {
+  const handleCardClick = (e: React.MouseEvent) => {
+    // 버튼이나 버튼 내부 요소를 클릭한 경우 카드 클릭 이벤트를 무시
+    if ((e.target as HTMLElement).closest('button')) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    onClick?.();
+  };
+
   return (
-    <div className={cn(dailyReminderCardVariants({ showAcornStamp }))}>
+    <div
+      className={cn(dailyReminderCardVariants({ showAcornStamp: isRead }))}
+      onClick={handleCardClick}
+    >
       <div className={CARD_CLASSES.dailyHeader}>
         <div className="flex items-center">
           <img
@@ -79,14 +116,17 @@ const DailyReminderCard = ({
             className="h-[2.4rem] w-[2.4rem]"
           />
           <span className="body2-m ml-[1rem] leading-[4rem] text-white">
-            {savedAt}
+            {formatRemindTime(savedAt)}
           </span>
         </div>
         <button
           type="button"
           className="flex h-[2.4rem] w-[2.4rem] items-center justify-center"
           aria-label="더보기"
-          onClick={handlePopUpOpen}
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePopUpOpen?.();
+          }}
         >
           <img
             src={icDetailsWhite}
@@ -98,17 +138,8 @@ const DailyReminderCard = ({
 
       <div className={CARD_CLASSES.dailyBody}>
         <div className="flex flex-col items-center">
-          <div
-            className={cn(
-              CARD_CLASSES.thumbnail,
-              images && images.length > 0 ? 'bg-gray100' : '',
-              'mb-[1.8rem]'
-            )}
-          >
-            <Thumbnail
-              src={images && images.length > 0 ? images[0] : undefined}
-              alt="데일리 리마인드 썸네일"
-            />
+          <div className={cn(CARD_CLASSES.thumbnail, 'mb-[1.8rem]')}>
+            <Thumbnail url={url} alt="데일리 리마인드 썸네일" />
           </div>
 
           <div className={CARD_CLASSES.textArea}>
@@ -128,7 +159,7 @@ const DailyReminderCard = ({
         </div>
       </div>
 
-      <div className={cn(stampOverlayVariants({ showAcornStamp }))}>
+      <div className={cn(stampOverlayVariants({ showAcornStamp: isRead }))}>
         <img src={acornStamp} alt="도토리 스탬프" className="h-auto w-auto" />
       </div>
     </div>

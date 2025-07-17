@@ -3,28 +3,67 @@ import SectionTitle from '@pages/dashboard/components/common/layout/SectionTitle
 import SectionContent from '@pages/dashboard/components/common/layout/SectionContent';
 import DailyReminderCard from '@pages/dashboard/components/ui/cards/DailyReminderCard';
 import AllViewButton from '@pages/dashboard/components/ui/buttons/AllViewButton';
-import { mockDailyReminderCards } from '@pages/dashboard/mockData';
+import type { Article } from '@pages/dashboard/types/api';
+
 interface DailyReminderSectionProps {
   handlePopUpOpen?: () => void;
+  articles?: Article[];
+  onArticleRead?: (articleId: number) => void;
+  isLoading?: boolean;
 }
+
 const DailyReminderSection = ({
   handlePopUpOpen,
+  articles = [],
+  onArticleRead,
+  isLoading = false,
 }: DailyReminderSectionProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const showAllViewBtn = mockDailyReminderCards.length > 12;
+  const showAllViewBtn = articles.length > 12;
 
-  const visibleCards = isExpanded
-    ? mockDailyReminderCards
-    : mockDailyReminderCards.slice(0, 12);
+  const visibleCards = isExpanded ? articles : articles.slice(0, 12);
 
   const handleTimerComplete = () => {
-    // 타이머 완료 시 처리 로직
+    // 타이머 완료 처리
   };
 
   const handleAllViewClick = () => {
     setIsExpanded((prev) => !prev);
   };
+
+  const handleCardClick = (article: Article) => {
+    onArticleRead?.(article.articleId);
+
+    if (article.url) {
+      window.open(article.url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <section className="space-y-4" aria-label="데일리 리마인드">
+        <div className="flex items-center gap-2">
+          <SectionTitle text="데일리 리마인드" />
+        </div>
+        <div className="my-[1.3rem]">
+          <SectionContent onComplete={handleTimerComplete} />
+        </div>
+        <div className="mt-[6rem] grid grid-cols-4 justify-center gap-[2.3rem]">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <div
+              key={index}
+              className="h-[20rem] w-[30rem] animate-pulse rounded-[1.2rem] bg-gray-200"
+            />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (articles.length === 0) {
+    return null;
+  }
 
   return (
     <section className="space-y-4" aria-label="데일리 리마인드">
@@ -37,13 +76,14 @@ const DailyReminderSection = ({
       <div className="mt-[6rem] grid grid-cols-4 justify-center gap-[2.3rem]">
         {visibleCards.map((card, index) => (
           <DailyReminderCard
-            key={card.id || `daily-reminder-${card.savedAt}-${index}`}
-            title={card.title}
+            key={`daily-reminder-${card.articleId}-${index}`}
+            title={card.url}
             memo={card.memo}
-            images={card.images}
-            savedAt={card.savedAt}
-            showAcornStamp={card.showAcornStamp}
+            url={card.url}
+            savedAt={card.remindAt || card.createdAt}
+            isRead={card.isRead}
             handlePopUpOpen={handlePopUpOpen}
+            onClick={() => handleCardClick(card)}
           />
         ))}
       </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SectionContentProps } from '@shared/types';
+import type { SectionContentProps } from '@pages/dashboard/types/components';
 import Timer from '@pages/dashboard/components/ui/indicators/Timer';
 import gray500 from '@assets/icons/ui/gray-circle.svg';
 import Tooltip from '@pages/dashboard/components/ui/overlays/Tooltip';

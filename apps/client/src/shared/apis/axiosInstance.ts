@@ -7,29 +7,44 @@ const apiRequest = axios.create({
   },
 });
 
-const fetchToken = async (email?: string) => {
-  const response = await axios.get(
-    `${import.meta.env.VITE_BASE_URL}/api/v1/auth/token`,
-    {
-      params: { email },
+const refreshToken = async (email: string) => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/api/v1/auth/token`,
+      {
+        params: { email },
+      }
+    );
+
+    const newToken = response.data.data?.token || response.data.token;
+
+    if (newToken) {
+      localStorage.setItem('jwtToken', newToken);
+      return newToken;
     }
-  );
-  const newToken = response.data.token;
-  localStorage.setItem('jwtToken', newToken);
-  return newToken;
+
+    throw new Error('토큰 재발급 실패');
+  } catch (error) {
+    console.error('토큰 재발급 실패:', error);
+    throw error;
+  }
 };
 
 apiRequest.interceptors.request.use(async (config) => {
   const noAuthNeeded = ['/api/v1/auth/token', '/api/v1/auth/signup'];
   const isNoAuth = noAuthNeeded.some((url) => config.url?.includes(url));
-  let token = localStorage.getItem('jwtToken');
+
   if (!isNoAuth) {
-    if (!token || token === 'undefined') {
-      // 임시 이메일 넣기! 대신 회원인 애로
-      token = await fetchToken('test@gmail.com');
+    const token = localStorage.getItem('jwtToken');
+
+    if (!token || token === 'undefined' || token === 'null' || token === '') {
+      console.error('토큰이 없습니다. 온보딩을 먼저 완료해주세요.');
+      throw new Error('토큰이 없습니다. 온보딩을 먼저 완료해주세요.');
     }
+
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 
@@ -41,18 +56,37 @@ apiRequest.interceptors.response.use(
     const isNoAuth = noAuthNeeded.some((url) =>
       originalRequest.url?.includes(url)
     );
+
     if (
       error.response &&
-      error.response.status === 403 &&
+      (error.response.status === 401 || error.response.status === 403) &&
       !originalRequest._retry &&
       !isNoAuth
     ) {
       originalRequest._retry = true;
-      // 임시 이메일 넣기! 대신 회원인 애로
-      const newToken = await fetchToken('test@gmail.com');
-      originalRequest.headers.Authorization = `Bearer ${newToken}`;
-      return apiRequest(originalRequest);
+
+      try {
+        const email = localStorage.getItem('userEmail');
+
+        if (email) {
+          const newToken = await refreshToken(email);
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          return apiRequest(originalRequest);
+        } else {
+          console.error(
+            '사용자 이메일이 없습니다. 온보딩을 다시 완료해주세요.'
+          );
+          localStorage.removeItem('jwtToken');
+          window.location.href = '/onboarding';
+        }
+      } catch (refreshError) {
+        console.error('토큰 재발급 실패:', refreshError);
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('userEmail');
+        window.location.href = '/onboarding';
+      }
     }
+
     return Promise.reject(error);
   }
 );

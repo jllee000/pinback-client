@@ -88,6 +88,7 @@ interface BannerProps extends BannerVariants {
   children?: React.ReactNode;
   className?: string;
   showImage?: boolean;
+  remindDateTime?: string;
 }
 
 const Banner = ({
@@ -95,6 +96,7 @@ const Banner = ({
   children,
   className,
   showImage = true,
+  remindDateTime,
 }: BannerProps) => {
   const progressBarImage = getProgressBarImage(acornCount ?? 0);
   const levelText = getLevelText(acornCount ?? 0);
@@ -124,7 +126,10 @@ const Banner = ({
 
       <BannerAcornBubble count={7} position="right" />
 
-      <BannerTimer acornCount={acornCount ?? 0} />
+      <BannerTimer
+        acornCount={acornCount ?? 0}
+        remindDateTime={remindDateTime}
+      />
 
       <BannerChippyImage acornCount={acornCount ?? 0} showImage={showImage} />
 

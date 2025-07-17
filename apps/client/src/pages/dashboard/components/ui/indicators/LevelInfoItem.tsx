@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import acornLevel from '@assets/characters/acorn/level.svg';
 import { LEVEL_INFO } from '@pages/dashboard/constants';
-import type { LevelInfoItemProps } from '@shared/types';
+import type { LevelInfoItemProps } from '@pages/dashboard/types/components';
 
 const LevelInfoItem = memo(
   ({ level, name, image, acorns }: LevelInfoItemProps) => {

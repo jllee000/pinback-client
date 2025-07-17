@@ -4,9 +4,10 @@ import { MAX_ACORN_COUNT } from '@pages/dashboard/constants/levelData';
 
 interface BannerTimerProps {
   acornCount: number;
+  remindDateTime?: string;
 }
 
-const BannerTimer = ({ acornCount }: BannerTimerProps) => {
+const BannerTimer = ({ acornCount, remindDateTime }: BannerTimerProps) => {
   if (acornCount !== MAX_ACORN_COUNT) {
     return null;
   }
@@ -26,7 +27,7 @@ const BannerTimer = ({ acornCount }: BannerTimerProps) => {
             도토리 다시 모을 수 있는 시간까지
           </span>
           <span className="sub5-b text-main400">
-            <Timer />
+            <Timer targetTime={remindDateTime} />
           </span>
           <span className="sub5-b">✨</span>
         </div>

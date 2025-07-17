@@ -5,7 +5,7 @@ import {
   LAYOUT,
   UI_TEXT,
 } from '@pages/dashboard/constants';
-import type { LevelInfoSectionProps } from '@shared/types';
+import type { LevelInfoSectionProps } from '@pages/dashboard/types/components';
 import LevelInfoItem from '@pages/dashboard/components/ui/indicators/LevelInfoItem';
 
 const LevelInfoSection = memo(({ className = '' }: LevelInfoSectionProps) => {

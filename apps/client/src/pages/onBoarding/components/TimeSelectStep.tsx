@@ -53,7 +53,7 @@ const TimeSelectStep = ({ setStep, os, email }: TimeSelectStepProps) => {
           { email, finalTime, token },
           {
             onSuccess: (response) => {
-              onSigninSuccess(response.data.token);
+              onSigninSuccess(response.data.token, email || undefined);
               setStep(os === 'macos' ? STEP.MAC_USER_NOTICE : STEP.WELCOME);
             },
             onError: () => {

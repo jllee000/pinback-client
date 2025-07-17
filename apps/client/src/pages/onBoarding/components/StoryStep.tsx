@@ -2,7 +2,6 @@ import Carousel from '@pages/onBoarding/components/Carousel';
 import { STORY_CONTENT } from '@pages/onBoarding/constants/storyStep';
 import { useState } from 'react';
 
-// TODO: 절대 경로 config 추가 시 절대 경로로 수정
 import storyStep1 from '../../../assets/onBoarding/storyStep1.svg';
 import storyStep2 from '../../../assets/onBoarding/storyStep2.svg';
 import storyStep3 from '../../../assets/onBoarding/storyStep3.svg';
