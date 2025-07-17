@@ -1,7 +1,6 @@
-import { useRef, useState } from 'react';
 import { Icon } from '@pinback/design-system/icons';
-import { CommonBtn } from '@pinback/design-system/ui';
-import { Input } from '@pinback/design-system/ui';
+import { CommonBtn, Input } from '@pinback/design-system/ui';
+import { useRef, useState } from 'react';
 
 type Mode = 'add' | 'edit' | 'delete';
 
@@ -159,7 +158,7 @@ const TextfieldPopup = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="absolute inset-0 z-50 flex items-center justify-center rounded-[10px] bg-[#00000063]">
       <div className="flex w-[26rem] flex-col rounded-xl bg-white p-[2rem] shadow-[6px_11px_20px_0_rgba(0,0,0,0.08)]">
         {renderContent()}
       </div>

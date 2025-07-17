@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { POP_TEXTAREA_MAX_LENGTH } from '@constants/index';
 import {
   CategoryDropDown,
   CommonBtn,
   InfoBox,
   TextArea,
+  TextFieldPopup,
   TimePicker,
   ToggleButton,
 } from '@pinback/design-system/ui';
+import { useState } from 'react';
 import ModalHeader from './ModalHeader';
-import { POP_TEXTAREA_MAX_LENGTH } from '@constants/index';
-import { TextFieldPopup } from '@pinback/design-system/ui';
 
 interface ModalPopProps {
   urlInfo: string;

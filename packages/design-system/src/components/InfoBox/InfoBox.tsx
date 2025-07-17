@@ -18,11 +18,13 @@ const InfoBox = ({ size = 'large', title, location, icon }: InfoBoxProps) => {
         src={icon}
       />
       <div className="flex flex-col">
-        <div className={`${isLarge ? 'sub5-sb' : 'caption2-sb'} text-black`}>
+        <div
+          className={`${isLarge ? 'sub5-sb' : 'caption2-sb'} truncate text-black`}
+        >
           {location}
         </div>
         <div
-          className={`${isLarge ? 'caption1-m' : 'caption2-m'} text-gray-400`}
+          className={`${isLarge ? 'caption1-m' : 'caption2-m'} truncate text-gray-400`}
         >
           {title}
         </div>

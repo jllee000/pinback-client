@@ -1,6 +1,5 @@
 import { POP_UP_AREA_Z_INDEX } from '@/constants';
 import ModalPop from '@/shared/components/ui/modalPop/ModalPop';
-import { Header } from '@shared/components';
 import {
   BannerSection,
   BookmarkSection,
@@ -8,6 +7,7 @@ import {
 } from '@pages/dashboard/components';
 import { useDashboard } from '@pages/dashboard/hooks/useDashboard';
 import type { Category } from '@pages/dashboard/types/api';
+import { Header } from '@shared/components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -103,7 +103,7 @@ const Dashboard = () => {
     <div className="bg-background flex min-h-screen flex-col items-center">
       {isPopUpOpen && (
         <div
-          className={`absolute z-${POP_UP_AREA_Z_INDEX} flex h-[100dvh] w-full items-center justify-center bg-[#0000005b]`}
+          className={`absolute z-${POP_UP_AREA_Z_INDEX} z-100 flex h-[100dvh] w-full items-center justify-center bg-[#0000005b]`}
           onClick={() => setIsPopUpOpen(false)}
         >
           <div onClick={(e) => e.stopPropagation()}>

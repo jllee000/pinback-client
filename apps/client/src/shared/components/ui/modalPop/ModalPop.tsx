@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { POP_TEXTAREA_MAX_LENGTH } from '@constants/index';
 import {
   CategoryDropDown,
   CommonBtn,
   InfoBox,
   TextArea,
+  TextFieldPopup,
   TimePicker,
   ToggleButton,
 } from '@pinback/design-system/ui';
-import { POP_TEXTAREA_MAX_LENGTH } from '@constants/index';
+import { useState } from 'react';
 interface ModalPopProps {
   onClose: () => void;
 }
@@ -18,6 +19,12 @@ const ModalPop = ({ onClose }: ModalPopProps) => {
     time: '',
     timeError: '',
   });
+  const [categoryPopupMode, setCategoryPopupMode] = useState<
+    'edit' | 'add' | ''
+  >('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState(['기획', '취미', '요리']);
+
   const handleFieldChange = (
     field: 'date' | 'time',
     value: string,
@@ -30,8 +37,39 @@ const ModalPop = ({ onClose }: ModalPopProps) => {
     }));
   };
 
+  const handleCategoryChange = (value: string) => {
+    if (value === 'edit') {
+      setCategoryPopupMode('edit');
+    } else if (value === 'create') {
+      setCategoryPopupMode('add');
+    } else {
+      setSelectedCategory(value);
+      setCategoryPopupMode('');
+    }
+  };
+
+  const handlePopupClose = () => {
+    setCategoryPopupMode('');
+  };
+
+  const handlePopupConfirm = (newCategory?: string) => {
+    if (!newCategory) {
+      return;
+    }
+    if (categoryPopupMode === 'add') {
+      setCategories((prev) => [...prev, newCategory]);
+      setSelectedCategory(newCategory);
+    } else if (categoryPopupMode === 'edit') {
+      setCategories((prev) =>
+        prev.map((cat) => (cat === selectedCategory ? newCategory : cat))
+      );
+      setSelectedCategory(newCategory);
+    }
+    handlePopupClose();
+  };
+
   return (
-    <div className="flex h-[64.2rem] w-[38.7rem] flex-col items-center justify-between rounded-[1rem] bg-white px-[3rem] py-[3rem]">
+    <div className="relative flex h-[64.2rem] w-[38.7rem] flex-col items-center justify-between rounded-[1rem] bg-white px-[3rem] py-[3rem]">
       <div className="flex flex-col gap-[1.6rem]">
         {/* TODO : 하드코딩 데이터 구간 */}
         <InfoBox
@@ -44,6 +82,7 @@ const ModalPop = ({ onClose }: ModalPopProps) => {
           <CategoryDropDown
             size="large"
             categories={['기획', '취미', '요리']}
+            onSelect={handleCategoryChange}
           />
         </section>
         <section>
@@ -95,6 +134,23 @@ const ModalPop = ({ onClose }: ModalPopProps) => {
         />
       </div>
       {/* TODO : 하드코딩 데이터 구간 */}
+
+      {categoryPopupMode && (
+        <TextFieldPopup
+          mode={categoryPopupMode}
+          value={categoryPopupMode === 'edit' ? selectedCategory : ''}
+          existingCategories={categories}
+          onCancel={handlePopupClose}
+          onConfirm={handlePopupConfirm}
+          onDelete={() => {
+            setCategories((prev) =>
+              prev.filter((cat) => cat !== selectedCategory)
+            );
+            setSelectedCategory('');
+            handlePopupClose();
+          }}
+        />
+      )}
     </div>
   );
 };
