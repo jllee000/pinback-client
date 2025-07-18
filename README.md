@@ -1,6 +1,13 @@
 ## 📌 서비스 소개 (PINBACK)
 
 <img src="https://github.com/user-attachments/assets/15417492-3d09-4344-8500-a172565c40d1" width="200" alt="PinBack Logo"/>
+<img width="1920" height="1080" alt="Slide 16_9 - 560" src="https://github.com/user-attachments/assets/6befb300-38f8-4aed-929d-0a933641308d" />
+<img width="1920" height="1080" alt="Slide 16_9 - 543" src="https://github.com/user-attachments/assets/55a28023-1b4f-40b2-ad1d-e2f2ea02b05e" />
+<img width="1920" height="1080" alt="Slide 16_9 - 542" src="https://github.com/user-attachments/assets/a1ae3b15-70db-4f28-a64f-9fb0a1ec3167" />
+<img width="1920" height="1080" alt="Slide 16_9 - 541" src="https://github.com/user-attachments/assets/5ffcf827-8d1c-4514-8265-b8d1f8b321f9" />
+<img width="1920" height="1080" alt="Slide 16_9 - 472" src="https://github.com/user-attachments/assets/762deace-5e7f-4b6e-98ab-94427bb20da9" />
+<img width="1920" height="1080" alt="Slide 16_9 - 551" src="https://github.com/user-attachments/assets/e206d827-ae22-4f58-a631-75ac55477776" />
+<img width="1920" height="1080" alt="Slide 16_9 - 557" src="https://github.com/user-attachments/assets/a8706605-9c90-4f7c-9850-d65206d672a4" />
 
 ### 📍 “저장해둔 정보를 다시 꺼내볼 수 있도록 도와주는 정보 리마인드 웹 서비스"
 
