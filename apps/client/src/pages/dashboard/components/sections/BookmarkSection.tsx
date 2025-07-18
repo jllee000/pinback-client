@@ -1,14 +1,14 @@
-import { memo } from 'react';
-import SectionTitle from '@pages/dashboard/components/common/layout/SectionTitle';
 import BookmarkCategory from '@pages/dashboard/components/common/display/BookmarkCategory';
 import BookmarkCount from '@pages/dashboard/components/common/display/BookmarkCount';
-import ReusableEmptyState from '@shared/components/ui/display/ReusableEmptyState';
+import SectionTitle from '@pages/dashboard/components/common/layout/SectionTitle';
 import AllViewButton from '@pages/dashboard/components/ui/buttons/AllViewButton';
 import BookmarkCard from '@pages/dashboard/components/ui/cards/BookmarkCard';
 import { UI_TEXT } from '@pages/dashboard/constants';
 import { DASHBOARD_CONSTANTS } from '@pages/dashboard/constants/dashboard';
-import { SPACING_CLASSES } from '@shared/utils/styleUtils';
 import type { Article, Category } from '@pages/dashboard/types/api';
+import ReusableEmptyState from '@shared/components/ui/display/ReusableEmptyState';
+import { SPACING_CLASSES } from '@shared/utils/styleUtils';
+import { memo } from 'react';
 
 const INITIAL_DISPLAY_COUNT =
   DASHBOARD_CONSTANTS.INITIAL_BOOKMARK_DISPLAY_COUNT;
@@ -37,6 +37,7 @@ interface BookmarkSectionProps {
   totalUnreadArticle?: number;
   totalArticleCount?: number;
   categoryTotalCounts?: Record<number, number>;
+  handleArticleDotClick: (articleId: number) => void;
 }
 
 const BookmarkSection = ({
@@ -52,6 +53,7 @@ const BookmarkSection = ({
   totalUnreadArticle = 0,
   totalArticleCount,
   categoryTotalCounts = {},
+  handleArticleDotClick,
 }: BookmarkSectionProps) => {
   // 유틸리티 함수들
   const hasNoBookmarks = () => bookmarks.length === 0;
@@ -235,6 +237,9 @@ const BookmarkSection = ({
                           handlePopUpOpen,
                         }
                       : card)}
+                    onDotClick={() =>
+                      handleArticleDotClick((card as Article).articleId)
+                    }
                     handlePopUpOpen={handlePopUpOpen}
                   />
                 </div>

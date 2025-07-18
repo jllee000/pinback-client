@@ -1,3 +1,8 @@
+import {
+  useGetArticleDetail,
+  useGetModalCategories,
+} from '@/pages/dashboard/apis/query/article';
+import { fetchOGData } from '@/shared/utils/ogImage';
 import { POP_TEXTAREA_MAX_LENGTH } from '@constants/index';
 import {
   CategoryDropDown,
@@ -8,11 +13,23 @@ import {
   TimePicker,
   ToggleButton,
 } from '@pinback/design-system/ui';
-import { useState } from 'react';
+import {
+  formatDate,
+  formatTime,
+} from 'node_modules/@pinback/design-system/src/utils/pickerUtils';
+import { useEffect, useState } from 'react';
+interface Category {
+  categoryId: number;
+  categoryName: string;
+  unreadCount: number;
+}
 interface ModalPopProps {
   onClose: () => void;
+  onDelete: () => void;
+  selectedArticleId: number | null;
 }
-const ModalPop = ({ onClose }: ModalPopProps) => {
+
+const ModalPop = ({ onClose, onDelete, selectedArticleId }: ModalPopProps) => {
   const [formState, setFormState] = useState({
     date: '',
     dateError: '',
@@ -22,8 +39,16 @@ const ModalPop = ({ onClose }: ModalPopProps) => {
   const [categoryPopupMode, setCategoryPopupMode] = useState<
     'edit' | 'add' | ''
   >('');
+  const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [categories, setCategories] = useState(['기획', '취미', '요리']);
+  const { data: modalCategories } = useGetModalCategories(); // 모달 카테고리 전체 조회
+  const { data: articleDetail } = useGetArticleDetail(selectedArticleId); // 아티클 상세 조회
+  const [matchId, setMatchedId] = useState<number | null>(null);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
+
+  console.log('matchId', matchId); // TODO: 일단 안 쓰는데 재림쓰 필요할 거 같아서 남김ㅎ
 
   const handleFieldChange = (
     field: 'date' | 'time',
@@ -68,26 +93,72 @@ const ModalPop = ({ onClose }: ModalPopProps) => {
     handlePopupClose();
   };
 
+  useEffect(() => {
+    if (modalCategories) {
+      const categoryNames: string[] = modalCategories.data.categories.map(
+        (item: Category) => item.categoryName
+      );
+      setCategories(categoryNames);
+    }
+  }, [modalCategories]);
+
+  useEffect(() => {
+    if (modalCategories?.data?.categories && selectedCategory) {
+      const matched = modalCategories.data.categories.find(
+        (item: Category) => item.categoryName === selectedCategory
+      );
+      setMatchedId(matched?.categoryId ?? null);
+    }
+  }, [selectedCategory, modalCategories]);
+
+  useEffect(() => {
+    const test = async () => {
+      if (articleDetail) {
+        const rawDate = articleDetail.remindAt.slice(0, 10).replace(/-/g, '');
+        const rawTime = articleDetail.remindAt.slice(11, 16).replace(':', '');
+
+        const formattedDate = formatDate(rawDate);
+        const formattedTime = formatTime(rawTime);
+
+        setFormState((prev) => ({
+          ...prev,
+          date: formattedDate,
+          time: formattedTime,
+        }));
+        const og = await fetchOGData(
+          'https://www.notion.so/Client-214688191681801ab171e8cf9ab3661d'
+        );
+        setTitle(og.title || '');
+        setDescription(og.siteName || '');
+        setImage(og.image || '');
+      }
+    };
+
+    test();
+  }, [articleDetail]);
+
   return (
     <div className="relative flex h-[64.2rem] w-[38.7rem] flex-col items-center justify-between rounded-[1rem] bg-white px-[3rem] py-[3rem]">
       <div className="flex flex-col gap-[1.6rem]">
         {/* TODO : 하드코딩 데이터 구간 */}
         <InfoBox
           size="large"
-          title="집에서 할 수 있는"
-          location="네이버 블로그"
+          title={title || '임시 제목'}
+          description={description || '임시 사이트 이름'}
+          image={image || ''}
         />
         <section className="mt-[0.4rem]">
           <p className="sub5-sb text-gray900 mb-[1.2rem]">카테고리</p>
           <CategoryDropDown
             size="large"
-            categories={['기획', '취미', '요리']}
+            categories={categories}
             onSelect={handleCategoryChange}
           />
         </section>
         <section>
           <p className="sub5-sb text-gray900 mb-[1.2rem]">메모</p>
           <TextArea
+            defaultValue={articleDetail?.memo}
             size="large"
             maxLength={POP_TEXTAREA_MAX_LENGTH}
             placeholder="메모를 입력하고 도토리를 받아보세요!"
@@ -124,7 +195,10 @@ const ModalPop = ({ onClose }: ModalPopProps) => {
           text="삭제하기"
           size="medium"
           type="gray"
-          onClick={onClose}
+          onClick={() => {
+            onDelete();
+            onClose();
+          }}
         />
         <CommonBtn
           text="저장하기"

@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import {
-  getDashboardCategories,
   getArticlesByCategory,
-} from '@pages/dashboard/apis';
+  getDashboardCategories,
+} from '@pages/dashboard/apis/axios';
 import type { Category } from '@pages/dashboard/types/api';
 import {
   createQueryConfig,
   ERROR_STATUS,
 } from '@pages/dashboard/utils/queryConfig';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 export const useCategories = (isInitialized: boolean) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(

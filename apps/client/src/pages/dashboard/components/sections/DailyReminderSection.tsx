@@ -1,15 +1,16 @@
-import { memo, useState } from 'react';
-import SectionTitle from '@pages/dashboard/components/common/layout/SectionTitle';
 import SectionContent from '@pages/dashboard/components/common/layout/SectionContent';
-import DailyReminderCard from '@pages/dashboard/components/ui/cards/DailyReminderCard';
+import SectionTitle from '@pages/dashboard/components/common/layout/SectionTitle';
 import AllViewButton from '@pages/dashboard/components/ui/buttons/AllViewButton';
+import DailyReminderCard from '@pages/dashboard/components/ui/cards/DailyReminderCard';
 import type { Article } from '@pages/dashboard/types/api';
+import { memo, useState } from 'react';
 
 interface DailyReminderSectionProps {
   handlePopUpOpen?: () => void;
   articles?: Article[];
   onArticleRead?: (articleId: number) => void;
   isLoading?: boolean;
+  handleArticleDotClick: (articleId: number) => void;
 }
 
 const DailyReminderSection = ({
@@ -17,6 +18,7 @@ const DailyReminderSection = ({
   articles = [],
   onArticleRead,
   isLoading = false,
+  handleArticleDotClick,
 }: DailyReminderSectionProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -84,6 +86,7 @@ const DailyReminderSection = ({
             isRead={card.isRead}
             handlePopUpOpen={handlePopUpOpen}
             onClick={() => handleCardClick(card)}
+            onDotClick={() => handleArticleDotClick(card.articleId)}
           />
         ))}
       </div>

@@ -10,8 +10,20 @@ import type { Category } from '@pages/dashboard/types/api';
 import { Header } from '@shared/components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDeleteArticle } from './apis/query/article';
 
 const Dashboard = () => {
+  //asdklfaksldmflkasmdflkmasdf
+  const [selectedArticleId, setSelectedArticleId] = useState<number | null>(
+    null
+  );
+  const handleArticleDotClick = (articleId: number) => {
+    setSelectedArticleId(articleId);
+  };
+  // dklfaksldfklasmdfl;kamskldfmalsdf
+  // const { mutate: editArticle } = usePutArticle();
+  const { mutate: deleteArticle } = useDeleteArticle(selectedArticleId);
+
   const navigate = useNavigate();
 
   const {
@@ -76,7 +88,12 @@ const Dashboard = () => {
     return unreadArticlesData?.data?.articles || [];
   };
 
+  // 아티클 조회
   const currentArticles = getCurrentArticles();
+
+  useEffect(() => {
+    console.log('선택 카테고리:', activeCategory);
+  }, [activeCategory]);
 
   const getCurrentTotalCount = () => {
     if (categoryArticlesData?.data?.totalArticle !== undefined) {
@@ -107,7 +124,11 @@ const Dashboard = () => {
           onClick={() => setIsPopUpOpen(false)}
         >
           <div onClick={(e) => e.stopPropagation()}>
-            <ModalPop onClose={() => setIsPopUpOpen(false)} />
+            <ModalPop
+              selectedArticleId={selectedArticleId}
+              onClose={() => setIsPopUpOpen(false)}
+              onDelete={deleteArticle}
+            />
           </div>
         </div>
       )}
@@ -124,17 +145,18 @@ const Dashboard = () => {
         <div className="mt-[7.7rem] px-[11.9rem] pb-[3.6rem] pr-[12rem]">
           {hasDailyReminders && (
             <DailyReminderSection
-              articles={dailyReminderData?.data?.articles}
+              articles={dailyReminderData?.data?.articles} // 1
               onArticleRead={handleArticleRead}
               isLoading={isLoadingDailyReminder}
               handlePopUpOpen={onPopUpOpen}
+              handleArticleDotClick={handleArticleDotClick} //d
             />
           )}
           <div className={getBookmarkSectionMargin()}>
             <BookmarkSection
               activeCategory={activeCategory}
               categories={categories}
-              bookmarks={currentArticles}
+              bookmarks={currentArticles} // 2, 3
               onCategoryClick={handleCategoryClick}
               onAllViewClick={handleAllViewClick}
               onArticleRead={handleArticleRead}
@@ -144,6 +166,7 @@ const Dashboard = () => {
               totalArticleCount={currentTotalCount}
               categoryTotalCounts={categoryTotalCounts}
               handlePopUpOpen={onPopUpOpen}
+              handleArticleDotClick={handleArticleDotClick} // d
             />
           </div>
         </div>

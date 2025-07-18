@@ -1,11 +1,11 @@
-import { cva, type VariantProps } from 'class-variance-authority';
 import bookmarkCardAcorn from '@assets/characters/acorn/bookmark-card.svg';
+import acornStamp from '@assets/characters/acorn/stamp.svg';
 import icDetailsWhite from '@assets/icons/ui/details-white.svg';
 import emptyMemo from '@assets/illustrations/empty-states/memo.svg';
-import acornStamp from '@assets/characters/acorn/stamp.svg';
 import Thumbnail from '@pages/dashboard/components/ui/cards/Thumbnail';
-import { CARD_CLASSES } from '@shared/utils/styleUtils';
 import { cn } from '@shared/utils/cn';
+import { CARD_CLASSES } from '@shared/utils/styleUtils';
+import { cva, type VariantProps } from 'class-variance-authority';
 
 const formatRemindTime = (dateString: string): string => {
   try {
@@ -82,6 +82,7 @@ interface DailyReminderCardProps {
   isRead?: boolean;
   handlePopUpOpen?: () => void;
   onClick?: () => void;
+  onDotClick?: () => void;
 }
 
 const DailyReminderCard = ({
@@ -92,6 +93,7 @@ const DailyReminderCard = ({
   isRead = false,
   handlePopUpOpen,
   onClick,
+  onDotClick,
 }: DailyReminderCardProps) => {
   const handleCardClick = (e: React.MouseEvent) => {
     // 버튼이나 버튼 내부 요소를 클릭한 경우 카드 클릭 이벤트를 무시
@@ -132,6 +134,7 @@ const DailyReminderCard = ({
             src={icDetailsWhite}
             alt="더보기"
             className={CARD_CLASSES.moreButton}
+            onClick={onDotClick}
           />
         </button>
       </div>

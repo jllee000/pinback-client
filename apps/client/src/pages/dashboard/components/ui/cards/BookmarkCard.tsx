@@ -1,9 +1,9 @@
-import { cva, type VariantProps } from 'class-variance-authority';
 import icDetails from '@assets/icons/ui/details.svg';
 import emptyMemo from '@assets/illustrations/empty-states/memo.svg';
 import Thumbnail from '@pages/dashboard/components/ui/cards/Thumbnail';
-import { CARD_CLASSES } from '@shared/utils/styleUtils';
 import { cn } from '@shared/utils/cn';
+import { CARD_CLASSES } from '@shared/utils/styleUtils';
+import { cva, type VariantProps } from 'class-variance-authority';
 
 const CARD_DIMENSIONS = {
   width: 'w-[28.3rem]',
@@ -48,6 +48,7 @@ interface BookmarkCardProps extends BookmarkCardVariants {
   title: string;
   url?: string;
   handlePopUpOpen?: () => void;
+  onDotClick: () => void;
 }
 
 const BookmarkCard = ({
@@ -56,6 +57,7 @@ const BookmarkCard = ({
   url,
   isRead = false,
   handlePopUpOpen,
+  onDotClick,
 }: BookmarkCardProps) => {
   return (
     <div className={cn(bookmarkCardVariants({ isRead }))}>
@@ -94,6 +96,7 @@ const BookmarkCard = ({
             src={icDetails}
             alt="더보기"
             className={CARD_CLASSES.moreButton}
+            onClick={onDotClick}
           />
         </button>
       </div>

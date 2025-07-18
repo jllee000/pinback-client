@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getAcornCountWithRemind } from '@pages/dashboard/apis/userApi';
+import { getAcornCountWithRemind } from '@pages/dashboard/apis/axios/user';
 import type { BannerStage } from '@pages/dashboard/constants';
 import { getCurrentKSTDateTime } from '@pages/dashboard/utils/dateUtils';
 import {
   createQueryConfig,
   ERROR_STATUS,
 } from '@pages/dashboard/utils/queryConfig';
+import { useQuery } from '@tanstack/react-query';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useAcornCount = (isInitialized: boolean) => {
   const [acornCount, setAcornCount] = useState<BannerStage>(0);

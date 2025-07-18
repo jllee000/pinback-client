@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Icon } from '@pinback/design-system/icons';
 import { cva } from 'class-variance-authority';
+import { useEffect, useState } from 'react';
 
 const categoryDropdownVariants = cva('', {
   variants: {

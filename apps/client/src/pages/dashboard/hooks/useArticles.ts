@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  getUnreadArticles,
-  getDailyReminderArticles,
   getArticlesByCategory,
+  getDailyReminderArticles,
+  getUnreadArticles,
   updateArticleReadStatus,
-} from '@pages/dashboard/apis';
+} from '@pages/dashboard/apis/axios';
 import type {
-  ReadStatusResponse,
   ApiResponse,
+  ReadStatusResponse,
 } from '@pages/dashboard/types/api';
 import { getCurrentKSTDateTime } from '@pages/dashboard/utils/dateUtils';
 import {
   createQueryConfig,
   ERROR_STATUS,
 } from '@pages/dashboard/utils/queryConfig';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 export const useArticles = (
   isInitialized: boolean,

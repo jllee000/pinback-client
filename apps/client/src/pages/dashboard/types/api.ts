@@ -59,3 +59,10 @@ export interface ApiResponse<T> {
   message: string;
   data: T;
 }
+
+// 카테고리 수정
+export interface PutCategoryRequest {
+  categoryId: number;
+  memo: string;
+  remindTime: string;
+}
