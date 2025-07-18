@@ -38,7 +38,9 @@ const App = () => {
         setTitle(imageUrl?.title ?? '');
         setDescription(imageUrl?.description ?? '');
         setImgUrl(imageUrl?.image ?? '');
-        localStorage.setItem('titleSave', title);
+        chrome.storage.local.set({ titleSave: title }, () => {
+          console.log('Title saved to chrome storage');
+        });
       }
     });
   }, []);

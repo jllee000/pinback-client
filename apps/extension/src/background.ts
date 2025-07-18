@@ -9,7 +9,6 @@ chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
     chrome.identity.getProfileUserInfo(function (info) {
       console.log('google email:', info.email);
-
       setTimeout(() => {
         chrome.tabs.create({
           url: `http://localhost:5180/onboarding?email=${info.email}`,
@@ -18,6 +17,7 @@ chrome.runtime.onInstalled.addListener((details) => {
     });
   }
 });
+
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === 'SAVE_BOOKMARK') {
     const { url, title } = message.payload;
@@ -28,7 +28,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
     chrome.bookmarks.create(
       {
-        title: localStorage.getItem('titleSave') ?? '핀백 저장소',
+        title: '핀백 저장소',
         url: url,
         parentId: '1',
       },

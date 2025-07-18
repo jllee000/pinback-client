@@ -15,23 +15,20 @@ const fetchToken = async (email?: string) => {
     }
   );
   const newToken = response.data.token;
-  localStorage.setItem('jwtToken', newToken);
-  return newToken;
-};
-const getChromeToken = async (): Promise<string | null> => {
-  return new Promise((resolve) => {
-    chrome.storage.local.get(['jwtToken'], (result) => {
-      resolve(result.jwtToken ?? null);
-    });
+  chrome.storage.local.set({ jwtToken: newToken }, () => {
+    console.log('Token saved to chrome storage');
   });
+  return newToken;
 };
 
 apiRequest.interceptors.request.use(async (config) => {
-  const noAuthNeeded = ['/api/v1/auth/token', '/api/v1/auth/signin'];
+  const noAuthNeeded = ['/api/v1/auth/token', '/api/v1/auth/signup'];
   const isNoAuth = noAuthNeeded.some((url) => config.url?.includes(url));
 
   if (!isNoAuth) {
-    let token = await getChromeToken();
+    let token =
+      'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwaW5iYWNrIiwiaWQiOiJhOTA1NGFjOS03MTg0LTQ3NjktYWY4Mi1jNGViYTg0YzYxYTIiLCJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTc1MjgwMDY1Nn0.hXti-Jlnhg8mRoPl5nB8Vi8UV6HPdZYAtgtpTuqtH39lQWle8T5GlX0ug0nNVUqu5B_Pyzafck7lhfXN6ArHOA';
+
     if (!token || token === 'undefined') {
       token = await fetchToken('test@gmail.com');
     }
@@ -44,7 +41,7 @@ apiRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    const noAuthNeeded = ['/api/v1/auth/token', '/api/v1/auth/signin'];
+    const noAuthNeeded = ['/api/v1/auth/token', '/api/v1/auth/signup'];
     const isNoAuth = noAuthNeeded.some((url) =>
       originalRequest.url?.includes(url)
     );

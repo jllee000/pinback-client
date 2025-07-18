@@ -15,10 +15,12 @@
     "@pivanov/vite-plugin-svg-sprite": "^3.0.0",
     "@radix-ui/react-switch": "^1.2.5",
     "@tailwindcss/vite": "^4.1.11",
+    "@tanstack/react-query": "^5.81.5",
     "axios": "^1.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "firebase": "^11.10.0",
+    "i": "^0.3.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

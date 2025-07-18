@@ -1,4 +1,4 @@
-import { POP_TEXTAREA_MAX_LENGTH } from '@constants/index';
+import { useState, useEffect } from 'react';
 import {
   CategoryDropDown,
   CommonBtn,
@@ -8,8 +8,11 @@ import {
   TimePicker,
   ToggleButton,
 } from '@pinback/design-system/ui';
-import { useState } from 'react';
 import ModalHeader from './ModalHeader';
+import { POP_TEXTAREA_MAX_LENGTH } from '@constants/index';
+import { useGetCategoriesDash, usePostArticles } from '@api/queries';
+import { useGetRemindTime } from '../../api/modalQueries';
+import { fomatToday } from '@pinback/design-system/utils';
 
 interface ModalPopProps {
   urlInfo: string;
@@ -17,7 +20,11 @@ interface ModalPopProps {
   titleInfo?: string;
   desInfo?: string;
 }
-
+interface Category {
+  categoryId: number;
+  categoryName: string;
+  unreadCount: number;
+}
 const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
   const [formState, setFormState] = useState({
     date: '',
@@ -25,14 +32,48 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
     time: '',
     timeError: '',
   });
+  const [categories, setCategories] = useState(['']);
+  const [memo, setMemo] = useState('');
+  const { mutate: postArticle } = usePostArticles();
 
+  const {
+    data: remindTime,
+    isLoading,
+    error,
+  } = useGetRemindTime(fomatToday(new Date()));
+
+  if (error) {
+    console.error('Error fetching remind time:', error);
+    return <div>Error loading remind time</div>;
+  }
+  const { data: categoriesData } = useGetCategoriesDash();
+  useEffect(() => {
+    if (categoriesData) {
+      const categoryNames: string[] = categoriesData.data.categories.map(
+        (item: Category) => item.categoryName
+      );
+      setCategories(categoryNames);
+    }
+  }, [categoriesData]);
   const [categoryPopupMode, setCategoryPopupMode] = useState<
     'edit' | 'add' | ''
   >('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [categories, setCategories] = useState(['기획', '취미', '요리']);
+  const [matchId, setMatchedId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (categoriesData?.data?.categories && selectedCategory) {
+      const matched = categoriesData.data.categories.find(
+        (item: Category) => item.categoryName === selectedCategory
+      );
+      setMatchedId(matched?.categoryId ?? null);
+    }
+  }, [selectedCategory, categoriesData]);
 
   const handleSave = () => {
+    chrome.storage.local.set({ savedTitle: titleInfo }, () => {
+      console.log('📦 storage 저장 완료:', titleInfo);
+    });
     chrome.runtime.sendMessage(
       {
         type: 'SAVE_BOOKMARK',
@@ -45,7 +86,24 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
         console.log('✅ 응답 받음:', response);
       }
     );
-    window.close();
+    postArticle(
+      {
+        url: urlInfo,
+        categoryId: matchId,
+        memo: memo,
+        remindTime: fomatToday(new Date()),
+      },
+      {
+        onSuccess: (data) => {
+          console.log('✅ 저장 성공:', data);
+          // TODO : 저장 시. 창 원래 닫아야하나 우선 개발 중이라 열어두었습니당
+          // window.close();
+        },
+        onError: (error) => {
+          console.error('❌ 저장 실패:', error);
+        },
+      }
+    );
   };
 
   const handleFieldChange = (
@@ -67,6 +125,7 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
       setCategoryPopupMode('add');
     } else {
       setSelectedCategory(value);
+      console.log(value);
       setCategoryPopupMode('');
     }
   };
@@ -93,7 +152,7 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
     text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
   return (
-    <div className="flex h-[54.7rem] w-[32rem] flex-col items-center justify-between rounded-[1rem] bg-white px-[2rem] py-[2rem]">
+    <div className="relative flex h-[54.7rem] w-[32rem] flex-col items-center justify-between rounded-[1rem] bg-white px-[2rem] py-[2rem]">
       <div>
         <ModalHeader onClick={() => window.close()} />
         <div className="px-[1rem] pt-[1.9rem]">
@@ -118,6 +177,8 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
                 size="medium"
                 maxLength={POP_TEXTAREA_MAX_LENGTH}
                 placeholder="메모를 입력하고 도토리를 받아보세요!"
+                value={memo}
+                onChange={(e) => setMemo(e.target.value)}
               />
             </section>
             <section>

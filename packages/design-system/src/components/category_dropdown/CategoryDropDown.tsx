@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Icon } from '@pinback/design-system/icons';
 import { cva } from 'class-variance-authority';
 
@@ -42,14 +42,18 @@ const CategoryDropDown = ({
   onSelect,
 }: CategoryDropDownProps) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(
-    categories.length > 0 ? categories[0] : ''
-  );
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  useEffect(() => {
+    if (categories.length > 0) {
+      setSelectedCategory(categories[0]);
+    }
+  }, [categories]);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
     setIsDropDownOpen(false);
-    // onSelect?.(category);
+    onSelect?.(category);
   };
 
   return (
