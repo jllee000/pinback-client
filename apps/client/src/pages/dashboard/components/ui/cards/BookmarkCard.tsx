@@ -1,9 +1,11 @@
+import { fetchOGData } from '@/shared/utils/ogImage';
 import icDetails from '@assets/icons/ui/details.svg';
 import emptyMemo from '@assets/illustrations/empty-states/memo.svg';
 import Thumbnail from '@pages/dashboard/components/ui/cards/Thumbnail';
 import { cn } from '@shared/utils/cn';
 import { CARD_CLASSES } from '@shared/utils/styleUtils';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { useEffect, useState } from 'react';
 
 const CARD_DIMENSIONS = {
   width: 'w-[28.3rem]',
@@ -53,22 +55,38 @@ interface BookmarkCardProps extends BookmarkCardVariants {
 
 const BookmarkCard = ({
   memo,
-  title,
   url,
   isRead = false,
   handlePopUpOpen,
   onDotClick,
 }: BookmarkCardProps) => {
+  const [ogTitle, setOgTitle] = useState<string>('');
+  const [ogImage, setOgImage] = useState<string>('');
+
+  useEffect(() => {
+    if (!url) {
+      return;
+    }
+
+    const getOGData = async () => {
+      const og = await fetchOGData(url);
+      setOgTitle(og.title || '');
+      setOgImage(og.image || '');
+    };
+
+    getOGData();
+  }, [url]);
+
   return (
     <div className={cn(bookmarkCardVariants({ isRead }))}>
       <div className="mb-[1.8rem] flex w-full items-center justify-between">
         <div className="inline-flex w-64 flex-col items-start justify-start gap-4">
           <div className={CARD_CLASSES.thumbnail}>
-            <Thumbnail alt="북마크 썸네일" url={url} />
+            <Thumbnail alt="북마크 썸네일" url={url} imageUrl={ogImage} />
           </div>
 
           <div>
-            <div className={CARD_CLASSES.title}>{title}</div>
+            <div className={CARD_CLASSES.title}>{ogTitle}</div>
             <div className={cn(memoVariants({ isRead }))}>
               {memo ? (
                 <div className={CARD_CLASSES.memoInner}>{memo}</div>

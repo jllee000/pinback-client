@@ -1,19 +1,18 @@
-import { useState, useEffect, useCallback } from 'react';
-import emptyThumbnail from '@assets/illustrations/empty-states/thumbnail.svg';
 import type { ThumbnailProps } from '@pages/dashboard/types/components';
 import { cn } from '@shared/utils/cn';
-import { generateThumbnail } from '@pages/dashboard/utils/thumbnail';
+import { useState } from 'react';
 
 interface ThumbnailState {
   url: string | null;
   isLoading: boolean;
   hasError: boolean;
+  imageUrl?: string;
 }
 
 const Thumbnail = ({
   alt,
   className = '',
-  url,
+  imageUrl,
 }: Omit<ThumbnailProps, 'src'> & { url?: string }) => {
   const [state, setState] = useState<ThumbnailState>({
     url: null,
@@ -21,51 +20,64 @@ const Thumbnail = ({
     hasError: false,
   });
 
-  const generateThumbnailFromUrl = useCallback(async (url: string) => {
-    if (!url) {
-      return;
-    }
+  const shouldShowSkeleton = state.isLoading || !imageUrl;
 
-    setState((prev) => ({
-      ...prev,
-      isLoading: true,
-      hasError: false,
-    }));
+  if (shouldShowSkeleton) {
+    return (
+      <div
+        className={cn(
+          'flex h-full w-full animate-pulse items-center justify-center rounded bg-gray-200',
+          className
+        )}
+      ></div>
+    );
+  }
 
-    try {
-      const thumbnail = await generateThumbnail(url);
+  // const generateThumbnailFromUrl = useCallback(async (url: string) => {
+  //   if (!url) {
+  //     return;
+  //   }
 
-      if (thumbnail) {
-        setState((prev) => ({
-          ...prev,
-          url: thumbnail,
-          hasError: false,
-          isLoading: false,
-        }));
-      } else {
-        setState((prev) => ({
-          ...prev,
-          url: null,
-          hasError: false,
-          isLoading: false,
-        }));
-      }
-    } catch (error) {
-      console.error('썸네일 생성 실패:', { url, error });
+  //   setState((prev) => ({
+  //     ...prev,
+  //     isLoading: true,
+  //     hasError: false,
+  //   }));
 
-      setState((prev) => ({
-        ...prev,
-        hasError: false,
-        isLoading: false,
-      }));
-    }
-  }, []);
+  //   try {
+  //     const thumbnail = await generateThumbnail(url);
 
-  useEffect(() => {
-    if (url) {
-      generateThumbnailFromUrl(url);
-    }
-  }, [url, generateThumbnailFromUrl]);
+  //     if (thumbnail) {
+  //       setState((prev) => ({
+  //         ...prev,
+  //         url: thumbnail,
+  //         hasError: false,
+  //         isLoading: false,
+  //       }));
+  //     } else {
+  //       setState((prev) => ({
+  //         ...prev,
+  //         url: null,
+  //         hasError: false,
+  //         isLoading: false,
+  //       }));
+  //     }
+  //   } catch (error) {
+  //     console.error('썸네일 생성 실패:', { url, error });
+
+  //     setState((prev) => ({
+  //       ...prev,
+  //       hasError: false,
+  //       isLoading: false,
+  //     }));
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   if (url) {
+  //     generateThumbnailFromUrl(url);
+  //   }
+  // }, [url, generateThumbnailFromUrl]);
 
   if (state.isLoading) {
     return (
@@ -80,19 +92,19 @@ const Thumbnail = ({
     );
   }
 
-  if (state.hasError || !state.url) {
-    return (
-      <img
-        src={emptyThumbnail}
-        alt="썸네일이 없어요"
-        className={cn('h-full w-full object-contain', className)}
-      />
-    );
-  }
+  // if (state.hasError || !state.url) {
+  //   return (
+  //     <img
+  //       src={emptyThumbnail}
+  //       alt="썸네일이 없어요"
+  //       className={cn('h-full w-full object-contain', className)}
+  //     />
+  //   );
+  // }
 
   return (
     <img
-      src={state.url}
+      src={imageUrl}
       alt={alt || '썸네일'}
       className={cn('h-full w-full object-cover', className)}
       onError={() => {

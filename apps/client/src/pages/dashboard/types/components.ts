@@ -47,6 +47,7 @@ export interface ThumbnailProps {
   src?: string;
   alt?: string;
   className?: string;
+  imageUrl?: string;
 }
 
 export interface ModalProps {

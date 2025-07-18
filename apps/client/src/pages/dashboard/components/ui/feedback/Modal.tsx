@@ -9,10 +9,10 @@ const Modal = ({ isOpen, onClose, children, className = '' }: ModalProps) => {
       }
     };
 
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscapeKey);
-      document.body.style.overflow = 'hidden';
-    }
+    // if (isOpen) {
+    //   document.addEventListener('keydown', handleEscapeKey);
+    //   document.body.style.overflow = 'hidden';
+    // }
 
     return () => {
       document.removeEventListener('keydown', handleEscapeKey);

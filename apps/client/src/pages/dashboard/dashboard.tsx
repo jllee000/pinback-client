@@ -91,10 +91,6 @@ const Dashboard = () => {
   // 아티클 조회
   const currentArticles = getCurrentArticles();
 
-  useEffect(() => {
-    console.log('선택 카테고리:', activeCategory);
-  }, [activeCategory]);
-
   const getCurrentTotalCount = () => {
     if (categoryArticlesData?.data?.totalArticle !== undefined) {
       return categoryArticlesData.data.totalArticle;
@@ -145,11 +141,11 @@ const Dashboard = () => {
         <div className="mt-[7.7rem] px-[11.9rem] pb-[3.6rem] pr-[12rem]">
           {hasDailyReminders && (
             <DailyReminderSection
-              articles={dailyReminderData?.data?.articles} // 1
+              articles={dailyReminderData?.data?.articles}
               onArticleRead={handleArticleRead}
               isLoading={isLoadingDailyReminder}
               handlePopUpOpen={onPopUpOpen}
-              handleArticleDotClick={handleArticleDotClick} //d
+              handleArticleDotClick={handleArticleDotClick}
             />
           )}
           <div className={getBookmarkSectionMargin()}>
@@ -166,7 +162,7 @@ const Dashboard = () => {
               totalArticleCount={currentTotalCount}
               categoryTotalCounts={categoryTotalCounts}
               handlePopUpOpen={onPopUpOpen}
-              handleArticleDotClick={handleArticleDotClick} // d
+              handleArticleDotClick={handleArticleDotClick}
             />
           </div>
         </div>

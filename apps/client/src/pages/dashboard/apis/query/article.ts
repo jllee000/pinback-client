@@ -4,6 +4,7 @@ import {
   putArticle,
 } from '@/pages/dashboard/apis/axios/article';
 import { PutCategoryRequest } from '@/pages/dashboard/types/api';
+import { queryClient } from '@/shared';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getModalCategories } from '../axios';
 
@@ -16,6 +17,12 @@ export const usePutArticle = (articleId: number, data: PutCategoryRequest) => {
 export const useDeleteArticle = (articleId: number | null) => {
   return useMutation({
     mutationFn: () => deleteArticle(articleId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['unreadArticles'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboardCategories'] });
+      queryClient.invalidateQueries({ queryKey: ['categoryArticles'] });
+      queryClient.invalidateQueries({ queryKey: ['dailyReminderArticles'] });
+    },
   });
 };
 

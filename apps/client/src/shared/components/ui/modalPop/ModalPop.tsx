@@ -125,9 +125,7 @@ const ModalPop = ({ onClose, onDelete, selectedArticleId }: ModalPopProps) => {
           date: formattedDate,
           time: formattedTime,
         }));
-        const og = await fetchOGData(
-          'https://www.notion.so/Client-214688191681801ab171e8cf9ab3661d'
-        );
+        const og = await fetchOGData(articleDetail.url);
         setTitle(og.title || '');
         setDescription(og.siteName || '');
         setImage(og.image || '');
