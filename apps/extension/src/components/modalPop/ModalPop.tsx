@@ -112,8 +112,7 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
             handlePopupClose();
           },
           onError: (err: any) => {
-            const message = err?.response?.data?.message;
-            alert('❌ 저장 실패:' + err.response?.data.message);
+            console.log(err);
           },
         }
       );
@@ -139,8 +138,7 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
             handlePopupClose();
           },
           onError: (err: any) => {
-            const message = err?.response?.data?.message;
-            alert('❌ 등록 실패:' + err.response?.data.message);
+            console.log(err);
           },
         }
       );
@@ -161,8 +159,7 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
             handlePopupClose();
           },
           onError: (err: any) => {
-            const message = err?.response?.data?.message;
-            alert('❌ 삭제 실패:' + err.response?.data.message);
+            console.log(err);
           },
         }
       );
@@ -208,11 +205,11 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
       {
         onSuccess: (data) => {
           console.log('✅ 저장 성공:', data);
-          // window.close(); // 최종 배포 시 주석 해제
+          window.close();
         },
         onError: (error: any) => {
-          const message = error?.response?.data?.message;
-          alert('❌ 저장 실패:' + message);
+          console.log(error);
+          alert('이미 저장된 북마크입니다');
         },
       }
     );

@@ -72,7 +72,7 @@ const CategoryDropDown = ({
       </div>
       {isDropDownOpen && (
         <div
-          className={`absolute mt-[1rem] h-[21.9rem] ${categoryDropdownVariants({ size })} rounded-[1rem] bg-white py-[2rem] pl-[1.4rem] pr-[1.4rem] shadow-[6px_10px_16px_8px_rgba(0,0,0,0.03)]`}
+          className={`absolute z-10 mt-[1rem] h-[21.9rem] ${categoryDropdownVariants({ size })} rounded-[1rem] bg-white py-[2rem] pl-[1.4rem] pr-[1.4rem] shadow-[6px_10px_16px_8px_rgba(0,0,0,0.03)]`}
         >
           <div className="flex h-[14.8rem] flex-col gap-[0.5rem] overflow-y-auto overflow-x-hidden">
             {categories.map((category, index) => (
