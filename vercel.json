@@ -2,22 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "app/client/package.json",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "app/landing/package.json",
-      "use": "@vercel/node"
+      "src": "apps/client/package.json",
+      "use": "@vercel/static-build"
     }
   ],
   "routes": [
     {
-      "src": "/client/(.*)",
-      "dest": "/app/client/$1"
+      "src": "/onboarding",
+      "dest": "/index.html"
     },
     {
-      "src": "/landing/(.*)",
-      "dest": "/app/landing/$1"
+      "src": "/dashboard",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
