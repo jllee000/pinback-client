@@ -2,8 +2,10 @@
 export const iconNames = [
   'close-button',
   'default_order',
+  'dotori',
   'down_icon',
   'ic_arrow_down',
+  'ic_arrow_down_white',
   'ic_arrow_right',
   'ic_error',
   'main_logo',
