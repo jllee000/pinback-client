@@ -1,24 +1,24 @@
 import {
+  useDeleteCategories,
+  useGetCategoriesDash,
+  usePatchCategories,
+  usePostArticles,
+  usePostCategories,
+} from '@api/queries';
+import { POP_TEXTAREA_MAX_LENGTH } from '@constants/index';
+import {
   CategoryDropDown,
   CommonBtn,
   InfoBox,
   TextArea,
+  TextFieldPopup,
   TimePicker,
   ToggleButton,
 } from '@pinback/design-system/ui';
-import { useState, useEffect } from 'react';
-import ModalHeader from './ModalHeader';
-import { POP_TEXTAREA_MAX_LENGTH } from '@constants/index';
-import { TextFieldPopup } from '@pinback/design-system/ui';
-import {
-  useGetCategoriesDash,
-  usePostArticles,
-  usePostCategories,
-  usePatchCategories,
-  useDeleteCategories,
-} from '@api/queries';
-import { useGetRemindTime } from '../../api/modalQueries';
 import { fomatToday } from '@pinback/design-system/utils';
+import { useEffect, useState } from 'react';
+import { useGetRemindTime } from '../../api/modalQueries';
+import ModalHeader from './ModalHeader';
 
 interface ModalPopProps {
   urlInfo: string;

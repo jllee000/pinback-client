@@ -3,17 +3,11 @@ type InfoBoxSize = 'medium' | 'large';
 interface InfoBoxProps {
   size?: InfoBoxSize;
   title: string;
-  description: string;
+  location: string;
   icon?: string;
-  image: string;
 }
 
-const InfoBox = ({
-  size = 'large',
-  title,
-  description,
-  image,
-}: InfoBoxProps) => {
+const InfoBox = ({ size = 'large', title, location, icon }: InfoBoxProps) => {
   const isLarge = size === 'large';
   return (
     <div
@@ -21,7 +15,7 @@ const InfoBox = ({
     >
       <img
         className="aspect-[1/1] h-[4.2rem] w-[4.2rem] flex-shrink-0 rounded-[0.8rem]"
-        src={image}
+        src={icon}
       />
       <div className="flex min-w-0 flex-col">
         <div
@@ -32,7 +26,7 @@ const InfoBox = ({
         <div
           className={`${isLarge ? 'caption1-m' : 'caption2-m'} w-full truncate text-gray-400`}
         >
-          {description}
+          {location}
         </div>
       </div>
     </div>

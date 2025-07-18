@@ -144,8 +144,8 @@ const ModalPop = ({ onClose, onDelete, selectedArticleId }: ModalPopProps) => {
         <InfoBox
           size="large"
           title={title || '임시 제목'}
-          description={description || '임시 사이트 이름'}
-          image={image || ''}
+          location={description || '임시 사이트 이름'}
+          icon={image || ''}
         />
         <section className="mt-[0.4rem]">
           <p className="sub5-sb text-gray900 mb-[1.2rem]">카테고리</p>
