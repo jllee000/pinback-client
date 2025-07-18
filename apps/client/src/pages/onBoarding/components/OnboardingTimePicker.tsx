@@ -68,7 +68,7 @@ const OnBoardingTimePicker = ({
         </div>
       </WheelPickerWrapper>
 
-      <div className="flex w-full justify-between">
+      <div className="flex w-full justify-between gap-[1.8rem]">
         <CommonBtn
           size="medium"
           type="gray"

@@ -39,7 +39,7 @@ const StoryStep = ({ setStep }: StoryStepProps) => {
   };
 
   return (
-    <div className="flex h-dvh w-full flex-col justify-center px-[12rem]">
+    <div className="flex h-dvh w-full flex-col justify-center bg-[#fffdf8] px-[12rem]">
       <div className="flex flex-col items-center">
         <Carousel
           currentStep={currentStep}
@@ -47,7 +47,7 @@ const StoryStep = ({ setStep }: StoryStepProps) => {
           images={images}
           total={total}
         />
-        <p className="sub3-sb whitespace-pre-line pt-[7.3rem] text-center">
+        <p className="sub3-sb whitespace-pre-line pt-[7.5rem] text-center">
           {STORY_CONTENT[currentStep].content}
         </p>
       </div>

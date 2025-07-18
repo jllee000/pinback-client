@@ -20,7 +20,7 @@ const OnBoarding = () => {
 
   return (
     <div>
-      <Header />
+      <Header bg="bg-transparent" />
 
       <Funnel>
         <Step name={STEP.STORY}>
