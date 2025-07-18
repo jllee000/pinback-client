@@ -14,3 +14,33 @@ export const postArticles = async (payload: {
   const response = await apiRequest.post('/api/v1/articles', payload);
   return response.data;
 };
+
+export const postCategories = async (payload: { categoryName: string }) => {
+  const response = await apiRequest.post('/api/v1/categories', payload);
+  return response.data;
+};
+
+export const patchCategories = async ({
+  categoryId,
+  categoryName,
+}: {
+  categoryId: number;
+  categoryName: string;
+}) => {
+  const response = await apiRequest.patch(`/api/v1/categories/${categoryId}`, {
+    categoryName,
+  });
+  return response.data;
+};
+
+export const deleteCategories = async ({
+  categoryId,
+}: {
+  categoryId: number;
+}) => {
+  const response = await apiRequest.delete(
+    `/api/v1/categories/${categoryId}`,
+    {}
+  );
+  return response.data;
+};

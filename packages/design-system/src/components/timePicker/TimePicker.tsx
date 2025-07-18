@@ -61,7 +61,7 @@ const TimePicker = ({ size, specie, value, onChange }: TimePickerProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
-    const onlyDigits = raw.replace(/\D/g, '');
+    const onlyDigits = raw.replace(/\D/g, ''); // 숫자만 남기기
 
     if (isDeletingRef.current) {
       onChange(onlyDigits);
@@ -71,13 +71,37 @@ const TimePicker = ({ size, specie, value, onChange }: TimePickerProps) => {
     if (specie === 'date') {
       const formatted = formatDate(onlyDigits);
       const errorMsg = validateDate(onlyDigits);
-      onChange(formatted, errorMsg ?? undefined);
+      onChange(onlyDigits, errorMsg ?? undefined);
+      console.log(formatted);
     } else {
       const formatted = formatTime(onlyDigits);
       const errorMsg = validateTime(onlyDigits);
-      onChange(formatted, errorMsg ?? undefined);
+      onChange(onlyDigits, errorMsg ?? undefined);
+      console.log(formatted);
     }
   };
+
+  const displayValue =
+    specie === 'time'
+      ? formatDisplayTime(value) // 우리가 만들 함수
+      : formatDisplayDate(value); // ex: 20250719 → 2025-07-19
+  function formatDisplayTime(raw: string): string {
+    if (raw.length !== 4) {
+      return raw;
+    }
+    const hour = parseInt(raw.slice(0, 2), 10);
+    const minute = raw.slice(2);
+    const period = hour < 12 ? '오전' : '오후';
+    const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+
+    return `${period} ${String(hour12).padStart(2, '0')}:${minute}`;
+  }
+  function formatDisplayDate(raw: string): string {
+    if (raw.length !== 8) {
+      return raw;
+    }
+    return `${raw.slice(0, 4)}-${raw.slice(4, 6)}-${raw.slice(6, 8)}`;
+  }
 
   return (
     <div>
@@ -92,7 +116,8 @@ const TimePicker = ({ size, specie, value, onChange }: TimePickerProps) => {
         </label>
         <input
           id={`${specie}-picker`}
-          value={value}
+          // value={value}
+          value={displayValue}
           type="text"
           inputMode="numeric"
           onKeyDown={handleKeyDown}

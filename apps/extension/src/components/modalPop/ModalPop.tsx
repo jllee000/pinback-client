@@ -1,16 +1,22 @@
-import { useState, useEffect } from 'react';
 import {
   CategoryDropDown,
   CommonBtn,
   InfoBox,
   TextArea,
-  TextFieldPopup,
   TimePicker,
   ToggleButton,
 } from '@pinback/design-system/ui';
+import { useState, useEffect } from 'react';
 import ModalHeader from './ModalHeader';
 import { POP_TEXTAREA_MAX_LENGTH } from '@constants/index';
-import { useGetCategoriesDash, usePostArticles } from '@api/queries';
+import { TextFieldPopup } from '@pinback/design-system/ui';
+import {
+  useGetCategoriesDash,
+  usePostArticles,
+  usePostCategories,
+  usePatchCategories,
+  useDeleteCategories,
+} from '@api/queries';
 import { useGetRemindTime } from '../../api/modalQueries';
 import { fomatToday } from '@pinback/design-system/utils';
 
@@ -25,7 +31,34 @@ interface Category {
   categoryName: string;
   unreadCount: number;
 }
+
 const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
+  const [memo, setMemo] = useState('');
+  const { mutate: postArticle } = usePostArticles();
+  const { mutate: postCategories } = usePostCategories();
+  const { mutate: patchCategories } = usePatchCategories();
+  const { mutate: deleteCategories } = useDeleteCategories();
+  const { data: categoriesData } = useGetCategoriesDash();
+  const {
+    data: remindTimeData,
+    isLoading,
+    error,
+  } = useGetRemindTime(fomatToday(new Date()));
+  useEffect(() => {
+    if (remindTimeData?.data) {
+      const { remindDate, remindTime } = remindTimeData.data;
+
+      const formattedDate = remindDate.replace(/-/g, '');
+      const formattedTime = remindTime.slice(0, 5).replace(':', '');
+
+      setFormState((prev) => ({
+        ...prev,
+        date: formattedDate,
+        time: formattedTime,
+      }));
+    }
+  }, [remindTimeData]);
+
   const [formState, setFormState] = useState({
     date: '',
     dateError: '',
@@ -33,20 +66,17 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
     timeError: '',
   });
   const [categories, setCategories] = useState(['']);
-  const [memo, setMemo] = useState('');
-  const { mutate: postArticle } = usePostArticles();
 
-  const {
-    data: remindTime,
-    isLoading,
-    error,
-  } = useGetRemindTime(fomatToday(new Date()));
+  const [categoryPopupMode, setCategoryPopupMode] = useState<
+    'edit' | 'add' | 'delete' | ''
+  >('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [matchId, setMatchedId] = useState<number | null>(null);
+  const [editCategoryIndex, setEditCategoryIndex] = useState<number | null>(
+    null
+  );
+  const [isAskingDelete, setIsAskingDelete] = useState(false);
 
-  if (error) {
-    console.error('Error fetching remind time:', error);
-    return <div>Error loading remind time</div>;
-  }
-  const { data: categoriesData } = useGetCategoriesDash();
   useEffect(() => {
     if (categoriesData) {
       const categoryNames: string[] = categoriesData.data.categories.map(
@@ -55,11 +85,6 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
       setCategories(categoryNames);
     }
   }, [categoriesData]);
-  const [categoryPopupMode, setCategoryPopupMode] = useState<
-    'edit' | 'add' | ''
-  >('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [matchId, setMatchedId] = useState<number | null>(null);
 
   useEffect(() => {
     if (categoriesData?.data?.categories && selectedCategory) {
@@ -70,10 +95,96 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
     }
   }, [selectedCategory, categoriesData]);
 
+  const handlePopupClose = () => {
+    setCategoryPopupMode('');
+    setIsAskingDelete(false);
+  };
+  const handlePopupConfirm = (newCategory?: string) => {
+    if (!newCategory) return;
+
+    if (categoryPopupMode === 'add') {
+      postCategories(
+        { categoryName: newCategory },
+        {
+          onSuccess: (res) => {
+            setCategories((prev) => [...prev, newCategory]);
+            setSelectedCategory(newCategory);
+            handlePopupClose();
+          },
+          onError: (err: any) => {
+            const message = err?.response?.data?.message;
+            alert('❌ 저장 실패:' + err.response?.data.message);
+          },
+        }
+      );
+    }
+  };
+  const handlePopupEdit = (newCategory?: string) => {
+    if (!newCategory) return;
+    if (categoryPopupMode === 'edit' && editCategoryIndex !== null) {
+      setSelectedCategory(newCategory);
+      handlePopupClose();
+
+      patchCategories(
+        {
+          categoryId:
+            categoriesData.data.categories[editCategoryIndex].categoryId,
+          categoryName: newCategory,
+        },
+        {
+          onSuccess: (res) => {
+            setCategories((prev) => [...prev, newCategory]);
+            setSelectedCategory(newCategory);
+            location.reload();
+            handlePopupClose();
+          },
+          onError: (err: any) => {
+            const message = err?.response?.data?.message;
+            alert('❌ 등록 실패:' + err.response?.data.message);
+          },
+        }
+      );
+    }
+  };
+  const handlePopupDelete = () => {
+    setSelectedCategory('');
+    if (categoryPopupMode === 'edit' && editCategoryIndex !== null) {
+      handlePopupClose();
+      deleteCategories(
+        {
+          categoryId:
+            categoriesData.data.categories[editCategoryIndex].categoryId,
+        },
+        {
+          onSuccess: (res) => {
+            location.reload();
+            handlePopupClose();
+          },
+          onError: (err: any) => {
+            const message = err?.response?.data?.message;
+            alert('❌ 삭제 실패:' + err.response?.data.message);
+          },
+        }
+      );
+    }
+  };
+
+  if (error) {
+    console.error('Error fetching remind time:', error);
+    return <div>Error loading remind time</div>;
+  }
+
   const handleSave = () => {
+    const remindTimeFormatted = `${formState.date.slice(0, 4)}-${formState.date.slice(4, 6)}-${formState.date.slice(6, 8)}T${formState.time.slice(0, 2)}:${formState.time.slice(2, 4)}:00`;
+
+    const defaultCategoryId =
+      categoriesData?.data?.categories?.[0]?.categoryId ?? null;
+    const categoryIdToUse = matchId ?? defaultCategoryId;
+
     chrome.storage.local.set({ savedTitle: titleInfo }, () => {
       console.log('📦 storage 저장 완료:', titleInfo);
     });
+
     chrome.runtime.sendMessage(
       {
         type: 'SAVE_BOOKMARK',
@@ -86,21 +197,22 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
         console.log('✅ 응답 받음:', response);
       }
     );
+
     postArticle(
       {
         url: urlInfo,
-        categoryId: matchId,
+        categoryId: categoryIdToUse,
         memo: memo,
-        remindTime: fomatToday(new Date()),
+        remindTime: remindTimeFormatted,
       },
       {
         onSuccess: (data) => {
           console.log('✅ 저장 성공:', data);
-          // TODO : 저장 시. 창 원래 닫아야하나 우선 개발 중이라 열어두었습니당
-          // window.close();
+          // window.close(); // 최종 배포 시 주석 해제
         },
-        onError: (error) => {
-          console.error('❌ 저장 실패:', error);
+        onError: (error: any) => {
+          const message = error?.response?.data?.message;
+          alert('❌ 저장 실패:' + message);
         },
       }
     );
@@ -118,34 +230,20 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
     }));
   };
 
-  const handleCategoryChange = (value: string) => {
+  const handleCategoryChange = (value: string, index?: number) => {
+    console.log(index, value);
     if (value === 'edit') {
+      setEditCategoryIndex(index ?? null);
+      setSelectedCategory(value);
       setCategoryPopupMode('edit');
     } else if (value === 'create') {
       setCategoryPopupMode('add');
     } else {
       setSelectedCategory(value);
       console.log(value);
+      console.log(value);
       setCategoryPopupMode('');
     }
-  };
-
-  const handlePopupClose = () => {
-    setCategoryPopupMode('');
-  };
-
-  const handlePopupConfirm = (newCategory?: string) => {
-    if (!newCategory) return;
-    if (categoryPopupMode === 'add') {
-      setCategories((prev) => [...prev, newCategory]);
-      setSelectedCategory(newCategory);
-    } else if (categoryPopupMode === 'edit') {
-      setCategories((prev) =>
-        prev.map((cat) => (cat === selectedCategory ? newCategory : cat))
-      );
-      setSelectedCategory(newCategory);
-    }
-    handlePopupClose();
   };
 
   const truncateText = (text: string, maxLength: number = 18): string =>
@@ -219,18 +317,14 @@ const ModalPop = ({ urlInfo, imgInfo, titleInfo, desInfo }: ModalPopProps) => {
 
       {categoryPopupMode && (
         <TextFieldPopup
-          mode={categoryPopupMode}
+          mode={isAskingDelete ? 'delete' : categoryPopupMode}
           value={categoryPopupMode === 'edit' ? selectedCategory : ''}
+          onAskDeleteConfirm={() => setIsAskingDelete(true)}
           existingCategories={categories}
           onCancel={handlePopupClose}
+          onEdit={handlePopupEdit}
           onConfirm={handlePopupConfirm}
-          onDelete={() => {
-            setCategories((prev) =>
-              prev.filter((cat) => cat !== selectedCategory)
-            );
-            setSelectedCategory('');
-            handlePopupClose();
-          }}
+          onDelete={handlePopupDelete}
         />
       )}
     </div>

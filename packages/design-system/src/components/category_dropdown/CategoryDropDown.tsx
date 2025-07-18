@@ -25,15 +25,11 @@ const categoryFontVariants = cva('text-black', {
     size: 'large',
   },
 });
-interface CategoryDropDownProps {
-  size?: 'large' | 'medium';
-  categories: string[];
-}
 
 interface CategoryDropDownProps {
   size?: 'large' | 'medium';
   categories: string[];
-  onSelect?: (value: string) => void;
+  onSelect?: (value: string, index?: number) => void;
 }
 
 const CategoryDropDown = ({
@@ -94,7 +90,7 @@ const CategoryDropDown = ({
                   className="relative h-[1.8rem] w-[1.8rem]"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onSelect?.('edit');
+                    onSelect?.('edit', index);
                     setIsDropDownOpen(false);
                   }}
                 >

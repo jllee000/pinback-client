@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useState } from 'react';
 
 const apiRequest = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -14,9 +15,9 @@ const fetchToken = async (email?: string) => {
       params: { email },
     }
   );
-  const newToken = response.data.token;
+  const newToken = response.data.data.token;
   chrome.storage.local.set({ jwtToken: newToken }, () => {
-    console.log('Token saved to chrome storage');
+    console.log('Token saved to chrome storage다시', newToken);
   });
   return newToken;
 };
@@ -25,15 +26,27 @@ apiRequest.interceptors.request.use(async (config) => {
   const noAuthNeeded = ['/api/v1/auth/token', '/api/v1/auth/signup'];
   const isNoAuth = noAuthNeeded.some((url) => config.url?.includes(url));
 
-  if (!isNoAuth) {
-    let token =
-      'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwaW5iYWNrIiwiaWQiOiJhOTA1NGFjOS03MTg0LTQ3NjktYWY4Mi1jNGViYTg0YzYxYTIiLCJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTc1MjgwMDY1Nn0.hXti-Jlnhg8mRoPl5nB8Vi8UV6HPdZYAtgtpTuqtH39lQWle8T5GlX0ug0nNVUqu5B_Pyzafck7lhfXN6ArHOA';
+  if (isNoAuth) return config;
 
-    if (!token || token === 'undefined') {
-      token = await fetchToken('test@gmail.com');
-    }
-    config.headers.Authorization = `Bearer ${token}`;
+  const email = await new Promise<string | undefined>((resolve) => {
+    chrome.storage.local.get('email', (result) => {
+      resolve(result.email);
+    });
+  });
+
+  let token = await new Promise<string | undefined>((resolve) => {
+    chrome.storage.local.get('jwtToken', (result) => {
+      resolve(result.jwtToken);
+    });
+  });
+
+  // 토큰 없으면 fetchToken 호출
+  if (!token || token === 'undefined') {
+    console.log(email, '여기야');
+    token = await fetchToken(email);
   }
+
+  config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 

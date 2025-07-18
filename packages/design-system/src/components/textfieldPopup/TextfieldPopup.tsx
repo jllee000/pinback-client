@@ -7,10 +7,12 @@ type Mode = 'add' | 'edit' | 'delete';
 interface TextfieldPopupProps {
   mode: Mode;
   value?: string;
-  existingCategories?: string[]; // 중복 확인용
+  existingCategories?: string[];
   onCancel?: () => void;
+  onEdit?: (value?: string) => void;
   onConfirm?: (value?: string) => void;
-  onDelete?: () => void;
+  onDelete?: (value?: string) => void;
+  onAskDeleteConfirm?: () => void;
 }
 
 const TextfieldPopup = ({
@@ -20,6 +22,8 @@ const TextfieldPopup = ({
   onCancel,
   onConfirm,
   onDelete,
+  onEdit,
+  onAskDeleteConfirm,
 }: TextfieldPopupProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isError, setIsError] = useState(false);
@@ -42,7 +46,6 @@ const TextfieldPopup = ({
       return false;
     }
 
-    // 현재 수정 모드라면 동일한 값은 허용
     const isSameAsInitial = input === value.trim();
     const isDuplicate = existingCategories.includes(input);
 
@@ -62,7 +65,17 @@ const TextfieldPopup = ({
       onConfirm?.(getInputValue());
     }
   };
-
+  const handleEdit = () => {
+    if (validate()) {
+      onEdit?.(getInputValue());
+    }
+  };
+  const handleDelete = () => {
+    onAskDeleteConfirm?.();
+    if (validate()) {
+      onDelete?.(getInputValue());
+    }
+  };
   const renderForm = (heading: string, showDelete?: boolean) => (
     <div className="relative flex flex-col gap-[1.6rem]">
       {mode === 'edit' && (
@@ -90,14 +103,14 @@ const TextfieldPopup = ({
               size="Xsmall"
               type="white"
               text="삭제"
-              onClick={onDelete}
+              onClick={handleDelete}
             />
             <CommonBtn
               size="Xsmall"
               type="green"
               disabled={isButtonDisabled}
               text="수정"
-              onClick={handleConfirm}
+              onClick={handleEdit}
             />
           </>
         ) : (
@@ -121,7 +134,7 @@ const TextfieldPopup = ({
     </div>
   );
 
-  const renderContent = () => {
+  const renderContent = (mode: string) => {
     switch (mode) {
       case 'add':
         return renderForm('새로운 카테고리 추가하기');
@@ -160,7 +173,7 @@ const TextfieldPopup = ({
   return (
     <div className="absolute inset-0 z-50 flex items-center justify-center rounded-[10px] bg-[#00000063]">
       <div className="flex w-[26rem] flex-col rounded-xl bg-white p-[2rem] shadow-[6px_11px_20px_0_rgba(0,0,0,0.08)]">
-        {renderContent()}
+        {renderContent(mode)}
       </div>
     </div>
   );

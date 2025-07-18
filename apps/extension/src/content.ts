@@ -5,5 +5,6 @@ window.addEventListener('message', (event) => {
       type: 'SET_TOKEN',
       token: event.data.token,
     });
+    console.log(event.data.token, '여기');
   }
 });

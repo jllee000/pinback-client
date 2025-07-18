@@ -9,9 +9,12 @@ chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
     chrome.identity.getProfileUserInfo(function (info) {
       console.log('google email:', info.email);
+      chrome.storage.local.set({ email: info.email }, () => {
+        console.log('Token saved!', info.email);
+      });
       setTimeout(() => {
         chrome.tabs.create({
-          url: `http://localhost:5180/onboarding?email=${info.email}`,
+          url: `http://localhost:5173/onboarding?email=${info.email}`,
         });
       }, 1000);
     });
@@ -23,7 +26,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     const { url, title } = message.payload;
 
     chrome.storage.local.set({ savedBookmark: url }, () => {
-      console.log('📦 storage 저장 완료:', url);
+      console.log('📦 storage 저장 완료:');
     });
 
     chrome.bookmarks.create(
@@ -43,7 +46,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
             error: chrome.runtime.lastError.message,
           });
         } else {
-          console.log('📦 북마크 저장 완료:', newBookmark);
+          console.log('📦 북마크 저장 완료:');
           sendResponse({ success: true, data: newBookmark });
         }
       }
